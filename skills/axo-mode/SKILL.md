@@ -21,13 +21,20 @@ Routing table. Match the situation, invoke the skill:
 - Writing or changing behavior → the **tdd** skill. Red, green, refactor. This is mandatory in Dataxo repos, not optional.
 - Debugging a defect → the **diagnosing-bugs** skill's gated loop.
 - Assessing what a change touches → the **blast-radius** skill.
-- Turning an agreed plan into tracked work → **to-spec** then **to-tickets** (tracker configured by **setup-axostack**).
+- An idea, question, or reported problem worth tracking → the **to-linear-issue** skill: research it once, publish it with evidence.
+- Turning an agreed plan into dependency-ordered tickets → the **to-tickets** skill (tracker configured by **setup-axostack**).
+- Untriaged issues in the queue → the **triage** skill.
+- Picking up a tracked issue → the **work-linear-issue** skill.
 - Building from a spec or tickets → the **implement** skill.
+- Designing a module or seam → the **codebase-design** skill: deep modules, a lot of behavior behind a small interface.
+- Surveying a codebase for deepening opportunities → the **improve-codebase-architecture** skill.
+- Work too large for one session, path unclear → the **wayfinder** skill.
+- Parallel fan-out → the **swarm** skill for coverage matrices and exploration partitions, **arena** for design or code bakeoffs.
+- Long or autonomous work the user reviews later → a decision trail via the **show-me-your-work** skill.
 - Any prose surface, including your reply → the **unslop** skill.
 - Docs, RFCs, readmes, PR descriptions → the **technical-writing** skill.
 - Before commit → the **code-review** skill, then the **no-comments** skill.
 - Project jargon drifting, or naming inconsistent → the **domain-modeling** skill.
-- Handing work to another agent or session → the **handoff** skill.
 
 ## Principles
 
@@ -103,4 +110,4 @@ Your first todo actions are the matched playbook's steps, copied in verbatim, be
 - **Prototype.** A throwaway sketch to settle a design or empirical question cheaply. `playbooks/prototype.md`.
 - **Committing.** Invoked at the end of every other playbook. `playbooks/committing.md`.
 
-No playbook fits a large or cross-cutting effort → design a bespoke step list from the closest playbook plus the principles index, and show it before executing.
+No playbook fits, or the effort is large and cross-cutting → the **figure-it-out** skill designs a bespoke, rigorous playbook for the task. Show it before executing.

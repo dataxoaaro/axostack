@@ -8,16 +8,21 @@ Source: https://github.com/cursor/plugins/tree/main/pstack
 
 | Skill | Modified |
 |-------|----------|
-| architect | yes, design pressure now routes to grill-me instead of the removed interrogate skill |
+| architect | yes, design pressure routes to grill-me instead of the removed interrogate skill |
+| arena | yes, Cursor model-pool config replaced with model-tier guidance |
 | blast-radius | no |
+| bro | no |
+| figure-it-out | yes, reads axo-mode's principles instead of poteto-mode's |
 | how | yes, dropped a reference to the removed interrogate skill |
 | no-comments | no |
+| show-me-your-work | yes, end-of-run audit checks the session instead of Cursor transcript paths |
+| swarm | yes, Cursor Task API and model config replaced with the Agent tool |
 | technical-writing | no |
 | unslop | no |
 | why | no |
 | principle-* (all 21) | no |
 
-Not vendored: poteto-mode (replaced by our own axo-mode), interrogate (replaced by grill-me and grill-with-docs for contested designs), swarm, arena, figure-it-out, reflect, recall, show-me-your-work, teach, tdd (Pocock's taken instead), bro, automate-me, setup-pstack, create/maintain-verification-skill, typescript-best-practices.
+Not vendored: poteto-mode (replaced by our own axo-mode), interrogate (replaced by grill-me and grill-with-docs for contested designs), tdd (Pocock's taken instead), reflect, recall, teach, automate-me, setup-pstack, create/maintain-verification-skill, typescript-best-practices.
 
 ## From mattpocock/skills (commit 885e2ca)
 
@@ -25,25 +30,32 @@ Source: https://github.com/mattpocock/skills
 
 | Skill | Modified |
 |-------|----------|
-| code-review | no |
+| code-review | yes, setup skill renamed to setup-axostack |
+| codebase-design | no |
 | diagnosing-bugs | no |
 | domain-modeling | no |
 | grill-me | no |
 | grill-with-docs | no |
 | grilling | no |
-| handoff | no |
 | implement | no |
+| improve-codebase-architecture | no |
 | prototype | no |
 | research | no |
 | setup-axostack | yes, renamed from setup-matt-pocock-skills, Linear added as a first-class tracker with a new issue-tracker-linear.md template |
 | tdd | no |
-| to-spec | no |
-| to-tickets | no |
-| triage | no |
-| writing-for-agents | no |
+| to-tickets | yes, setup skill renamed to setup-axostack |
+| triage | yes, setup skill renamed to setup-axostack |
+| wayfinder | yes, setup skill renamed to setup-axostack |
 
-Not vendored, candidates for later: ask-matt (replaced by axo-mode's routing table), wayfinder, wizard, codebase-design, improve-codebase-architecture, resolving-merge-conflicts, to-questionnaire, wait-what, teach, everything under in-progress/ and misc/.
+Dependency notes: grill-with-docs needs grilling and domain-modeling. improve-codebase-architecture needs codebase-design, grilling, and domain-modeling. wayfinder needs grilling, prototype, research, and the setup config. implement needs tdd and code-review. to-tickets and triage need the setup config. diagnosing-bugs is kept for axo-mode's bug-fix playbook.
+
+Not vendored: ask-matt (replaced by axo-mode's routing table), to-spec (folded into to-linear-issue), handoff, wizard, resolving-merge-conflicts, to-questionnaire, wait-what, teach, writing-for-agents, everything under in-progress/ and misc/.
 
 ## Own skills
 
-axo-mode (and its playbooks), setup-axostack's Linear parts, and agents/axo-agent.md are original to this repo, written in poteto-mode's shape and adapted for Claude Code.
+Original to this repo, written in the vendored stacks' shape and adapted for Claude Code:
+
+- **axo-mode** and its playbooks: the router, replacing poteto-mode.
+- **to-linear-issue**: research an idea or question and publish it as an evidenced Linear issue. Composes how/why, research, and grilling.
+- **work-linear-issue**: claim a ready Linear issue, branch with the key prefix, build under axo-mode's playbooks via implement/tdd/code-review, close out with commits and a tracker update.
+- **setup-axostack**'s Linear parts and **agents/axo-agent.md**.

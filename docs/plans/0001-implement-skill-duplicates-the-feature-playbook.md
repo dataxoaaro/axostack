@@ -77,6 +77,8 @@ Skip: prose artifact, no types or signatures. The **architect** skill does not a
 
 Slice 1 lands green on its own and fixes the shipped defect without touching a single caller, so it is worth landing even if 2 and 3 stall.
 
+**Landed:** slice 1 in `bf87f10`. Done-when items 1 and 2 pass; 3, 4, and 5 wait on slices 2 and 3.
+
 ## Assumptions
 
 | # | Assumption | Grade | Evidence |

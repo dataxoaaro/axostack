@@ -1,6 +1,6 @@
 ---
 name: tdd
-description: Test-driven development. Use when the user wants to build features or fix bugs test-first, mentions "red-green-refactor", or wants integration tests.
+description: Test-driven development with a red-green-refactor loop, one vertical slice at a time. Use for any feature or bug fix that changes behavior; in Dataxo repos this is the default build loop, not an opt-in.
 ---
 
 # Test-Driven Development

@@ -14,13 +14,14 @@ Source: https://github.com/cursor/plugins/tree/main/pstack
 | bro | no |
 | figure-it-out | yes, reads axo-mode's principles instead of poteto-mode's |
 | how | yes, dropped a reference to the removed interrogate skill |
-| no-comments | no |
+| no-comments | yes, spawns the comment-sicko agent via the Agent tool instead of Cursor's Task API |
 | show-me-your-work | yes, end-of-run audit checks the session instead of Cursor transcript paths |
 | swarm | yes, Cursor Task API and model config replaced with the Agent tool |
 | technical-writing | no |
 | unslop | no |
 | why | no |
 | principle-* (all 21) | no |
+| agents/comment-sicko.md | yes, agent name kebab-cased for the Claude Code Agent tool |
 
 Not vendored: poteto-mode (replaced by our own axo-mode), interrogate (replaced by grill-me and grill-with-docs for contested designs), tdd (Pocock's taken instead), reflect, recall, teach, automate-me, setup-pstack, create/maintain-verification-skill, typescript-best-practices.
 
@@ -42,7 +43,7 @@ Source: https://github.com/mattpocock/skills
 | prototype | no |
 | research | no |
 | setup-axostack | yes, renamed from setup-matt-pocock-skills, Linear added as a first-class tracker with a new issue-tracker-linear.md template |
-| tdd | no |
+| tdd | yes, description strengthened: TDD is the default build loop in Dataxo repos, not opt-in |
 | to-tickets | yes, setup skill renamed to setup-axostack |
 | triage | yes, setup skill renamed to setup-axostack |
 | wayfinder | yes, setup skill renamed to setup-axostack |

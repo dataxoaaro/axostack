@@ -17,7 +17,7 @@ Routing table. Match the situation, invoke the skill:
 - Nontrivial change, architecture decision, or "are we sure?" → the **how** skill.
 - Why was it built this way, regression history → the **why** skill.
 - Any code → name the data shape first, per **principle-model-the-domain**.
-- Code crossing a function boundary → the **architect** skill before implementing.
+- Code crossing a function boundary → the **architect** skill before implementing, using **codebase-design**'s deep-module vocabulary for the interfaces it sketches.
 - Writing or changing behavior → the **tdd** skill. Red, green, refactor. This is mandatory in Dataxo repos, not optional.
 - Debugging a defect → the **diagnosing-bugs** skill's gated loop.
 - Assessing what a change touches → the **blast-radius** skill.

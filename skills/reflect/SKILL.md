@@ -63,7 +63,7 @@ For each approved Accepted item, follow the Routing field exactly:
 - Trivial existing-skill edit (a one-line bullet, a tightened sentence, a stale fact corrected): parent does directly.
 - Substantive existing-skill edit (a new section, a new pattern table, more than ~10 lines): draft the edit in the target skill's own voice, run the **unslop** skill on it, and check the section still reads cold to an agent that has never seen this session.
 - `tune description: <skill path>` (the skill exists but didn't trigger when it should have): rewrite the description as a routing rule with explicit use and skip conditions; the description is all the agent sees when deciding to load the skill.
-- `new skill: <kebab-name>`: create the folder and SKILL.md following the conventions of the skills already in this repo. Do not invent a new shape ad hoc. An edit to a vendored skill also flips its Modified flag in the repo's UPSTREAM.md.
+- `new skill: <kebab-name>`: create the folder and SKILL.md following the conventions of the skills already in this repo. Do not invent a new shape ad hoc.
 
 If your environment ships a SKILL.md validator, run it on every touched skill before declaring done. Skip this step if it doesn't.
 

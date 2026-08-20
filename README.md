@@ -175,6 +175,8 @@ python3 scripts/check-skill-refs.py
 
 Fails when a skill body names a skill that does not exist, cites a principle without its `principle-` prefix, tells the agent to invoke a skill whose frontmatter marks it user-run, or carries frontmatter that would stop it registering. Stdlib only, no install step. Run it after editing any skill.
 
+`.github/workflows/checks.yml` runs the same command on every push to `main` and every pull request.
+
 ## License
 
 MIT. Portions are adapted from other MIT-licensed projects. Their required copyright notices are in [LICENSE](./LICENSE).

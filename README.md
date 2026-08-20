@@ -117,7 +117,15 @@ Any agent, as editable files via [skills.sh](https://skills.sh):
 npx skills@latest add dataxoaaro/axostack
 ```
 
-Manual: copy folders from `skills/` into `~/.claude/skills/` (personal) or `.claude/skills/` (project), and the files in `agents/` into `~/.claude/agents/`.
+From a clone, with the sync script:
+
+```
+scripts/sync-skills.sh
+```
+
+It installs each skill directory separately and links any that is missing. Editing the checkout changes nothing until it runs. Copy the files in `agents/` into `~/.claude/agents/` yourself.
+
+Do not sync by hand with a single `rsync --delete` over the install directory. That deletes every installed skill that does not come from this repo.
 
 ## Usage
 
@@ -178,6 +186,12 @@ python3 scripts/check-skill-refs.py
 Fails when a skill body names a skill that does not exist, cites a principle without its `principle-` prefix, tells the agent to invoke a skill whose frontmatter marks it user-run, or carries frontmatter that would stop it registering. Stdlib only, no install step. Run it after editing any skill.
 
 `.github/workflows/checks.yml` runs the same command on every push to `main` and every pull request.
+
+```
+scripts/sync-skills.sh --check
+```
+
+Reports skills whose installed copy differs from the checkout, and exits non-zero if any do. Writes nothing.
 
 ## License
 

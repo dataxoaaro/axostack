@@ -4,11 +4,15 @@ Dataxo's agentic development stack for Claude Code: an entry-point router, a Lin
 
 ## Architecture
 
-Three layers.
+Three layers, and one split inside the middle layer that explains most of the library.
 
-1. **axo-mode** is the router. Its trigger table maps situations to skills, its principles index points at the 21 leaf principles, and its playbooks (feature, bug-fix, investigation, refactoring, prototype, committing) are step lists the agent copies verbatim into its todo list.
-2. **Workflow skills** are the verbs. `to-linear-issue` researches an idea into an evidenced Linear issue, `to-tickets` breaks plans into dependency-ordered tickets, `triage` runs the queue, and `work-linear-issue` picks a ready issue up and drives it through `implement` → `tdd` → `code-review` to reviewed local commits. Alignment is `grill-me`/`grill-with-docs`, planning is `plan`, design is `codebase-design`/`improve-codebase-architecture`/`wayfinder`, investigation is `how`/`why`/`research`. Contested designs resolve through grilling the user. Quality gates: `unslop`, `no-comments`, `technical-writing`.
-3. **Principles** are the judgment. 21 `principle-*` leaf skills, loaded only when applied, cited in the reply with the decision they changed.
+1. **axo-mode** routes. Its trigger table maps a situation to a skill, its principles index points at the 21 leaf principles, and its playbooks are step lists the agent copies into its todo list verbatim.
+
+2. **Skills** do the work, on two axes that do not compete. A **playbook** is the sequence for a kind of work: feature, bug fix, refactoring, investigation, prototype, committing. A **phase verb** is the depth on one part of any of them. `plan` writes the change down, `implement` builds it, and `code-review` checks it. A playbook names the verb and stops. The verb owns what happens inside. That is why the feature playbook is six steps instead of a second description of the build loop.
+
+   The rest serve those two. Alignment is `grilling`. Design is `architect` and `codebase-design`. Investigation is `how`, `why`, and `research`. The tracker pipeline is `to-linear-issue`, `triage`, `to-tickets`, and `work-linear-issue`. Prose gates are `unslop`, `no-comments`, and `technical-writing`.
+
+3. **Principles** carry the judgment. 21 `principle-*` leaf skills, each loaded only when it applies and cited with the decision it changed.
 
 ## Skills
 
@@ -103,35 +107,65 @@ Easily confused pairs: `domain-modeling` builds the project's vocabulary docs, w
 Claude Code, as a plugin:
 
 ```
-/plugin marketplace add <owner>/axostack
+/plugin marketplace add dataxoaaro/axostack
 /plugin install axostack
 ```
 
 Any agent, as editable files via [skills.sh](https://skills.sh):
 
 ```
-npx skills@latest add <owner>/axostack
+npx skills@latest add dataxoaaro/axostack
 ```
 
 Manual: copy folders from `skills/` into `~/.claude/skills/` (personal) or `.claude/skills/` (project), and the files in `agents/` into `~/.claude/agents/`.
 
 ## Usage
 
-Run `/setup-axostack` once per repo. It configures the issue tracker (Linear, GitHub, GitLab, or local markdown), triage labels, and domain doc locations that the tracker-facing skills read.
+Run `/setup-axostack` once per repo. It records the issue tracker (Linear, GitHub, GitLab, or local markdown), the triage labels, the domain doc locations, and where plans land. The tracker-facing skills read that configuration.
 
-The core loop for tracked work:
+Then pick the entry point that matches what you have.
 
-1. `/to-linear-issue <idea or question>` researches it and publishes an evidenced issue.
-2. `/triage` moves the queue; `/to-tickets` breaks an agreed plan into blocking-ordered tickets.
-3. `/work-linear-issue ABC-123` (or bare, to take the next ready issue) claims it, branches with the key prefix, builds under axo-mode's playbooks, and closes out with commits and a tracker update.
+**An idea, not a plan.** `/to-linear-issue <idea>` researches it against the codebase and publishes one evidenced issue. Run `/triage` to move the queue when issues pile up.
 
-For a feature or fix that needs thinking through first:
+**An agreed direction, not a design.** `/plan <feature>` writes `docs/plans/<NNNN>-slug.md`, grounded in the codebase, with alternatives recorded, assumptions graded on evidence, work sliced into tickets, and open questions numbered. Then `/grill-with-docs docs/plans/<NNNN>-slug.md` attacks each question and folds the answers back into the file.
 
-1. `/plan <feature>` lands `docs/plans/0007-slug.md`: grounded in the codebase, alternatives recorded, assumptions graded on evidence, sliced into tickets, open questions numbered.
-2. `/grill-with-docs docs/plans/0007-slug.md` attacks it question by question and folds the answers back into the file.
-3. `/to-tickets docs/plans/0007-slug.md` publishes the slices in dependency order.
+**A plan.** `/to-tickets docs/plans/<NNNN>-slug.md` publishes the slices to your tracker in dependency order.
 
-Either invoke `/axo-mode` explicitly or let the agent reach for it on multi-step tasks. Individual skills also work standalone: `/grill-me` before a plan, `/tdd` for a feature slice, `/diagnosing-bugs` on a hard bug, `/code-review` before a commit, `/bro` when a reply needs restating in plain language.
+**A ticket.** `/work-linear-issue ABC-123` claims it, branches with the key prefix, builds under axo-mode's playbooks, and updates the tracker. Run it bare to take the next ready issue. Without a tracker, `/implement` builds straight from the plan.
+
+Both paths meet at `/to-tickets`. What differs is where you start. An unshaped idea goes to the tracker first, and an agreed direction goes to a plan first.
+
+Either invoke `/axo-mode` explicitly or let the agent reach for it on a multi-step task. Skills also work standalone. Reach for `/grill-me` to stress-test a design, `/tdd` for one feature slice, `/diagnosing-bugs` on a hard bug, `/code-review` before a commit, and `/bro` when a reply needs restating in plain language.
+
+## A worked example
+
+The plan flow above ran against a real defect in this repo and produced [docs/plans/0001-implement-skill-duplicates-the-feature-playbook.md](docs/plans/0001-implement-skill-duplicates-the-feature-playbook.md). Trimmed to the three sections that make a plan more than a design note:
+
+```markdown
+## Assumptions
+
+| # | Assumption | Grade | Evidence |
+|---|-----------|-------|----------|
+| A1 | No file outside `skills/implement/` quotes its body | 4 | probe over 110 Markdown files: 0 quotes, 3 name references |
+| A5 | The three playbook tails collapse into one verb | 3 | Partly false, found while building slice 2. See A6. |
+
+## Slices
+
+| # | Slice | Blocked by | Delivers |
+|---|-------|-----------|----------|
+| 1 | Write `implement` as the build-phase verb | none | An agent following it commits on a branch, gated |
+| 2 | Collapse the tail out of the three playbooks | 1 | The build sequence is stated once |
+
+## Open decisions
+
+Q1 - Delete `implement`, or reduce it to a three-line router?
+
+Recommended: delete it. The routing entry already names the real sequence.
+```
+
+Every assumption carries a grade from `blast-radius`: 1 means you said so, 4 means you ran it. A1 reached 4 because a script proved it over every Markdown file in the repo. A5 stayed at 3, and building slice 2 falsified it, which is what grading it was for.
+
+The open questions use `grilling`'s format, so `/grill-with-docs <plan>` starts from the plan's own frontier instead of re-deriving the design. Q1 came back against the plan's recommendation. `implement` re-entered the plan to record that, then built the slices against the revised version.
 
 ## Checks
 
@@ -143,4 +177,4 @@ Fails when a skill body names a skill that does not exist, cites a principle wit
 
 ## License
 
-MIT. Portions are adapted from other MIT-licensed projects; their required copyright notices are in [LICENSE](./LICENSE).
+MIT. Portions are adapted from other MIT-licensed projects. Their required copyright notices are in [LICENSE](./LICENSE).

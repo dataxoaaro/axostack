@@ -65,4 +65,6 @@ Picking up half-built work in a fresh context:
 4. Run axo-mode's Committing playbook. It owns branch naming, the gates, the tracker-key scan, the message format, and the rule that pushing waits for explicit approval.
 5. If what shipped differs from what the plan described, re-enter the plan so it matches. A plan that disagrees with the branch is worse than no plan.
 
+A gate you could not run as written is reported as a substitution, with what you ran instead and why. "Reviewed" means the **code-review** skill ran. A grep that stands in for it is a grep, and calling it a pass is how three slices ship unreviewed while every line of the report says green.
+
 **Reply:** the slices that landed, gate results, anything the build changed about the plan, and what is left.

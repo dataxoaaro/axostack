@@ -73,12 +73,14 @@ The Open decisions section carries every question the plan could not settle, in 
 Then stop and hand off. Do not start building.
 
 ```
-/plan <feature>            →  docs/plans/0007-slug.md      status: draft
+/plan <feature>            →  docs/plans/<NNNN>-slug.md    status: draft
 /grill-with-docs <path>    →  answers folded back in       status: grilled
 (user approves)                                            status: approved
 /to-tickets <path>         →  tickets in dependency order
 /work-linear-issue <key>   →  built
 ```
+
+You set `draft`, `grilled`, and the slice statuses. You never set `approved`. That one moves on an explicit statement from the user and on nothing else, because it is the gate that catches a plan whose reasoning is wrong, and a plan cannot pass its own gate. Building against an ungrilled plan is allowed when the user asks for it. Marking it approved to get there is not.
 
 ## Re-entry
 

@@ -1,0 +1,15 @@
+{
+  "name": "dataxo",
+  "owner": {
+    "name": "Dataxo",
+    "url": "https://github.com/dataxoaaro"
+  },
+  "description": "Dataxo's Claude Code plugins",
+  "plugins": [
+    {
+      "name": "axostack",
+      "source": "./",
+      "description": "Agentic development stack: the axo-mode router, engineering principles, and a Linear-first workflow pipeline"
+    }
+  ]
+}

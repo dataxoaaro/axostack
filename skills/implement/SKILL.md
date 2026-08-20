@@ -30,7 +30,7 @@ Per **principle-sequence-verifiable-units**. Finish a slice before opening the n
 1. Confirm the slice's blockers landed. A blocked slice does not start.
 2. Behavior change → the **tdd** skill, red first. Not a behavior change → say which kind it is and skip tdd with that reason.
 3. Cut the narrow complete path through every layer the slice touches. A slice that lands in one layer is not a slice.
-4. Cadence: typecheck after each meaningful edit, and run the single test file you are working in on each red-green cycle. Leave the full suite for close-out; running it every cycle is slow enough that you learn to ignore it.
+4. Cadence: typecheck after each meaningful edit, and run the single test file you are working in on each red-green cycle. Leave the full suite for close-out; running it every cycle is slow enough that you learn to ignore it. Behavior-preserving work is the exception: when the change is supposed to alter nothing a test can see, the full suite is the proof, so it runs on every unit.
 5. Verify on the real surface per **principle-prove-it-works**, driving the repo's `verify-<app>` skill when it has one. "It compiles" and "tests pass" are not a pass for behavior a user can see.
 6. Commit the slice before starting the next, through the Committing playbook.
 

@@ -133,6 +133,14 @@ For a feature or fix that needs thinking through first:
 
 Either invoke `/axo-mode` explicitly or let the agent reach for it on multi-step tasks. Individual skills also work standalone: `/grill-me` before a plan, `/tdd` for a feature slice, `/diagnosing-bugs` on a hard bug, `/code-review` before a commit, `/bro` when a reply needs restating in plain language.
 
+## Checks
+
+```
+python3 scripts/check-skill-refs.py
+```
+
+Fails when a skill body names a skill that does not exist, cites a principle without its `principle-` prefix, tells the agent to invoke a skill whose frontmatter marks it user-run, or carries frontmatter that would stop it registering. Stdlib only, no install step. Run it after editing any skill.
+
 ## License
 
 MIT. Portions are adapted from other MIT-licensed projects; their required copyright notices are in [LICENSE](./LICENSE).

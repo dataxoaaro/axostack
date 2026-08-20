@@ -1,6 +1,6 @@
 ---
 plan: implement-skill-duplicates-the-feature-playbook
-status: draft
+status: approved
 created: 2026-08-20
 tracker: none
 branch: fix/model-invocable-skills
@@ -77,7 +77,9 @@ Skip: prose artifact, no types or signatures. The **architect** skill does not a
 
 Slice 1 lands green on its own and fixes the shipped defect without touching a single caller, so it is worth landing even if 2 and 3 stall.
 
-**Landed:** slice 1 in `bf87f10`, slice 2 in `40065ab`. Done-when items 1, 2, and 3 pass; 4 and 5 wait on slice 3.
+**Landed:** all three slices. Slice 1 in `bf87f10`, slice 2 in `40065ab`, slice 3 in this commit. All five Done-when predicates pass.
+
+Slice 3 widened during the build. Scoped to dangling references when the plan was written, it grew to cover bare-stem principle citations after the skills review found 28 of them, and that class turned out to be the only one actually present in the library. The check was written before the fix and proved by injecting one defect of each class and watching it fail, so a green run means something.
 
 Slice 2 grew during the build. The `implement` step has to be **last** in each playbook, because `implement` closes out with review and commit, so a step sitting after it would fall outside the build it belongs to. That reorders `refactoring`'s acceptance bar and migrate-callers rule ahead of the build step, where they read as constraints on it rather than as steps after it.
 
@@ -113,11 +115,10 @@ A5 was the assumption carrying the plan and slice 2 partly falsified it, which i
 
 ## Open decisions
 
-❓ **Q3** - **Ship the reference check (slice 3) here, or file it separately?**: `scripts/check-skill-refs.py` would fail a build when a skill body names a skill that does not exist, or tells the agent to invoke one flagged user-only. It retro-covers the `disable-model-invocation` sweep in `42159b8` as much as it covers this plan, so it is arguably its own change.
-
-➡️ Ship it here. Slice 2 rewrites four playbook files' worth of cross-references in one pass, which is exactly when a dangling reference slips through unnoticed, and the check is roughly 30 lines. If you would rather this plan stay on `implement` alone, it moves out and I file it as its own ticket.
+None. All three resolved and moved to the decision log below.
 
 ## Decision log
 
+- **Q3** Ship the check here rather than filing it separately. Resolved 2026-08-20 on evidence rather than preference: running its logic ad hoc during a review of all 57 skills turned up 28 live defects that had been in the repo since the initial scaffold. A check that finds 28 real problems before it exists has made its own case.
 - **Q2** The test-cadence rule stays in `implement`, which now owns the build loop. The full-suite half needs no new home: Committing step 2 already runs the repo's gates before a commit. Resolved 2026-08-20, as a consequence of Q1 rather than on its own evidence.
 - **Q1** Keep `implement` and write it as the build-phase verb, rather than deleting it or reducing it to a router. Plan, implement, and review are one verb per phase, each routing into the library, while the playbooks stay on the task-type axis. Resolved 2026-08-20 by the user, against this plan's original recommendation. The deletion case was falsified by `code-review` holding the identical slot with 87 lines of content, and by the fact that deleting leaves the three playbook tails duplicated.

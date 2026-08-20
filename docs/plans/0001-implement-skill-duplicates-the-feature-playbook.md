@@ -6,16 +6,17 @@ tracker: none
 branch: fix/model-invocable-skills
 ---
 
-# Make the implement skill stop contradicting the playbooks it duplicates
+# Write the implement skill as the build-phase verb
 
 ## Done when
 
-All four hold, each checkable by running something:
+All five hold, each checkable by running something:
 
 1. No skill body gives commit instructions that disagree with `skills/axo-mode/playbooks/committing.md`.
-2. The test-cadence rule (typecheck regularly, single test files regularly, full suite once at the end) appears in exactly one place in the repo.
-3. Every reference to `implement` resolves to something that exists.
-4. `scripts/check-skill-refs.py` exits 0.
+2. The test-cadence rule (typecheck and single test files during the loop, full suite before close-out) appears in exactly one place in the repo.
+3. Each of `feature`, `bug-fix`, and `refactoring` states the build tail once, by naming `implement`, and keeps only its per-type difference.
+4. Every reference to `implement` resolves to something that exists.
+5. `scripts/check-skill-refs.py` exits 0.
 
 ## Problem
 
@@ -37,20 +38,30 @@ This repo has no `CONTEXT.md`, no `docs/adr/`, and no `verify-<app>` skill, so t
 
 ## Approach
 
-Retire `implement`. Rehome its one unique line, repoint its three references at the playbooks that already do the work, and delete the folder.
+Keep `implement` and write it. It occupies the build phase the way `code-review` occupies the review phase. `code-review` is 87 lines of real content reached from feature step 8; `implement` is 14 lines reached from feature step 6. The slot is right and the file was never written.
 
-The routing entry becomes a pointer to the playbook rather than to a second description of it. `work-linear-issue:34` already names what actually happens ("drives `tdd` at the agreed seams and closes out with `code-review`"), so it loses only the indirection through `implement`.
+A playbook is the sequence for a task type and spans every phase. A verb is the depth on one phase and is reused across task types. They sit on different axes, so a verb that routes into the library is not a second copy of the playbook.
 
-This is **principle-laziness-protocol**'s "consolidate decisions": the build sequence is currently stated in two places that disagree, and the fix is one source of truth, not a better second copy.
+That distinction also fixes the duplication properly. `feature` steps 6 to 9, `bug-fix` steps 4 to 6, and `refactoring` steps 3 to 7 are one tail written three times: build via `tdd`, verify on the real surface, review, commit. The tail moves into `implement`, and each playbook keeps only its per-type difference (the bug fix's failing regression test landing before the fix in git history, the refactor's characterization tests). Deleting `implement` would have left all three copies standing.
+
+`implement` then owns, as the only statement of each:
+
+- Which seams get `tdd` and which don't, read off the plan rather than re-decided mid-build.
+- The build cadence: typecheck and single test files during the loop, full suite once before close-out. This is the one line already unique to the file.
+- Slice sequencing, one at a time, each verified before the next, per **principle-sequence-verifiable-units**.
+- What to do when the build proves the plan wrong. The **architect** skill's Phase E covers this for type sketches; nothing covers it for plans, and it is the most common way a build goes sideways.
+- Resuming a half-built slice in a fresh context.
+- Close-out: `code-review`, then `no-comments`, then the Committing playbook. That delegation is what removes the contradiction at line 14.
 
 ## Alternatives rejected
 
-- **Expand `implement` into a full skill** (60 to 80 lines, matching `triage` and `to-tickets`). Lost because it makes the duplication permanent and doubles the surface that can drift out of agreement with the playbooks. The defect is that the sequence is stated twice; a longer second statement is more of the defect.
-- **Reduce `implement` to a three-line router** into axo-mode's playbook, the shape `grill-me` uses. Lost on a smaller margin. It keeps `/implement` working as a typed entry point and removes the contradiction. It also keeps a file whose entire content is "go read another file", which **principle-minimize-reader-load** treats as a one-caller wrapper to collapse. Kept as the fallback if Q1 comes back against deletion.
+- **Delete `implement` and fold it into the playbooks.** This plan's original recommendation, and wrong. It judged the file as written instead of the slot it fills, and it was falsified by `code-review`, which holds the identical position and is nobody's idea of duplication. Deleting also leaves the three playbook tails duplicated, which was the stated defect.
+- **Reduce it to a three-line router** into axo-mode's playbook, the shape `grill-me` uses. Lost because the six responsibilities above have no other home, so a forwarding file would leave them unwritten. `grill-me` forwards to a skill that already holds the content; there is no such skill here.
+- **Expand it into a self-contained build skill** that restates tdd, verification, and review rather than delegating to them. Lost on **principle-laziness-protocol**: the library already holds each piece, and a second statement is the drift risk this plan exists to remove.
 
 ## What gets deleted
 
-`skills/implement/` (14 lines), one routing entry in `skills/axo-mode/SKILL.md`, and one table row in `README.md`.
+The tail duplicated across three playbooks: `feature` steps 6 to 9 collapse to one step, and `bug-fix` steps 5 to 6 and `refactoring` step 7 likewise. `implement`'s line 14 goes, replaced by delegation to Committing. Roughly 12 lines of playbook text come out. Nothing is deleted from `skills/`.
 
 ## Interface sketch
 
@@ -60,12 +71,11 @@ Skip: prose artifact, no types or signatures. The **architect** skill does not a
 
 | # | Slice | Blocked by | Delivers |
 |---|-------|-----------|----------|
-| 1 | Rehome the test-cadence rule into `tdd` | none | The cadence rule survives the deletion and lives in the skill that owns the build loop |
-| 2 | Repoint the three references at the playbooks | 1 | `axo-mode:31`, `work-linear-issue:34`, and `README:10` describe the real sequence with no indirection |
-| 3 | Delete `skills/implement/` | 2 | One statement of the build sequence in the repo |
-| 4 | Ship `scripts/check-skill-refs.py` | 3 | A dangling or user-only skill reference fails a check instead of reaching an agent mid-task |
+| 1 | Write `implement` as the build-phase verb, closing out through the Committing playbook | none | The contradiction is gone and an agent following `implement` commits on a branch, gated |
+| 2 | Collapse the duplicated tail out of the three playbooks into one `implement` step each | 1 | The build sequence is stated once; each playbook keeps only its per-type difference |
+| 3 | Ship `scripts/check-skill-refs.py` | 2 | A dangling or user-only skill reference fails a check instead of reaching an agent mid-task |
 
-Slice 1 is reversible on its own and lands green. Slices 2 and 3 are the deletion wave, per **principle-migrate-callers-then-delete-legacy-apis**: callers move first, the old thing goes in the same wave, no deprecated stub left behind.
+Slice 1 lands green on its own and fixes the shipped defect without touching a single caller, so it is worth landing even if 2 and 3 stall.
 
 ## Assumptions
 
@@ -74,9 +84,10 @@ Slice 1 is reversible on its own and lands green. Slices 2 and 3 are the deletio
 | A1 | No file outside `skills/implement/` quotes its body, so rewriting or removing it breaks only the three name references | 4 | `probe_implement.py` over 110 Markdown files: 5 body sentences, 0 verbatim quotes, 3 name references |
 | A2 | The test-cadence rule at line 10 is stated nowhere else | 4 | `grep -rniE "full test suite\|typecheck\|single test file\|whole suite" skills/` returns one unrelated hit in `refactoring.md:8` |
 | A3 | `implement` contradicts `committing.md` rather than refining it | 3 | `implement:14` against `committing.md:5-6`; the bad case is an agent committing ungated on main, and nothing in `implement` prevents it |
-| A4 | No user outside this repo has `/implement` in a saved workflow or muscle memory | 1 | **unproven**. This is a public plugin. Q1 exists because of this. |
+| A4 | No user outside this repo has `/implement` in a saved workflow or muscle memory | n/a | Moot. Q1 resolved toward keeping the skill, so nothing rests on this. |
+| A5 | The tails of `feature`, `bug-fix`, and `refactoring` are the same sequence with per-type flavor, so they collapse into one verb | 2 | `feature.md:6-9`, `bug-fix.md:4-6`, `refactoring.md:3-7` read as the same four steps. Not yet proven by rewriting them. |
 
-A4 is the one that decides the plan and it is the one that cannot be proven from inside the repo.
+A5 now carries the plan. It sits at grade 2 and reaches 4 only by doing slice 2 and seeing whether each playbook still reads correctly with its tail removed. If a playbook needs its tail back, the collapse is wrong and slice 1 still stands alone.
 
 ## Verification
 
@@ -84,10 +95,10 @@ A4 is the one that decides the plan and it is the one that cannot be proven from
 
 - `grep -rn "Commit your work" skills/` returns nothing.
 - `grep -rniE "full test suite|typecheck|single test file" skills/` returns exactly one intentional statement of the cadence rule.
-- `python3 scripts/check-skill-refs.py` exits 0 with `implement` gone.
-- Invoking the axo-mode feature playbook end to end reaches `tdd`, `code-review`, `no-comments`, and Committing with no step naming a skill that does not exist.
+- `python3 scripts/check-skill-refs.py` exits 0.
+- Invoking the axo-mode feature playbook end to end reaches `tdd`, `code-review`, `no-comments`, and Committing through `implement`, with no step naming a skill that does not exist and no step restating one `implement` already owns.
 
-**Feature map:** this repo has no `verify-<app>` skill. The artifact under test is Markdown read by an agent, not an app with a user-facing surface, so `/create-verification-skill` does not apply here. The check script in slice 4 is the closest equivalent and is why it is in scope.
+**Feature map:** this repo has no `verify-<app>` skill. The artifact under test is Markdown read by an agent, not an app with a user-facing surface, so `/create-verification-skill` does not apply here. The check script in slice 3 is the closest equivalent and is why it is in scope.
 
 ## Out of scope
 
@@ -97,18 +108,11 @@ A4 is the one that decides the plan and it is the one that cannot be proven from
 
 ## Open decisions
 
-❓ **Q1** - **Delete `implement`, or reduce it to a three-line router?**: The repo is a published plugin, so `/implement` may be in someone's habits or a saved workflow. Deleting removes a typed entry point. The router keeps `/implement` working at the cost of a file that only forwards. A4 is unproven and cannot be proven from here.
+❓ **Q3** - **Ship the reference check (slice 3) here, or file it separately?**: `scripts/check-skill-refs.py` would fail a build when a skill body names a skill that does not exist, or tells the agent to invoke one flagged user-only. It retro-covers the `disable-model-invocation` sweep in `42159b8` as much as it covers this plan, so it is arguably its own change.
 
-➡️ Delete it. The routing entry and `work-linear-issue:34` already name the real sequence, so nothing that matters is lost, and a forwarding file is the one-caller wrapper **principle-minimize-reader-load** says to collapse. If you want the entry point kept, take the router and I will drop slices 2 and 3 to a repoint-only change.
-
-❓ **Q2** - **Where does the test-cadence rule go?**: Options are the `tdd` skill, the Committing playbook, or the feature playbook. `tdd` owns the build loop and already sets the rules of red-green-refactor. Committing owns the gates that run once at the end. The cadence spans both: typecheck and single files run during the loop, the full suite runs at the end.
-
-➡️ Split it. The during-the-loop half goes to `tdd`, the full-suite-before-commit half is already Committing step 2, so it needs one clause added rather than a new rule. Splitting keeps each half where the agent is already reading.
-
-❓ **Q3** - **Ship the reference check (slice 4) here, or as its own change?**: The check also retro-covers the `disable-model-invocation` sweep in `42159b8`, which is a different piece of work.
-
-➡️ Ship it here. Deleting a skill is the moment a dangling-reference check pays for itself, and it is roughly 30 lines. If you would rather keep this plan to the deletion, it moves out and I file it separately.
+➡️ Ship it here. Slice 2 rewrites four playbook files' worth of cross-references in one pass, which is exactly when a dangling reference slips through unnoticed, and the check is roughly 30 lines. If you would rather this plan stay on `implement` alone, it moves out and I file it as its own ticket.
 
 ## Decision log
 
-Empty. No questions resolved yet.
+- **Q2** The test-cadence rule stays in `implement`, which now owns the build loop. The full-suite half needs no new home: Committing step 2 already runs the repo's gates before a commit. Resolved 2026-08-20, as a consequence of Q1 rather than on its own evidence.
+- **Q1** Keep `implement` and write it as the build-phase verb, rather than deleting it or reducing it to a router. Plan, implement, and review are one verb per phase, each routing into the library, while the playbooks stay on the task-type axis. Resolved 2026-08-20 by the user, against this plan's original recommendation. The deletion case was falsified by `code-review` holding the identical slot with 87 lines of content, and by the fact that deleting leaves the three playbook tails duplicated.

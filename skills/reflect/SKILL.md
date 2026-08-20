@@ -67,6 +67,8 @@ For each approved Accepted item, follow the Routing field exactly:
 
 If your environment ships a SKILL.md validator, run it on every touched skill before declaring done. Skip this step if it doesn't.
 
+An edit in a checkout is not in effect. Skills run from an installed copy, so every applied edit stays invisible to the next agent until that copy is updated. Run the repo's sync script if it has one, and verify the install matches before you call the reflect done.
+
 ### 6. Summarize for the user
 
 Short list, no preamble:

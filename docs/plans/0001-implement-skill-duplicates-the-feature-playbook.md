@@ -77,7 +77,7 @@ Skip: prose artifact, no types or signatures. The **architect** skill does not a
 
 Slice 1 lands green on its own and fixes the shipped defect without touching a single caller, so it is worth landing even if 2 and 3 stall.
 
-**Landed:** slice 1 in `bf87f10`. Done-when items 1 and 2 pass; 4 and 5 wait on slice 3.
+**Landed:** slice 1 in `bf87f10`, slice 2 in `40065ab`. Done-when items 1, 2, and 3 pass; 4 and 5 wait on slice 3.
 
 Slice 2 grew during the build. The `implement` step has to be **last** in each playbook, because `implement` closes out with review and commit, so a step sitting after it would fall outside the build it belongs to. That reorders `refactoring`'s acceptance bar and migrate-callers rule ahead of the build step, where they read as constraints on it rather than as steps after it.
 
@@ -90,7 +90,7 @@ Slice 2 grew during the build. The `implement` step has to be **last** in each p
 | A3 | `implement` contradicts `committing.md` rather than refining it | 3 | `implement:14` against `committing.md:5-6`; the bad case is an agent committing ungated on main, and nothing in `implement` prevents it |
 | A4 | No user outside this repo has `/implement` in a saved workflow or muscle memory | n/a | Moot. Q1 resolved toward keeping the skill, so nothing rests on this. |
 | A5 | The tails of `feature`, `bug-fix`, and `refactoring` are the same sequence with per-type flavor, so they collapse into one verb | 3 | Partly false, found while building slice 2. The **close-out** (review, no-comments, commit) is identical in all three and collapses cleanly. The **build loop** does not: `refactoring.md:8` requires the full suite green per unit, which contradicts `implement.md:33`. See A6. |
-| A6 | A behavior-preserving unit needs the full suite per unit, because the suite is the proof; a feature slice does not | 3 | `refactoring.md:3` states the playbook is behavior-preserving and "the tests prove it". The rule is real and general, so it belongs in `implement`'s cadence rather than in one playbook. |
+| A6 | A behavior-preserving unit needs the full suite per unit, because the suite is the proof; a feature slice does not | 4 | `refactoring.md:3` states the playbook is behavior-preserving and "the tests prove it". Landed as `implement`'s cadence exception in `40065ab`; `probe_tails.py` goes red without it. |
 
 A5 was the assumption carrying the plan and slice 2 partly falsified it, which is what grading it was for. The close-out collapses in all three playbooks. The build loop needed one clause added to `implement` (A6) before `refactoring` could collapse without contradicting it, and it needed two of `refactoring`'s steps reordered so nothing sits after the build phase. Both are inside slice 2 rather than new work.
 

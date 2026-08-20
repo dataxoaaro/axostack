@@ -68,7 +68,7 @@ branch: <branch name, or none yet>
 *How we'll know it works.*
 
 - **Acceptance checks:** one per user-visible behavior, each something somebody runs.
-- **Feature map:** the `verify-<app>/features/*.md` entries this change touches, and the ones it adds.
+- **Feature map:** the `verify-<app>/features/*.md` entries this change touches, and the ones it adds. One line saying it doesn't apply is the right answer for a repo with no user-facing surface.
 
 ## Out of scope
 

@@ -24,7 +24,7 @@ Inside a plan, the **architect** skill designs the types and signatures. It does
 
 ## Start
 
-Open a todolist with one entry per phase, plus a first entry to read the Principles section of the **axo-mode** skill. Phases don't silently disappear from a list the user can see.
+Open a todolist with one entry per phase, plus a first entry to read the Principles section of the **axo-mode** skill. Phases don't silently disappear from a list the user can see. No todo tool in this environment → state the phase list in your first reply and mark each one as you go, so a skipped phase is still visible.
 
 ## Phase A: Frame
 
@@ -38,7 +38,7 @@ If a fork blocks the framing itself, run a short pass of the **grilling** skill 
 
 ## Phase B: Ground
 
-Fan these out as parallel subagents and keep only their findings in the main thread, per **principle-guard-the-context-window**.
+Scale this to the question, the way the **how** skill scales its own exploration. A change touching one module is a single pass. A change spanning subsystems fans out as parallel subagents, keeping only their findings in the main thread, per **principle-guard-the-context-window**. Say which one you did.
 
 - **how** over each subsystem the change touches. Structure, runtime flow, ownership.
 - **why** over anything that looks arbitrary and is about to be changed. A constraint you can't see is the one you'll break.
@@ -61,7 +61,7 @@ Then read the repo's `verify-<app>` feature map, when it has one. The features l
 - Run the **blast-radius** skill against the proposed change, not the diff, since there is no diff yet. What breaks somewhere else, and the one fact this is safe because of.
 - Grade every assumption the plan rests on with blast-radius's ladder: 1 you said so, 2 you pointed at the line, 3 you showed the bad case can't happen, 4 you ran it, 5 you reproduced it in the running app. Get the ones that matter to 4. Anything still at 1 is written into the plan as **unproven**. Do not round up, and do not quietly drop an assumption you failed to prove.
 - Write the acceptance checks as things somebody runs, one per behavior the user can see.
-- Name the `verify-<app>` feature files this change touches and the ones it needs to add. User-facing change and no verification skill in the repo → say so and recommend `/create-verification-skill` as the first slice.
+- Name the `verify-<app>` feature files this change touches and the ones it needs to add. User-facing change and no verification skill in the repo → say so and recommend `/create-verification-skill` as the first slice. No user-facing surface at all, as in a library or a config repo → say that in one line and move on rather than manufacturing a verification story.
 - Slice the work into vertical tracer bullets, each demoable on its own and each sized for one fresh context window, with the blocking edges between them. Write them in the shape the **to-tickets** skill consumes so publishing is mechanical rather than a second breakdown from memory. A wide mechanical refactor is the exception; sequence it expand, migrate, contract, as to-tickets describes.
 
 ## Phase E: Write and hand off

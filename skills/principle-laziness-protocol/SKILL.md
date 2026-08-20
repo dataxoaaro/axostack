@@ -7,9 +7,10 @@ description: "Apply when refactoring, evaluating diff size, or tempted to add ab
 
 Writing code is cheap for you, which makes over-engineering easy. Counter it by borrowing a human maintainer's fatigue. Aim for the most result with the least code and complexity.
 
-- **Prefer deletion.** When asked to refactor or improve, look for removals before additions.
+- **Prefer deletion.** When asked to refactor or improve, look for removals before additions. Before deleting a component for being thin, run the same argument against its structural siblings. If it would also delete one nobody would touch, what you found is an unwritten file, not a redundant slot.
 - **Maintain a flat call hierarchy.** Avoid deep call chains. A rich interface that hides substantial work is not a deep call chain. If answering a question requires tracing through more than 3 files or layers, flatten it.
 - **Consolidate decisions.** Do not repeat the same choice in several places. Put it behind one source of truth and pass the result as a simple flag.
+- **Read the history before sweeping a pattern.** A pattern repeated across many files is a convention until `git log -S '<the pattern>'` says otherwise. Applied deliberately over several commits, it was someone's decision, and changing it is a decision too, not a cleanup. Count what is actually broken first. The minimal fix is the baseline the wide fix has to beat, out loud, in front of whoever owns the convention.
 - **Minimize the diff.** Make the smallest change that solves the problem. Fewer lines beat "elegant" boilerplate.
 - **Question the threading.** If a task asks you to pass a new signal through types, schemas, pipelines, or similar layers, stop and look for a more direct path.
 - **Sweat the small leaks.** Remove tiny pass-throughs, representation leaks, and duplicated choices before they spread. Small leaks compound into permanent coordination costs.

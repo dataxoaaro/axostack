@@ -1,6 +1,6 @@
 ---
 plan: implement-skill-duplicates-the-feature-playbook
-status: approved
+status: draft
 created: 2026-08-20
 tracker: none
 branch: fix/model-invocable-skills

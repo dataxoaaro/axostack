@@ -16,6 +16,11 @@ Four failure classes, one line each on stdout, non-zero exit if any fire:
               user as `/name` instead.
   frontmatter missing, unparseable, or a `name:` that does not match the
               folder, which stops the skill registering at all
+  convention  the `disable-model-invocation` frontmatter flags and the
+              user-only list in README.md disagree. The flag is a maintained
+              convention, so its membership is written down; without that,
+              the next reader has to guess whether a flag was a decision or
+              an accident
 
 Stdlib only, so it runs in a checkout with nothing installed.
 """
@@ -24,8 +29,11 @@ import pathlib
 import re
 import sys
 
-SKILLS = pathlib.Path(__file__).resolve().parent.parent / "skills"
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+SKILLS = ROOT / "skills"
+README = ROOT / "README.md"
 
+USER_ONLY = re.compile(r"<!-- user-only:start -->(.*?)<!-- user-only:end -->", re.S)
 BOLD = re.compile(r"\*\*([a-z][a-z0-9-]+)\*\*")
 SLASH = re.compile(r"`/([a-z][a-z0-9-]+)`")
 LINK = re.compile(r"\]\((?!https?:)([^)#]+)")
@@ -55,6 +63,27 @@ def load():
     return skills, problems
 
 
+def convention(skills):
+    """The frontmatter flags and README's user-only list must name the same skills."""
+    flagged = {n for n, is_flagged in skills.items() if is_flagged}
+    if not README.exists():
+        return [(README, 1, "convention", "no README.md to check the user-only list against")]
+    block = USER_ONLY.search(README.read_text())
+    if not block:
+        return [(README, 1, "convention",
+                 "no <!-- user-only:start --> block, so the flag's membership is undocumented")]
+    listed = set(re.findall(r"`([a-z][a-z0-9-]+)`", block.group(1)))
+    line = README.read_text()[: block.start()].count("\n") + 2
+    out = []
+    for name in sorted(flagged - listed):
+        out.append((README, line, "convention",
+                    f"{name} sets disable-model-invocation but is not in the user-only list"))
+    for name in sorted(listed - flagged):
+        out.append((README, line, "convention",
+                    f"{name} is listed as user-only but does not set disable-model-invocation"))
+    return out
+
+
 def unfenced(text):
     """Yield (lineno, line) outside fenced code blocks."""
     inside = False
@@ -68,6 +97,7 @@ def unfenced(text):
 
 def main():
     skills, problems = load()
+    problems.extend(convention(skills))
     stems = {n[len("principle-"):]: n for n in skills if n.startswith("principle-")}
 
     for path in sorted(SKILLS.rglob("*.md")):

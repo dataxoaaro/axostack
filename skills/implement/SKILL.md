@@ -32,6 +32,7 @@ Per **principle-sequence-verifiable-units**. Finish a slice before opening the n
 3. Cut the narrow complete path through every layer the slice touches. A slice that lands in one layer is not a slice.
 4. Cadence: typecheck after each meaningful edit, and run the single test file you are working in on each red-green cycle. Leave the full suite for close-out; running it every cycle is slow enough that you learn to ignore it. Behavior-preserving work is the exception: when the change is supposed to alter nothing a test can see, the full suite is the proof, so it runs on every unit.
 5. Verify on the real surface per **principle-prove-it-works**, driving the repo's `verify-<app>` skill when it has one. "It compiles" and "tests pass" are not a pass for behavior a user can see.
+   When the slice delivers a check, verifying it means making it fail. Write a throwaway subject carrying one deliberate defect per class the check claims to catch, plus the near misses that must stay silent, and confirm each class reports and the exit code flips back once the subject is gone. A check that has only ever returned green is a check you hope works.
 6. Commit the slice before starting the next, through the Committing playbook. Then set that slice's Status in the plan to `landed <sha>`, so the next session reads where the work stopped instead of inferring it.
 
 ## When the build proves the plan wrong
@@ -64,5 +65,8 @@ Picking up half-built work in a fresh context:
 3. The **no-comments** skill.
 4. Run axo-mode's Committing playbook. It owns branch naming, the gates, the tracker-key scan, the message format, and the rule that pushing waits for explicit approval.
 5. If what shipped differs from what the plan described, re-enter the plan so it matches. A plan that disagrees with the branch is worse than no plan.
+6. A slice that delivers a procedure, script, or skill does not close until you have run it once, end to end, against a real task, and folded the first-run defects into the same slice. Say which of its branches never executed. A procedure exercised only where every optional input was absent has had its default path tested and its configured path shipped on faith.
+
+A gate you could not run as written is reported as a substitution, with what you ran instead and why. "Reviewed" means the **code-review** skill ran. A grep that stands in for it is a grep, and calling it a pass is how three slices ship unreviewed while every line of the report says green.
 
 **Reply:** the slices that landed, gate results, anything the build changed about the plan, and what is left.

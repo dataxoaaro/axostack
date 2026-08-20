@@ -18,6 +18,14 @@ Three layers, and one split inside the middle layer that explains most of the li
 
 Invoke: **slash** means you type it (`/skill-name`) and the agent cannot start it on its own, **auto** means the agent may also reach for it when the task fits. The difference is the `disable-model-invocation` flag in each skill's frontmatter, so a skill another skill has to call mid-workflow must be **auto**.
 
+Slash is a deliberate list, not a leftover. A skill is slash-only when starting it should be a person's decision: it runs for a long time unattended, it spends real money, it writes to a tracker or a remote, or its whole job is a conversation the agent must not hold with itself. Everything else is auto, because a router that names a skill the agent cannot reach is a router that dead-ends. The current members:
+
+<!-- user-only:start -->
+`bro`, `create-verification-skill`, `figure-it-out`, `grill-me`, `grill-with-docs`, `improve-codebase-architecture`, `maintain-verification-skill`, `reflect`, `setup-axostack`, `to-linear-issue`, `triage`, `wayfinder`, `work-linear-issue`
+<!-- user-only:end -->
+
+`scripts/check-skill-refs.py` fails when that list and the frontmatter flags disagree, so adding a skill to one without the other is caught rather than inferred later.
+
 ### Router and setup
 
 | Skill | Invoke | What it does |
@@ -117,7 +125,15 @@ Any agent, as editable files via [skills.sh](https://skills.sh):
 npx skills@latest add dataxoaaro/axostack
 ```
 
-Manual: copy folders from `skills/` into `~/.claude/skills/` (personal) or `.claude/skills/` (project), and the files in `agents/` into `~/.claude/agents/`.
+From a clone, with the sync script:
+
+```
+scripts/sync-skills.sh
+```
+
+It installs each skill directory separately and links any that is missing. Editing the checkout changes nothing until it runs. Copy the files in `agents/` into `~/.claude/agents/` yourself.
+
+Do not sync by hand with a single `rsync --delete` over the install directory. That deletes every installed skill that does not come from this repo.
 
 ## Usage
 
@@ -178,6 +194,20 @@ python3 scripts/check-skill-refs.py
 Fails when a skill body names a skill that does not exist, cites a principle without its `principle-` prefix, tells the agent to invoke a skill whose frontmatter marks it user-run, or carries frontmatter that would stop it registering. Stdlib only, no install step. Run it after editing any skill.
 
 `.github/workflows/checks.yml` runs the same command on every push to `main` and every pull request.
+
+```
+scripts/sync-skills.sh --check
+```
+
+Reports skills whose installed copy differs from the checkout, and exits non-zero if any do. Writes nothing.
+
+To be warned about that drift automatically:
+
+```
+git config core.hooksPath scripts/hooks
+```
+
+`scripts/hooks/pre-push` then warns when your install is stale. It never blocks, because drift means your local agent is running old skills and says nothing about whether the push is safe. This check cannot run in CI: a runner has no install directory, so every skill would report missing.
 
 ## License
 

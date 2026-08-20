@@ -8,5 +8,6 @@
 4. Conventional commit message: `<type>: <description>` with types feat, fix, refactor, docs, test, chore, perf, ci. The tracker key goes in the message body. No AI attribution lines.
 5. Sequence commits per **principle-sequence-verifiable-units**: each commit builds and passes tests on its own. For a bug fix, the failing test commits before the fix.
 6. Never push to remote without explicit approval. Commit locally, report, and ask before pushing.
+7. Once a push is approved and done, read the remote instead of predicting it: `gh pr checks` and `gh run list --branch <branch>` for CI, `gh pr view --json state,mergedAt,url` for merge state. After pulling a merge, run `git log <base>..<merge>` to catch commits made outside this session, and check whether any landed in files you rewrote.
 
-**Reply:** branch name, commit list, gate results.
+**Reply:** branch name, commit list, gate results, and remote state when a push happened.

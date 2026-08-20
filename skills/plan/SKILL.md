@@ -60,7 +60,9 @@ Then read the repo's `verify-<app>` feature map, when it has one. The features l
 
 - Run the **blast-radius** skill against the proposed change, not the diff, since there is no diff yet. What breaks somewhere else, and the one fact this is safe because of.
 - Grade every assumption the plan rests on with blast-radius's ladder: 1 you said so, 2 you pointed at the line, 3 you showed the bad case can't happen, 4 you ran it, 5 you reproduced it in the running app. Get the ones that matter to 4. Anything still at 1 is written into the plan as **unproven**. Do not round up, and do not quietly drop an assumption you failed to prove.
-- Write the acceptance checks as things somebody runs, one per behavior the user can see.
+- Name the decision each graded assumption supports. A grade is a grade of one question. "Nothing quotes this file's body" is grade 4 evidence that deleting it is safe and says nothing about whether the file should exist, so carrying the number across to the second question is a guess wearing a 4.
+- A script only earns grade 4 once you have seen it give the opposite answer. Until then you have run something, not proved something. When your own scan reports an absence, suspect the scan first: check what it excludes, whether the thing is written under a second name, and whether it matches case. A scan that finds nothing and a repo that contains nothing look identical from here.
+- Write the acceptance checks as things somebody runs, one per behavior the user can see. A check that lands in CI runs on whatever bare interpreter the image ships, so it takes no dependency the repo does not already install, resolves its targets from its own file rather than the working directory, and is proved by running it from an unrelated directory before you believe the green.
 - Name the `verify-<app>` feature files this change touches and the ones it needs to add. User-facing change and no verification skill in the repo → say so and recommend `/create-verification-skill` as the first slice. No user-facing surface at all, as in a library or a config repo → say that in one line and move on rather than manufacturing a verification story.
 - Slice the work into vertical tracer bullets, each demoable on its own and each sized for one fresh context window, with the blocking edges between them. Write them in the shape the **to-tickets** skill consumes so publishing is mechanical rather than a second breakdown from memory. A wide mechanical refactor is the exception. Sequence it expand, migrate, contract, as to-tickets describes. Every slice starts at `todo`; the **implement** skill moves it as work lands.
 
@@ -73,12 +75,14 @@ The Open decisions section carries every question the plan could not settle, in 
 Then stop and hand off. Do not start building.
 
 ```
-/plan <feature>            →  docs/plans/0007-slug.md      status: draft
+/plan <feature>            →  docs/plans/<NNNN>-slug.md    status: draft
 /grill-with-docs <path>    →  answers folded back in       status: grilled
 (user approves)                                            status: approved
 /to-tickets <path>         →  tickets in dependency order
 /work-linear-issue <key>   →  built
 ```
+
+You set `draft`, `grilled`, and the slice statuses. You never set `approved`. That one moves on an explicit statement from the user and on nothing else, because it is the gate that catches a plan whose reasoning is wrong, and a plan cannot pass its own gate. Building against an ungrilled plan is allowed when the user asks for it. Marking it approved to get there is not.
 
 ## Re-entry
 

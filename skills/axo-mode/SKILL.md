@@ -31,6 +31,9 @@ Routing table. Match the situation, invoke the skill:
 - Work too large for one session, path unclear → the **wayfinder** skill.
 - Parallel fan-out → the **swarm** skill for coverage matrices and exploration partitions, **arena** for design or code bakeoffs.
 - Long or autonomous work the user reviews later → a decision trail via the **show-me-your-work** skill.
+- Resuming or picking work back up ("catch me up", "where did I leave off") → the **recall** skill before starting.
+- After a substantial run, or when a skill misfired → the **reflect** skill turns session learnings into skill edits.
+- No scripted way to prove app behavior → the **create-verification-skill** skill generates the repo's `verify-<app>` skill, which playbook verify steps then drive. Keep it honest with **maintain-verification-skill**.
 - Any prose surface, including your reply → the **unslop** skill.
 - Docs, RFCs, readmes, PR descriptions → the **technical-writing** skill.
 - Before commit → the **code-review** skill, then the **no-comments** skill.

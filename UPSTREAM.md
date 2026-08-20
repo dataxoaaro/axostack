@@ -12,6 +12,10 @@ Source: https://github.com/cursor/plugins/tree/main/pstack
 | arena | yes, Cursor model-pool config replaced with model-tier guidance |
 | blast-radius | no |
 | bro | no |
+| create-verification-skill | yes, generates into .claude/skills instead of .cursor/skills |
+| maintain-verification-skill | yes, targets .claude/skills paths |
+| recall | yes, Claude Code transcript paths |
+| reflect | yes, Claude Code transcript paths, Agent tool spawns, create-skill routing replaced with direct skill edits |
 | figure-it-out | yes, reads axo-mode's principles instead of poteto-mode's |
 | how | yes, dropped a reference to the removed interrogate skill |
 | no-comments | yes, spawns the comment-sicko agent via the Agent tool instead of Cursor's Task API |
@@ -23,7 +27,7 @@ Source: https://github.com/cursor/plugins/tree/main/pstack
 | principle-* (all 21) | no |
 | agents/comment-sicko.md | yes, agent name kebab-cased for the Claude Code Agent tool |
 
-Not vendored: poteto-mode (replaced by our own axo-mode), interrogate (replaced by grill-me and grill-with-docs for contested designs), tdd (Pocock's taken instead), reflect, recall, teach, automate-me, setup-pstack, create/maintain-verification-skill, typescript-best-practices.
+Not vendored: poteto-mode (replaced by our own axo-mode), interrogate (replaced by grill-me and grill-with-docs for contested designs), tdd (Pocock's taken instead), teach, automate-me, setup-pstack, typescript-best-practices.
 
 ## From mattpocock/skills (commit 885e2ca)
 

@@ -53,6 +53,8 @@ Invoke: **slash** means you type it (`/skill-name`), **auto** means the agent ma
 | diagnosing-bugs | pocock | auto | Gated diagnosis loop for hard bugs: feedback loop that goes red on the bug, minimise, hypothesise, instrument, fix, regression-test. |
 | blast-radius | pstack | slash | Find what a change could break beyond the diff, and prove the one safety-critical fact by running real code. |
 | no-comments | pstack | slash | Strip narrating and workaround comments via the comment-sicko agent, then fix what the deletions expose. |
+| create-verification-skill | pstack, adapted | slash | Generate a project-local `verify-<app>` skill that drives the real app the way a user does and captures evidence. |
+| maintain-verification-skill | pstack, adapted | slash | Periodic audit that keeps the project's verify skill and feature map honest against the source. |
 
 ### Investigate
 
@@ -70,6 +72,8 @@ Invoke: **slash** means you type it (`/skill-name`), **auto** means the agent ma
 | arena | pstack, adapted | slash | N parallel candidates at the same task, pick a base, graft the strongest parts of the losers into it. |
 | figure-it-out | pstack, adapted | slash | Design a bespoke, auditable playbook when no bundled one fits a large or multi-part task. |
 | show-me-your-work | pstack, adapted | slash | A reviewable decision trail (one row per decision: what, why, evidence, result) for long or unattended runs. |
+| recall | pstack, adapted | auto | Reconstruct working context from your own transcripts and live state when resuming ("where did I leave off"). |
+| reflect | pstack, adapted | slash | Three parallel reviewers over the session transcript, synthesized into approved edits on existing skills. The improvement loop. |
 
 ### Docs and prose
 

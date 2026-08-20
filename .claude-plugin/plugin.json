@@ -1,7 +1,7 @@
 {
   "name": "axostack",
   "description": "Dataxo's agentic development stack: axo-mode router, pstack principles, and Pocock-style workflow skills",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": {
     "name": "Dataxo"
   }

@@ -1,6 +1,6 @@
 # axostack
 
-Dataxo's agentic development stack for Claude Code: an entry-point router, a Linear-first workflow pipeline, and a set of engineering principles, packaged as one skills library.
+Agentic development stack for Claude Code: an entry-point router, a Linear-first workflow pipeline, and a set of engineering principles, packaged as one skills library.
 
 ## Architecture
 

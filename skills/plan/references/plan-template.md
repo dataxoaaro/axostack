@@ -47,12 +47,12 @@ branch: <branch name, or none yet>
 
 ## Slices
 
-*Vertical tracer bullets in dependency order, the shape to-tickets consumes.*
+*Vertical tracer bullets in dependency order, the shape to-tickets consumes. `Status` is one of `todo`, `in flight`, `landed <sha>`, or `dropped: <reason>`. The table indexes the work; git records it. A landed status points at the commit rather than restating what it did, so `implement` can check the table against `git log` when it resumes and see drift instead of guessing.*
 
-| # | Slice | Blocked by | Delivers |
-|---|-------|-----------|----------|
-| 1 | <short title> | none | <the end-to-end behaviour this makes work, from the user's side> |
-| 2 | <short title> | 1 | <...> |
+| # | Slice | Blocked by | Status | Delivers |
+|---|-------|-----------|--------|----------|
+| 1 | <short title> | none | todo | <the end-to-end behaviour this makes work, from the user's side> |
+| 2 | <short title> | 1 | todo | <...> |
 
 ## Assumptions
 

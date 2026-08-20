@@ -62,7 +62,7 @@ Then read the repo's `verify-<app>` feature map, when it has one. The features l
 - Grade every assumption the plan rests on with blast-radius's ladder: 1 you said so, 2 you pointed at the line, 3 you showed the bad case can't happen, 4 you ran it, 5 you reproduced it in the running app. Get the ones that matter to 4. Anything still at 1 is written into the plan as **unproven**. Do not round up, and do not quietly drop an assumption you failed to prove.
 - Write the acceptance checks as things somebody runs, one per behavior the user can see.
 - Name the `verify-<app>` feature files this change touches and the ones it needs to add. User-facing change and no verification skill in the repo → say so and recommend `/create-verification-skill` as the first slice. No user-facing surface at all, as in a library or a config repo → say that in one line and move on rather than manufacturing a verification story.
-- Slice the work into vertical tracer bullets, each demoable on its own and each sized for one fresh context window, with the blocking edges between them. Write them in the shape the **to-tickets** skill consumes so publishing is mechanical rather than a second breakdown from memory. A wide mechanical refactor is the exception; sequence it expand, migrate, contract, as to-tickets describes.
+- Slice the work into vertical tracer bullets, each demoable on its own and each sized for one fresh context window, with the blocking edges between them. Write them in the shape the **to-tickets** skill consumes so publishing is mechanical rather than a second breakdown from memory. A wide mechanical refactor is the exception. Sequence it expand, migrate, contract, as to-tickets describes. Every slice starts at `todo`; the **implement** skill moves it as work lands.
 
 ## Phase E: Write and hand off
 
@@ -82,6 +82,6 @@ Then stop and hand off. Do not start building.
 
 ## Re-entry
 
-`/plan <path>` on a plan that already exists updates it rather than writing a second one. Fold resolved answers into the body, move each question to the Decision log, bump the status, and re-run only the phases the answers invalidated. A resolved decision lives in the plan, not in a chat transcript nobody can find. When a plan is abandoned, mark it `superseded` and name what replaced it; don't delete it.
+`/plan <path>` on a plan that already exists updates it rather than writing a second one. Fold resolved answers into the body, move each question to the Decision log, bump the plan's status and any slice statuses that moved, and re-run only the phases the answers invalidated. A resolved decision lives in the plan, not in a chat transcript nobody can find. When a plan is abandoned, mark it `superseded` and name what replaced it; don't delete it.
 
 **Reply:** the plan's path, the approach in three lines, the assumptions still unproven, and the open decisions by number. Not a re-run of the document.

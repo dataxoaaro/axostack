@@ -32,7 +32,7 @@ Per **principle-sequence-verifiable-units**. Finish a slice before opening the n
 3. Cut the narrow complete path through every layer the slice touches. A slice that lands in one layer is not a slice.
 4. Cadence: typecheck after each meaningful edit, and run the single test file you are working in on each red-green cycle. Leave the full suite for close-out; running it every cycle is slow enough that you learn to ignore it. Behavior-preserving work is the exception: when the change is supposed to alter nothing a test can see, the full suite is the proof, so it runs on every unit.
 5. Verify on the real surface per **principle-prove-it-works**, driving the repo's `verify-<app>` skill when it has one. "It compiles" and "tests pass" are not a pass for behavior a user can see.
-6. Commit the slice before starting the next, through the Committing playbook.
+6. Commit the slice before starting the next, through the Committing playbook. Then set that slice's Status in the plan to `landed <sha>`, so the next session reads where the work stopped instead of inferring it.
 
 ## When the build proves the plan wrong
 
@@ -52,9 +52,10 @@ Then stop building and re-enter the plan through the **plan** skill, carrying wh
 Picking up half-built work in a fresh context:
 
 1. `git status` and `git log --oneline main..HEAD`. What actually landed.
-2. The plan's Slices table against those commits. Which slice is in flight.
-3. The **recall** skill when git alone doesn't show what was being attempted.
-4. Re-run the in-flight slice's verification before continuing. Uncommitted work is not in the state you assume it is.
+2. The plan's Slices table. Every `landed <sha>` should match a commit you just listed, and the first `todo` after them is where to resume.
+3. Reconcile any disagreement before building. A slice marked `landed` with no commit, or a commit with no slice marked, means the last session stopped mid-step. Trust git, fix the table.
+4. The **recall** skill when git alone doesn't show what was being attempted.
+5. Re-run the in-flight slice's verification before continuing. Uncommitted work is not in the state you assume it is.
 
 ## Close out
 

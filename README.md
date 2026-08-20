@@ -151,10 +151,10 @@ The plan flow above ran against a real defect in this repo and produced [docs/pl
 
 ## Slices
 
-| # | Slice | Blocked by | Delivers |
-|---|-------|-----------|----------|
-| 1 | Write `implement` as the build-phase verb | none | An agent following it commits on a branch, gated |
-| 2 | Collapse the tail out of the three playbooks | 1 | The build sequence is stated once |
+| # | Slice | Blocked by | Status | Delivers |
+|---|-------|-----------|--------|----------|
+| 1 | Write `implement` as the build-phase verb | none | landed bf87f10 | An agent following it commits on a branch, gated |
+| 2 | Collapse the tail out of the three playbooks | 1 | landed 40065ab | The build sequence is stated once |
 
 ## Open decisions
 
@@ -164,6 +164,8 @@ Recommended: delete it. The routing entry already names the real sequence.
 ```
 
 Every assumption carries a grade from `blast-radius`: 1 means you said so, 4 means you ran it. A1 reached 4 because a script proved it over every Markdown file in the repo. A5 stayed at 3, and building slice 2 falsified it, which is what grading it was for.
+
+A slice's status points at the commit that landed it, so `implement` reconciles the table against `git log` when it resumes rather than inferring where the work stopped.
 
 The open questions use `grilling`'s format, so `/grill-with-docs <plan>` starts from the plan's own frontier instead of re-deriving the design. Q1 came back against the plan's recommendation. `implement` re-entered the plan to record that, then built the slices against the revised version.
 

@@ -69,17 +69,15 @@ Skip: prose artifact, no types or signatures. The **architect** skill does not a
 
 ## Slices
 
-| # | Slice | Blocked by | Delivers |
-|---|-------|-----------|----------|
-| 1 | Write `implement` as the build-phase verb, closing out through the Committing playbook | none | The contradiction is gone and an agent following `implement` commits on a branch, gated |
-| 2 | Give `implement` the behavior-preserving cadence clause, then collapse the tail out of the three playbooks into one `implement` step each, last in the list | 1 | The build sequence is stated once; each playbook keeps only its per-type difference, and `no-comments` reaches all three instead of only `feature` |
-| 3 | Ship `scripts/check-skill-refs.py` | 2 | A dangling or user-only skill reference fails a check instead of reaching an agent mid-task |
+| # | Slice | Blocked by | Status | Delivers |
+|---|-------|-----------|--------|----------|
+| 1 | Write `implement` as the build-phase verb, closing out through the Committing playbook | none | landed bf87f10 | The contradiction is gone and an agent following `implement` commits on a branch, gated |
+| 2 | Give `implement` the behavior-preserving cadence clause, then collapse the tail out of the three playbooks into one `implement` step each, last in the list | 1 | landed 40065ab | The build sequence is stated once. Each playbook keeps only its per-type difference, and `no-comments` reaches all three instead of only `feature` |
+| 3 | Ship `scripts/check-skill-refs.py` | 2 | landed 7583470 | A dangling or user-only skill reference fails a check instead of reaching an agent mid-task |
 
 Slice 1 lands green on its own and fixes the shipped defect without touching a single caller, so it is worth landing even if 2 and 3 stall.
 
-**Landed:** all three slices. Slice 1 in `bf87f10`, slice 2 in `40065ab`, slice 3 in this commit. All five Done-when predicates pass.
-
-Slice 3 widened during the build. Scoped to dangling references when the plan was written, it grew to cover bare-stem principle citations after the skills review found 28 of them, and that class turned out to be the only one actually present in the library. The check was written before the fix and proved by injecting one defect of each class and watching it fail, so a green run means something.
+All five Done-when predicates pass. Slice 3 widened during the build. Scoped to dangling references when the plan was written, it grew to cover bare-stem principle citations after the skills review found 28 of them, and that class turned out to be the only one actually present in the library. The check was written before the fix and proved by injecting one defect of each class and watching it fail, so a green run means something.
 
 Slice 2 grew during the build. The `implement` step has to be **last** in each playbook, because `implement` closes out with review and commit, so a step sitting after it would fall outside the build it belongs to. That reorders `refactoring`'s acceptance bar and migrate-callers rule ahead of the build step, where they read as constraints on it rather than as steps after it.
 

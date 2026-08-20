@@ -7,7 +7,7 @@ Dataxo's agentic development stack for Claude Code: an entry-point router, a Lin
 Three layers.
 
 1. **axo-mode** is the router. Its trigger table maps situations to skills, its principles index points at the 21 leaf principles, and its playbooks (feature, bug-fix, investigation, refactoring, prototype, committing) are step lists the agent copies verbatim into its todo list.
-2. **Workflow skills** are the verbs. `to-linear-issue` researches an idea into an evidenced Linear issue, `to-tickets` breaks plans into dependency-ordered tickets, `triage` runs the queue, and `work-linear-issue` picks a ready issue up and drives it through `implement` → `tdd` → `code-review` to reviewed local commits. Alignment is `grill-me`/`grill-with-docs`, design is `codebase-design`/`improve-codebase-architecture`/`wayfinder`, investigation is `how`/`why`/`research`. Contested designs resolve through grilling the user. Quality gates: `unslop`, `no-comments`, `technical-writing`.
+2. **Workflow skills** are the verbs. `to-linear-issue` researches an idea into an evidenced Linear issue, `to-tickets` breaks plans into dependency-ordered tickets, `triage` runs the queue, and `work-linear-issue` picks a ready issue up and drives it through `implement` → `tdd` → `code-review` to reviewed local commits. Alignment is `grill-me`/`grill-with-docs`, planning is `plan`, design is `codebase-design`/`improve-codebase-architecture`/`wayfinder`, investigation is `how`/`why`/`research`. Contested designs resolve through grilling the user. Quality gates: `unslop`, `no-comments`, `technical-writing`.
 3. **Principles** are the judgment. 21 `principle-*` leaf skills, loaded only when applied, cited in the reply with the decision they changed.
 
 ## Skills
@@ -19,7 +19,7 @@ Invoke: **slash** means you type it (`/skill-name`) and the agent cannot start i
 | Skill | Invoke | What it does |
 |-------|--------|--------------|
 | axo-mode | auto | The entry point. Routes situations to skills, indexes the principles, and holds the playbooks (feature, bug-fix, investigation, refactoring, prototype, committing) copied verbatim into the todo list. |
-| setup-axostack | slash | Once per repo: configures the issue tracker (Linear first-class), triage labels, and domain doc locations the tracker-facing skills read. |
+| setup-axostack | slash | Once per repo: configures the issue tracker (Linear first-class), triage labels, domain doc locations, and where plans and research notes land. |
 
 ### Linear workflow
 
@@ -41,6 +41,7 @@ Invoke: **slash** means you type it (`/skill-name`) and the agent cannot start i
 | architect | auto | Sketch types, signatures, and module structure through parallel design exploration before code, for a specific change. |
 | codebase-design | auto | The deep-module vocabulary: a lot of behavior behind a small interface, at a clean seam, testable through it. Used by architect and improve-codebase-architecture. |
 | improve-codebase-architecture | slash | Survey a whole codebase for deepening opportunities, report them, grill through the one you pick. |
+| plan | auto | Work a feature or fix into one plan document: grounded, risk-graded, sliced into tickets, with every unsettled question numbered for the next grilling session. |
 | prototype | auto | A throwaway sketch that answers a design question by observation instead of asking. |
 
 ### Build and verify
@@ -95,7 +96,7 @@ Invoke: **slash** means you type it (`/skill-name`) and the agent cannot start i
 
 21 leaf skills, indexed in axo-mode, each read in full only when applied. Grouped: **core** (laziness-protocol, foundational-thinking, redesign-from-first-principles, subtract-before-you-add, minimize-reader-load, outcome-oriented-execution, experience-first, exhaust-the-design-space, build-the-lever), **architecture** (model-the-domain, boundary-discipline, type-system-discipline, make-operations-idempotent, migrate-callers-then-delete-legacy-apis, separate-before-serializing-shared-state), **verification** (prove-it-works, fix-root-causes, sequence-verifiable-units), **delegation** (guard-the-context-window, never-block-on-the-human), **meta** (encode-lessons-in-structure). Each `principle-*` folder's description states exactly when it applies.
 
-Easily confused pairs: `domain-modeling` builds the project's vocabulary docs, while `principle-model-the-domain` structures code around the domain. `figure-it-out` designs a playbook for one session-sized task, while `wayfinder` maps work spanning many sessions. `research` reads external sources, while `how` and `why` read your own codebase and history.
+Easily confused pairs: `domain-modeling` builds the project's vocabulary docs, while `principle-model-the-domain` structures code around the domain. `figure-it-out` designs a playbook for one session-sized task, while `wayfinder` maps work spanning many sessions. `research` reads external sources, while `how` and `why` read your own codebase and history. `plan` writes down a change you can already state, `wayfinder` maps one you can't yet, and `architect` designs the types inside a plan rather than replacing it.
 
 ## Install
 
@@ -123,6 +124,12 @@ The core loop for tracked work:
 1. `/to-linear-issue <idea or question>` researches it and publishes an evidenced issue.
 2. `/triage` moves the queue; `/to-tickets` breaks an agreed plan into blocking-ordered tickets.
 3. `/work-linear-issue ABC-123` (or bare, to take the next ready issue) claims it, branches with the key prefix, builds under axo-mode's playbooks, and closes out with commits and a tracker update.
+
+For a feature or fix that needs thinking through first:
+
+1. `/plan <feature>` lands `docs/plans/0007-slug.md`: grounded in the codebase, alternatives recorded, assumptions graded on evidence, sliced into tickets, open questions numbered.
+2. `/grill-with-docs docs/plans/0007-slug.md` attacks it question by question and folds the answers back into the file.
+3. `/to-tickets docs/plans/0007-slug.md` publishes the slices in dependency order.
 
 Either invoke `/axo-mode` explicitly or let the agent reach for it on multi-step tasks. Individual skills also work standalone: `/grill-me` before a plan, `/tdd` for a feature slice, `/diagnosing-bugs` on a hard bug, `/code-review` before a commit, `/bro` when a reply needs restating in plain language.
 

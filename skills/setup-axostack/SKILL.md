@@ -11,6 +11,7 @@ Scaffold the per-repo configuration that the engineering skills assume:
 - **Issue tracker**: where issues live (GitHub by default; local markdown is also supported out of the box)
 - **Triage labels**: the strings used for the five canonical triage roles
 - **Domain docs**: where `CONTEXT.md` and ADRs live, and the consumer rules for reading them
+- **Agent artifacts**: where plans, research notes, and throwaway analysis land, and which of them are committed
 
 This is a prompt-driven skill, not a deterministic script. Explore, present what you found, confirm with the user, then write.
 
@@ -26,6 +27,7 @@ Look at the current repo to understand its starting state. Read whatever exists;
 - `docs/adr/` and any `src/*/docs/adr/` directories
 - `docs/agents/`: does this skill's prior output already exist?
 - `.scratch/`: a sign that a local-markdown issue tracker convention is already in use
+- `docs/plans/`, `docs/research/`, `claudedocs/`: an artifact convention already in use, and whether `.gitignore` covers any of them
 - Is the `triage` skill installed? (a `triage` skill folder alongside this one, or `triage` in your available skills.) This decides whether Section B runs at all.
 - Monorepo signals: a `pnpm-workspace.yaml`, a `workspaces` field in `package.json`, or a populated `packages/*` with its own `src/`. These are present only in a genuinely large multi-package repo; their absence means single-context, which is almost every repo.
 
@@ -61,12 +63,26 @@ The defaults are the five canonical roles, each label string equal to its name: 
 
 Offer **multi-context** (a root `CONTEXT-MAP.md` pointing to per-context `CONTEXT.md` files) only when exploration found monorepo signals. Then confirm which layout they want.
 
+**Section D: Agent artifacts.**
+
+> Explainer: The skills write Markdown of their own. `plan` writes plans, `research` writes cited findings, `how` / `why` / `blast-radius` write investigation notes. Without one convention each skill picks its own spot. Plans matter most, because `/grill-with-docs` and `to-tickets` read them in a later session.
+
+Ask one question:
+
+> Plans and research committed under `docs/plans/` and `docs/research/`, throwaway analysis gitignored under `claudedocs/`? (recommended: **yes**)
+
+The recommendation splits on lifespan. A plan gets grilled, sliced into tickets, and read in the PR that implements it, so it is a decision record and belongs in git. A one-session writeup is not, and clutters the repo if committed.
+
+If exploration found a convention already in use, propose that instead of the default. On **no**, collect the paths and whether each is committed. Either way, check that any non-committed path is in `.gitignore` and add it if it isn't.
+
+Record the choice in `docs/agents/artifacts.md`.
+
 ### 3. Confirm and edit
 
 Show the user a draft of:
 
 - The `## Agent skills` block to add to whichever of `CLAUDE.md` / `AGENTS.md` is being edited (see step 4 for selection rules)
-- The contents of `docs/agents/issue-tracker.md`, `docs/agents/domain.md`, and `docs/agents/triage-labels.md` (the last only when `triage` is installed)
+- The contents of `docs/agents/issue-tracker.md`, `docs/agents/domain.md`, `docs/agents/artifacts.md`, and `docs/agents/triage-labels.md` (the last only when `triage` is installed)
 
 Let them edit before writing.
 
@@ -98,6 +114,10 @@ The block:
 ### Domain docs
 
 [one-line summary of layout: "single-context" or "multi-context"]. See `docs/agents/domain.md`.
+
+### Agent artifacts
+
+[one-line summary: where plans, research, and throwaway analysis land]. See `docs/agents/artifacts.md`.
 ```
 
 Include the `### Triage labels` sub-block, and write `docs/agents/triage-labels.md`, only when `triage` is installed and Section B ran. When it isn't, both are omitted.
@@ -110,6 +130,7 @@ Then write the docs files using the seed templates in this skill folder as a sta
 - [issue-tracker-local.md](./issue-tracker-local.md): local-markdown issue tracker
 - [triage-labels.md](./triage-labels.md): label mapping (only if `triage` is installed)
 - [domain.md](./domain.md): domain doc consumer rules + layout
+- [artifacts.md](./artifacts.md): where plans, research notes, and throwaway analysis land
 
 For "other" issue trackers, write `docs/agents/issue-tracker.md` from scratch using the user's description.
 

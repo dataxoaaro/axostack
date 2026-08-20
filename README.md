@@ -112,18 +112,22 @@ Easily confused pairs: `domain-modeling` builds the project's vocabulary docs, w
 
 ## Install
 
-Claude Code, as a plugin:
+Claude Code, as a plugin. The marketplace is named `dataxo`, so the plugin is installed as `axostack@dataxo`:
 
 ```
 /plugin marketplace add dataxoaaro/axostack
-/plugin install axostack
+/plugin install axostack@dataxo
 ```
+
+Update with `/plugin marketplace update dataxo`. Plugin installs are pinned to the `version` in `.claude-plugin/plugin.json`, so bump it when you want existing users to receive a change.
 
 Any agent, as editable files via [skills.sh](https://skills.sh):
 
 ```
 npx skills@latest add dataxoaaro/axostack
 ```
+
+Update with `npx skills@latest update`. This path tracks the default branch and ignores the plugin version, so merging to `main` is enough.
 
 From a clone, with the sync script:
 

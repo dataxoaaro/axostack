@@ -12,7 +12,7 @@ Three layers.
 
 ## Skills
 
-Invoke: **slash** means you type it (`/skill-name`), **auto** means the agent may also reach for it when the task fits.
+Invoke: **slash** means you type it (`/skill-name`) and the agent cannot start it on its own, **auto** means the agent may also reach for it when the task fits. The difference is the `disable-model-invocation` flag in each skill's frontmatter, so a skill another skill has to call mid-workflow must be **auto**.
 
 ### Router and setup
 
@@ -27,7 +27,7 @@ Invoke: **slash** means you type it (`/skill-name`), **auto** means the agent ma
 |-------|--------|--------------|
 | to-linear-issue | slash | Research a question, idea, or problem and publish it as one evidenced Linear issue with approach and acceptance criteria. |
 | work-linear-issue | slash | Claim a ready issue by key (or take the next unblocked `ready-for-agent` one), branch with the key prefix, build under axo-mode's playbooks, close out with commits and a tracker update. |
-| to-tickets | slash | Break an agreed plan into tracer-bullet tickets with blocking edges, published in dependency order. |
+| to-tickets | auto | Break an agreed plan into tracer-bullet tickets with blocking edges, published in dependency order. |
 | triage | slash | Move incoming issues through triage roles: categorise, verify, grill if needed, write agent-ready briefs. |
 | wayfinder | slash | Plan work too large for one session as a shared map of decision tickets, resolved one at a time until the path is clear. |
 
@@ -38,7 +38,7 @@ Invoke: **slash** means you type it (`/skill-name`), **auto** means the agent ma
 | grilling | auto | The interview primitive: question the user until every branch of the design tree is resolved. Backs the two skills below plus triage and wayfinder. |
 | grill-me | slash | A grilling session for any plan or design. Also the resolution path for contested designs. |
 | grill-with-docs | slash | grill-me plus docs: sharpens terminology and updates CONTEXT.md and ADRs as it goes. |
-| architect | slash | Sketch types, signatures, and module structure through parallel design exploration before code, for a specific change. |
+| architect | auto | Sketch types, signatures, and module structure through parallel design exploration before code, for a specific change. |
 | codebase-design | auto | The deep-module vocabulary: a lot of behavior behind a small interface, at a clean seam, testable through it. Used by architect and improve-codebase-architecture. |
 | improve-codebase-architecture | slash | Survey a whole codebase for deepening opportunities, report them, grill through the one you pick. |
 | prototype | auto | A throwaway sketch that answers a design question by observation instead of asking. |
@@ -47,12 +47,12 @@ Invoke: **slash** means you type it (`/skill-name`), **auto** means the agent ma
 
 | Skill | Invoke | What it does |
 |-------|--------|--------------|
-| implement | slash | Build the work a spec or tickets describe, driving tdd at the agreed seams and closing with code-review. |
+| implement | auto | Build the work a spec or tickets describe, driving tdd at the agreed seams and closing with code-review. |
 | tdd | auto | Red-green-refactor, one vertical slice at a time. The default build loop for behavior changes. |
 | code-review | auto | Two-axis review of the diff since a fixed point: repo standards and spec fidelity, run as parallel subagents. |
 | diagnosing-bugs | auto | Gated diagnosis loop for hard bugs: feedback loop that goes red on the bug, minimise, hypothesise, instrument, fix, regression-test. |
-| blast-radius | slash | Find what a change could break beyond the diff, and prove the one safety-critical fact by running real code. |
-| no-comments | slash | Strip narrating and workaround comments via the comment-sicko agent, then fix what the deletions expose. |
+| blast-radius | auto | Find what a change could break beyond the diff, and prove the one safety-critical fact by running real code. |
+| no-comments | auto | Strip narrating and workaround comments via the comment-sicko agent, then fix what the deletions expose. |
 | create-verification-skill | slash | Generate a project-local `verify-<app>` skill that drives the real app the way a user does and captures evidence. |
 | maintain-verification-skill | slash | Periodic audit that keeps the project's verify skill and feature map honest against the source. |
 
@@ -68,10 +68,10 @@ Invoke: **slash** means you type it (`/skill-name`), **auto** means the agent ma
 
 | Skill | Invoke | What it does |
 |-------|--------|--------------|
-| swarm | slash | Fan out N parallel workers over a partition of the work, drain them, return one report. |
-| arena | slash | N parallel candidates at the same task, pick a base, graft the strongest parts of the losers into it. |
+| swarm | auto | Fan out N parallel workers over a partition of the work, drain them, return one report. |
+| arena | auto | N parallel candidates at the same task, pick a base, graft the strongest parts of the losers into it. |
 | figure-it-out | slash | Design a bespoke, auditable playbook when no bundled one fits a large or multi-part task. |
-| show-me-your-work | slash | A reviewable decision trail (one row per decision: what, why, evidence, result) for long or unattended runs. |
+| show-me-your-work | auto | A reviewable decision trail (one row per decision: what, why, evidence, result) for long or unattended runs. |
 | recall | auto | Reconstruct working context from your own transcripts and live state when resuming ("where did I leave off"). |
 | reflect | slash | Three parallel reviewers over the session transcript, synthesized into approved edits on existing skills. The improvement loop. |
 
@@ -80,7 +80,7 @@ Invoke: **slash** means you type it (`/skill-name`), **auto** means the agent ma
 | Skill | Invoke | What it does |
 |-------|--------|--------------|
 | unslop | auto | Cut AI tells from any writing. Applies to every prose surface, including replies. |
-| technical-writing | slash | The layered docs standard (Diátaxis, Google style, STE, Global English) for docs, RFCs, readmes, PR descriptions, commit messages. |
+| technical-writing | auto | The layered docs standard (Diátaxis, Google style, STE, Global English) for docs, RFCs, readmes, PR descriptions, commit messages. |
 | domain-modeling | auto | Build and sharpen the project's domain model: glossary terms, CONTEXT.md, ADRs. |
 | bro | slash | Restate the last message in plain human language, no jargon. |
 

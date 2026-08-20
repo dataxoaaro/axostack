@@ -2,7 +2,7 @@
 
 **You own the design. Plan, review, verify.**
 
-1. Requirements unclear or plan not yet agreed → `grill-me` (or `grill-with-docs` when domain docs exist). Skipping stays as `skip: <reason>`.
+1. Requirements unclear or plan not yet agreed → the **grilling** skill, plus the **domain-modeling** skill when domain docs exist. Skipping stays as `skip: <reason>`.
 2. `how` over the affected subsystem.
 3. `architect` for parallel design exploration when the change crosses a function boundary. Do not fold the design decision silently into implementation.
 4. Name the data shape and its organizing structure per **principle-model-the-domain** before writing logic: a state machine over scattered booleans, a table or registry over branching, a typed model over repeated shape assumptions.

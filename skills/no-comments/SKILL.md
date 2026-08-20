@@ -1,7 +1,6 @@
 ---
 name: no-comments
 description: "Strip narrating and workaround comments from a diff via the comment-sicko review agent, fix accepted findings, and offer encodings for claimed constraints. Use for /no-comments or before review."
-disable-model-invocation: true
 ---
 
 # No comments

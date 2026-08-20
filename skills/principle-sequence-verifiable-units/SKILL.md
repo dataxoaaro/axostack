@@ -1,7 +1,6 @@
 ---
 name: principle-sequence-verifiable-units
 description: "Apply to multi-step work (sweeps, migrations, runs of similar edits) and to how you stack commits and PRs. Break work into small units that each end in a verifiable state, check each before the next, and order delivery so the sequence proves itself to a reviewer."
-disable-model-invocation: true
 ---
 
 # Sequence work into verifiable units
@@ -19,4 +18,4 @@ Order work as a sequence of small units, each ending in a state you can check, a
 - Verify before advancing. Red to green per unit, never deferred to a final batch.
 - Order the units so the sequence builds confidence on its own, for you while executing and for a reviewer reading the stack.
 
-The sequencing complement to the **prove-it-works** principle skill, which keeps each check real, and the **build-the-lever** principle skill, which makes the per-unit check cheap.
+The sequencing complement to the **principle-prove-it-works** skill, which keeps each check real, and the **principle-build-the-lever** skill, which makes the per-unit check cheap.

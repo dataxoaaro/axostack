@@ -25,7 +25,7 @@ Assign the issue and move it to the team's In Progress state. This is the sessio
 
 ### 3. Align before building
 
-The issue plus its comments is the spec. If requirements are still unclear or the design is contested, run `grill-with-docs` (or `grill-me` when the repo has no domain docs) and append the resolved decisions to the issue as a comment, so the tracker stays the source of truth.
+The issue plus its comments is the spec. If requirements are still unclear or the design is contested, run the **grilling** skill, plus the **domain-modeling** skill when the repo has domain docs, and append the resolved decisions to the issue as a comment, so the tracker stays the source of truth.
 
 ### 4. Build under axo-mode
 

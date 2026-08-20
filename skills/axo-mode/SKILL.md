@@ -11,9 +11,12 @@ Axo mode combines two layers. The workflow layer says what steps happen in what 
 
 **Start every multi-step task with a todo list whose first item is to read the Principles section below in full.** In your reply, name each principle that shaped a decision and the specific choice it changed. A citation with no decision behind it means you skipped its leaf skill.
 
-Routing table. Match the situation, invoke the skill:
+Routing table. Match the situation, then act on the notation: a skill in **bold** you invoke yourself with the Skill tool, a `/slash` name is user-run only, so recommend it and stop rather than invoking it or running its steps by hand.
 
-- Requirements unclear, a plan not yet agreed, or a contested design → the **grill-me** skill (or **grill-with-docs** when the repo has domain docs to sharpen). Grill until every branch of the design tree is resolved before shipping.
+Routing table:
+
+- Requirements unclear, a plan not yet agreed, or a contested design → the **grilling** skill, plus the **domain-modeling** skill when the repo has domain docs to sharpen. That pairing is what `/grill-me` and `/grill-with-docs` run. Grill until every branch of the design tree is resolved before shipping.
+- A feature or fix worth writing down before building → the **plan** skill: one grounded, risk-graded, sliced plan document. Hand the file to `/grill-with-docs`, then to the **to-tickets** skill.
 - Nontrivial change, architecture decision, or "are we sure?" → the **how** skill.
 - Why was it built this way, regression history → the **why** skill.
 - Any code → name the data shape first, per **principle-model-the-domain**.
@@ -21,19 +24,19 @@ Routing table. Match the situation, invoke the skill:
 - Writing or changing behavior → the **tdd** skill. Red, green, refactor. This is mandatory in Dataxo repos, not optional.
 - Debugging a defect → the **diagnosing-bugs** skill's gated loop.
 - Assessing what a change touches → the **blast-radius** skill.
-- An idea, question, or reported problem worth tracking → the **to-linear-issue** skill: research it once, publish it with evidence.
-- Turning an agreed plan into dependency-ordered tickets → the **to-tickets** skill (tracker configured by **setup-axostack**).
-- Untriaged issues in the queue → the **triage** skill.
-- Picking up a tracked issue → the **work-linear-issue** skill.
+- An idea, question, or reported problem worth tracking → `/to-linear-issue`: research it once, publish it with evidence.
+- Turning an agreed plan into dependency-ordered tickets → the **to-tickets** skill (tracker configured by `/setup-axostack`).
+- Untriaged issues in the queue → `/triage`.
+- Picking up a tracked issue → `/work-linear-issue`.
 - Building from a spec or tickets → the **implement** skill.
 - Designing a module or seam → the **codebase-design** skill: deep modules, a lot of behavior behind a small interface.
-- Surveying a codebase for deepening opportunities → the **improve-codebase-architecture** skill.
-- Work too large for one session, path unclear → the **wayfinder** skill.
+- Surveying a codebase for deepening opportunities → `/improve-codebase-architecture`.
+- Work too large for one session, path unclear → `/wayfinder`.
 - Parallel fan-out → the **swarm** skill for coverage matrices and exploration partitions, **arena** for design or code bakeoffs.
 - Long or autonomous work the user reviews later → a decision trail via the **show-me-your-work** skill.
 - Resuming or picking work back up ("catch me up", "where did I leave off") → the **recall** skill before starting.
-- After a substantial run, or when a skill misfired → the **reflect** skill turns session learnings into skill edits.
-- No scripted way to prove app behavior → the **create-verification-skill** skill generates the repo's `verify-<app>` skill, which playbook verify steps then drive. Keep it honest with **maintain-verification-skill**.
+- After a substantial run, or when a skill misfired → `/reflect` turns session learnings into skill edits.
+- No scripted way to prove app behavior → `/create-verification-skill` generates the repo's `verify-<app>` skill, which playbook verify steps then drive. Keep it honest with `/maintain-verification-skill`.
 - Any prose surface, including your reply → the **unslop** skill.
 - Docs, RFCs, readmes, PR descriptions → the **technical-writing** skill.
 - Before commit → the **code-review** skill, then the **no-comments** skill.
@@ -113,4 +116,4 @@ Your first todo actions are the matched playbook's steps, copied in verbatim, be
 - **Prototype.** A throwaway sketch to settle a design or empirical question cheaply. `playbooks/prototype.md`.
 - **Committing.** Invoked at the end of every other playbook. `playbooks/committing.md`.
 
-No playbook fits, or the effort is large and cross-cutting → the **figure-it-out** skill designs a bespoke, rigorous playbook for the task. Show it before executing.
+No playbook fits, or the effort is large and cross-cutting → `/figure-it-out` designs a bespoke, rigorous playbook for the task. State the framing and the rough size, then ask the user to run it; a multi-hour run starts on their word, not yours.

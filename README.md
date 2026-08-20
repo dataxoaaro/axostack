@@ -7,7 +7,7 @@ Dataxo's agentic development stack. It combines two upstream systems into one li
 Three layers.
 
 1. **axo-mode** is the router. Its trigger table maps situations to skills, its principles index points at the 21 leaf principles, and its playbooks (feature, bug-fix, investigation, refactoring, prototype, committing) are step lists the agent copies verbatim into its todo list.
-2. **Workflow skills** are the verbs. The alignment-to-delivery pipeline is Pocock's: `grill-me` → `to-spec` → `to-tickets` → `implement` → `tdd` → `code-review`. Investigation and design rigor are pstack's: `how`, `why`, `architect`, `interrogate`, `blast-radius`. Quality gates: `unslop`, `no-comments`, `technical-writing`.
+2. **Workflow skills** are the verbs. The alignment-to-delivery pipeline is Pocock's: `grill-me` → `to-spec` → `to-tickets` → `implement` → `tdd` → `code-review`. Investigation and design rigor are pstack's: `how`, `why`, `architect`, `blast-radius`. Contested designs resolve through grilling the user, not multi-model debate. Quality gates: `unslop`, `no-comments`, `technical-writing`.
 3. **Principles** are the judgment. 21 `principle-*` leaf skills from pstack, loaded only when applied, cited in the reply with the decision they changed.
 
 ## Install

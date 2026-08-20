@@ -13,14 +13,13 @@ Axo mode combines two layers. The workflow layer says what steps happen in what 
 
 Routing table. Match the situation, invoke the skill:
 
-- Requirements unclear, or a plan not yet agreed → the **grill-me** skill (or **grill-with-docs** when the repo has domain docs to sharpen).
+- Requirements unclear, a plan not yet agreed, or a contested design → the **grill-me** skill (or **grill-with-docs** when the repo has domain docs to sharpen). Grill until every branch of the design tree is resolved before shipping.
 - Nontrivial change, architecture decision, or "are we sure?" → the **how** skill.
 - Why was it built this way, regression history → the **why** skill.
 - Any code → name the data shape first, per **principle-model-the-domain**.
 - Code crossing a function boundary → the **architect** skill before implementing.
 - Writing or changing behavior → the **tdd** skill. Red, green, refactor. This is mandatory in Dataxo repos, not optional.
 - Debugging a defect → the **diagnosing-bugs** skill's gated loop.
-- Contested design → the **interrogate** skill before shipping.
 - Assessing what a change touches → the **blast-radius** skill.
 - Turning an agreed plan into tracked work → **to-spec** then **to-tickets** (tracker configured by **setup-axostack**).
 - Building from a spec or tickets → the **implement** skill.

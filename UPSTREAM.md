@@ -8,17 +8,16 @@ Source: https://github.com/cursor/plugins/tree/main/pstack
 
 | Skill | Modified |
 |-------|----------|
-| architect | no |
+| architect | yes, design pressure now routes to grill-me instead of the removed interrogate skill |
 | blast-radius | no |
-| how | no |
-| interrogate | no |
+| how | yes, dropped a reference to the removed interrogate skill |
 | no-comments | no |
 | technical-writing | no |
 | unslop | no |
 | why | no |
 | principle-* (all 21) | no |
 
-Not vendored, candidates for later: poteto-mode (replaced by our own axo-mode), swarm, arena, figure-it-out, reflect, recall, show-me-your-work, teach, tdd (Pocock's taken instead), bro, automate-me, setup-pstack, create/maintain-verification-skill, typescript-best-practices.
+Not vendored: poteto-mode (replaced by our own axo-mode), interrogate (replaced by grill-me and grill-with-docs for contested designs), swarm, arena, figure-it-out, reflect, recall, show-me-your-work, teach, tdd (Pocock's taken instead), bro, automate-me, setup-pstack, create/maintain-verification-skill, typescript-best-practices.
 
 ## From mattpocock/skills (commit 885e2ca)
 

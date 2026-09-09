@@ -36,3 +36,7 @@ The exercised how path was the simple explanation path. Complex multi-explorer o
 [SHA-256 hashes](applied-skill-hashes-2026-09-09.json) identify all 40 files in the updated directories after validation. The scoped installation sync completed for all 11 directories. All 40 installed file hashes matched, and both deleted critique files were absent.
 
 An unrelated `idea-to-pr` skill and its README additions appeared concurrently. They are excluded from this update's commit and installation scope.
+
+## Combined publication
+
+The user subsequently authorized including `idea-to-pr` and its README additions in the same 0.4.0 publication. The combined library contains 59 skills. Review clarified that an existing matching issue must be reused, preserving its destination and assignee unless a change was requested. The earlier exclusion describes the upstream-update commit only.

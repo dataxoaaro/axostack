@@ -6,13 +6,13 @@ Agentic development stack for Claude Code: an entry-point router, a Linear-first
 
 Three layers, and one split inside the middle layer that explains most of the library.
 
-1. **axo-mode** routes. Its trigger table maps a situation to a skill, its principles index points at the 21 leaf principles, and its playbooks are step lists the agent copies into its todo list verbatim.
+1. **axo-mode** routes. Its trigger table maps a situation to a skill, its principles index points at the 22 leaf principles, and its playbooks are step lists the agent copies into its todo list verbatim.
 
 2. **Skills** do the work, on two axes that do not compete. A **playbook** is the sequence for a kind of work: feature, bug fix, refactoring, investigation, prototype, committing. A **phase verb** is the depth on one part of any of them. `plan` writes the change down, `implement` builds it, and `code-review` checks it. A playbook names the verb and stops. The verb owns what happens inside. That is why the feature playbook is six steps instead of a second description of the build loop.
 
    The rest serve those two. Alignment is `grilling`. Design is `architect` and `codebase-design`. Investigation is `how`, `why`, and `research`. The tracker pipeline is `to-linear-issue`, `triage`, `to-tickets`, and `work-linear-issue`. Prose gates are `unslop`, `no-comments`, and `technical-writing`.
 
-3. **Principles** carry the judgment. 21 `principle-*` leaf skills, each loaded only when it applies and cited with the decision it changed.
+3. **Principles** carry the judgment. 22 `principle-*` leaf skills, each loaded only when it applies and cited with the decision it changed.
 
 ## Skills
 
@@ -37,6 +37,7 @@ Slash is a deliberate list, not a leftover. A skill is slash-only when starting 
 
 | Skill | Invoke | What it does |
 |-------|--------|--------------|
+| idea-to-pr | auto | Take an idea or fix through a plan, a Linear issue, a dedicated worktree, a PR, and independent reviews with repairs. Asks for the workspace and assignee, and prefixes the PR title with the issue key. |
 | to-linear-issue | slash | Research a question, idea, or problem and publish it as one evidenced Linear issue with approach and acceptance criteria. |
 | work-linear-issue | slash | Claim a ready issue by key (or take the next unblocked `ready-for-agent` one), branch with the key prefix, build under axo-mode's playbooks, close out with commits and a tracker update. |
 | to-tickets | auto | Break an agreed plan into tracer-bullet tickets with blocking edges, published in dependency order. |
@@ -73,7 +74,7 @@ Slash is a deliberate list, not a leftover. A skill is slash-only when starting 
 
 | Skill | Invoke | What it does |
 |-------|--------|--------------|
-| how | auto | How a subsystem works: architecture walkthroughs, runtime flow, placement and layering questions, with critic subagents. |
+| how | auto | How a subsystem works: architecture walkthroughs, runtime flow, placement and layering questions. Architecture assessment belongs to the design skills. |
 | why | auto | Why it is this way: design rationale and regression history mined from source control, tracker, docs, and observability in parallel. |
 | research | auto | Investigate an external question against primary sources and land a cited Markdown file in the repo. |
 
@@ -106,7 +107,7 @@ Slash is a deliberate list, not a leftover. A skill is slash-only when starting 
 
 ### Principles
 
-21 leaf skills, indexed in axo-mode, each read in full only when applied. Grouped: **core** (laziness-protocol, foundational-thinking, redesign-from-first-principles, subtract-before-you-add, minimize-reader-load, outcome-oriented-execution, experience-first, exhaust-the-design-space, build-the-lever), **architecture** (model-the-domain, boundary-discipline, type-system-discipline, make-operations-idempotent, migrate-callers-then-delete-legacy-apis, separate-before-serializing-shared-state), **verification** (prove-it-works, fix-root-causes, sequence-verifiable-units), **delegation** (guard-the-context-window, never-block-on-the-human), **meta** (encode-lessons-in-structure). Each `principle-*` folder's description states exactly when it applies.
+22 leaf skills, indexed in axo-mode, each read in full only when applied. Grouped: **core** (laziness-protocol, foundational-thinking, redesign-from-first-principles, subtract-before-you-add, minimize-reader-load, outcome-oriented-execution, experience-first, exhaust-the-design-space, build-the-lever), **architecture** (model-the-domain, boundary-discipline, type-system-discipline, make-operations-idempotent, migrate-callers-then-delete-legacy-apis, separate-before-serializing-shared-state), **verification** (prove-it-works, fix-root-causes, attack-the-premise, sequence-verifiable-units), **delegation** (guard-the-context-window, never-block-on-the-human), **meta** (encode-lessons-in-structure). Each `principle-*` folder's description states exactly when it applies.
 
 Easily confused pairs: `domain-modeling` builds the project's vocabulary docs, while `principle-model-the-domain` structures code around the domain. `figure-it-out` designs a playbook for one session-sized task, while `wayfinder` maps work spanning many sessions. `research` reads external sources, while `how` and `why` read your own codebase and history. `plan` writes down a change you can already state, `wayfinder` maps one you can't yet, and `architect` designs the types inside a plan rather than replacing it.
 
@@ -144,6 +145,8 @@ Do not sync by hand with a single `rsync --delete` over the install directory. T
 Run `/setup-axostack` once per repo. It records the issue tracker (Linear, GitHub, GitLab, or local markdown), the triage labels, the domain doc locations, and where plans land. The tracker-facing skills read that configuration.
 
 Then pick the entry point that matches what you have.
+
+**An idea or fix to carry through to a PR.** `/idea-to-pr <request>` investigates, plans, asks for the Linear workspace and assignee, and creates the issue in the appropriate project. It builds in a dedicated worktree, opens a draft PR such as `[AXO-123] Fix session expiry`, runs independent reviews, and repairs valid findings. The request authorizes issue and PR updates and pushing the task branch. Merging remains a separate action. An interrupted run resumes from its recorded issue, worktree, and PR.
 
 **An idea, not a plan.** `/to-linear-issue <idea>` researches it against the codebase and publishes one evidenced issue. Run `/triage` to move the queue when issues pile up.
 

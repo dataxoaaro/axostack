@@ -22,6 +22,10 @@ Characteristics:
 - Describes WHAT, not HOW
 - One logical assertion per test
 
+Test the subject through its public boundary and assert the result or effect its caller observes. Choose expected results independently of the implementation. Ask which realistic defect each assertion would catch. A test that invokes the subject but never checks its outcome can pass while returning the wrong result.
+
+Keep absence, exception, and property assertions when they express the contract. For example, an unknown key should return no value, invalid input should reject, and sorting should preserve the input's elements while ordering them. Use nontrivial inputs so a constant empty result or a no-op cannot satisfy the property by accident. Await asynchronous assertions so the runner observes their failures. An assertion's shape alone does not tell you whether it is useful; `toBeDefined()` catches a missing result but may still need a stronger assertion about its contents.
+
 ## Bad Tests
 
 **Implementation-detail tests**: Coupled to internal structure.

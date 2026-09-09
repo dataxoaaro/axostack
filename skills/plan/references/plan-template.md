@@ -49,10 +49,12 @@ branch: <branch name, or none yet>
 
 *Vertical tracer bullets in dependency order, the shape to-tickets consumes. `Status` is one of `todo`, `in flight`, `landed <sha>`, or `dropped: <reason>`. The table indexes the work; git records it. A landed status points at the commit rather than restating what it did, so `implement` can check the table against `git log` when it resumes and see drift instead of guessing.*
 
-| # | Slice | Blocked by | Status | Delivers |
-|---|-------|-----------|--------|----------|
-| 1 | <short title> | none | todo | <the end-to-end behaviour this makes work, from the user's side> |
-| 2 | <short title> | 1 | todo | <...> |
+| # | Slice | Blocked by | Status | Delivers | Evidence |
+|---|-------|-----------|--------|----------|----------|
+| 1 | <short title> | none | todo | <the end-to-end behaviour this makes work, from the user's side> | pending |
+| 2 | <short title> | 1 | todo | <...> | pending |
+
+*Replace `pending` with a link to the slice's verification record in this document or a durable artifact. Record commands or actions, observed results, and the verified commit. For uncommitted work, record the base commit and a saved patch or equivalent reproducible snapshot, including relevant untracked files. `HEAD` or "dirty worktree" alone does not identify what passed. Keep delivery status separate from verification evidence.*
 
 ## Assumptions
 
@@ -69,6 +71,8 @@ branch: <branch name, or none yet>
 
 - **Acceptance checks:** one per user-visible behavior, each something somebody runs.
 - **Feature map:** the `verify-<app>/features/*.md` entries this change touches, and the ones it adds. One line saying it doesn't apply is the right answer for a repo with no user-facing surface.
+- **Performance baseline, when required by acceptance criteria:** metric, workload, environment, threshold, baseline revision, and measured result. Link the final comparison run under the same conditions, or state why the comparison remains unverified.
+- **Results, filled during implementation:** link each completed slice to its checks and verified revision or snapshot. Record failed or substituted checks and remaining gaps. Preserve historical results when later changes require another run; a pass applies to the recorded state, not automatically to the current branch.
 
 ## Out of scope
 

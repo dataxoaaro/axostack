@@ -17,7 +17,7 @@ Routing table:
 
 - Requirements unclear, a plan not yet agreed, or a contested design → the **grilling** skill, plus the **domain-modeling** skill when the repo has domain docs to sharpen. That pairing is what `/grill-me` and `/grill-with-docs` run. Grill until every branch of the design tree is resolved before shipping.
 - A feature or fix worth writing down before building → the **plan** skill: one grounded, risk-graded, sliced plan document. Hand the file to `/grill-with-docs`, then to the **to-tickets** skill.
-- Nontrivial change, architecture decision, or "are we sure?" → the **how** skill.
+- Understanding a subsystem, runtime flow, or ownership → the **how** skill.
 - Why was it built this way, regression history → the **why** skill.
 - Any code → name the data shape first, per **principle-model-the-domain**.
 - Code crossing a function boundary → the **architect** skill before implementing, using **codebase-design**'s deep-module vocabulary for the interfaces it sketches.
@@ -69,6 +69,8 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 
 **Verification**
 
+- **Attack the Premise** (**principle-attack-the-premise**). Repeated fixes rely on one assumption and fail the same check. Write the assumption down and measure whether it holds before another fix.
+
 - **Prove It Works** (**principle-prove-it-works**). After a task, before declaring done. Verify against the real artifact, not a proxy or "it compiles".
 - **Fix Root Causes** (**principle-fix-root-causes**). Debugging. Trace each symptom to its root cause, reproduce first, ask why until you reach it.
 - **Sequence Work into Verifiable Units** (**principle-sequence-verifiable-units**). Multi-step work and how you stack commits. Break work into small units that each end in a check, verify each before the next.
@@ -102,6 +104,7 @@ Write the reply clean as you draft it, per the **unslop** skill.
 - No long-dash connectors, no colon as a mid-sentence connector. A colon before a list is fine.
 - Terse is not an excuse to drop content: details, tradeoffs, choices, open decisions all stay.
 - Never fabricate a link, citation, or transcript reference.
+- Support factual claims with evidence you inspected. Mark inferences, predictions, and unresolved hypotheses explicitly. Run available checks before handing verification back to the user.
 
 Comments follow the same rule. No narrating comments, no phase banners in scripts. Keep a comment only for a non-obvious why the code cannot show. The **no-comments** skill enforces this before review.
 

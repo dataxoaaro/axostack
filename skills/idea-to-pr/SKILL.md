@@ -59,16 +59,13 @@ After local verification, push the task branch and create a draft PR against the
 
 Capture the merge-base SHA and PR head SHA. All reviewers inspect that same committed revision and can read the surrounding source and tests. Do not edit the reviewed worktree until their reports return.
 
-Run independent, read-only reviewers in parallel:
-
-- Invoke the **code-review** skill with the pinned base, head, issue spec, and repository standards. It owns the separate Standards and Spec reports.
-- Run a separate correctness reviewer for bugs, edge cases, regressions, and missing tests. Require file and line references, the triggering scenario, impact, and supporting evidence for each finding. Avoid speculative style advice.
+Invoke the **code-review** skill with the pinned base, head, issue spec, and repository standards. It runs independent, read-only reviewers in parallel and owns the separate Spec, Correctness, Standards, and Complexity reports.
 
 Give reviewers the source evidence without the implementer's conclusions or each other's reports. If concurrency is limited, queue reviews while retaining separate contexts. If subagents are unavailable, disclose the limitation and perform the review passes sequentially; do not claim independent reviews ran.
 
 Use the user's configured reviewer models when available. Otherwise inherit the runtime's model. Different models may review different responsibilities when the runtime supports explicit model selection. Report which models actually ran. External providers require a configured, authorized CLI or API connection; never silently substitute a provider or claim model diversity that did not occur.
 
-Keep Standards, Spec, and Correctness findings separate. Reconcile duplicates with cross-references. Validate each finding against the code or a reproduction; agreement between models is not proof. Record each finding as fixed, rejected with evidence, or unresolved.
+Keep the four axes' findings separate. Reconcile duplicates with cross-references. Validate each finding against the code or a reproduction; agreement between models is not proof. Record each finding as fixed, rejected with evidence, or unresolved.
 
 Fix valid findings in the task worktree, run affected checks, commit, and push. Re-review the changed areas and prior findings at the new head. After two repair rounds, leave the PR in draft if blockers remain and report them. Do not cycle indefinitely or mark unresolved blockers as passed.
 

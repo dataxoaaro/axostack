@@ -63,7 +63,8 @@ Slash is a deliberate list, not a leftover. A skill is slash-only when starting 
 |-------|--------|--------------|
 | implement | auto | Build the work a spec or tickets describe, driving tdd at the agreed seams and closing with code-review. |
 | tdd | auto | Red-green-refactor, one vertical slice at a time. The default build loop for behavior changes. |
-| code-review | auto | Two-axis review of the diff since a fixed point: repo standards and spec fidelity, run as parallel subagents. |
+| code-review | auto | Four-axis review of the diff since a fixed point, including uncommitted work: repo standards, spec fidelity, correctness, and complexity (what the change could do without), plus security when the diff touches a trust boundary. Runs as parallel subagents and verifies each finding against the code before reporting. |
+| security-audit | auto | Cloudflare's source-first security review. Guidance mode answers security questions and backs code-review's Security axis. A full audit, with a coverage ledger, independent verifiers, and schema-checked findings, runs only on an explicit audit or pen-test request. |
 | diagnosing-bugs | auto | Gated diagnosis loop for hard bugs: feedback loop that goes red on the bug, minimise, hypothesise, instrument, fix, regression-test. |
 | blast-radius | auto | Find what a change could break beyond the diff, and prove the one safety-critical fact by running real code. |
 | benchmark-checklist | auto | Vet a performance number before reporting or acting on it: limiter, tuning, physical limits, errors, repeatability, end-to-end share, and whether the work ran. |
@@ -201,7 +202,7 @@ python3 scripts/check-skill-refs.py
 
 Fails when a skill body names a skill that does not exist, cites a principle without its `principle-` prefix, tells the agent to invoke a skill whose frontmatter marks it user-run, or carries frontmatter that would stop it registering. Stdlib only, no install step. Run it after editing any skill.
 
-`.github/workflows/checks.yml` runs the same command on every push to `main` and every pull request.
+`.github/workflows/checks.yml` runs the same command on every push to `main` and every pull request, plus the security-audit skill's validator tests (`node --test skills/security-audit/*.test.cjs`).
 
 ```
 scripts/sync-skills.sh --check

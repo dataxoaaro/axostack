@@ -52,12 +52,19 @@ parser.add_argument('--matt-base', default='d81f3a183412e71a5b1e84ca21bc1a35eea0
                     help='last audited Matt revision')
 parser.add_argument('--cursor-base', default='23e4138daa01c42d4969f7a5465f82704e64f798',
                     help='last audited pstack revision')
+parser.add_argument('--cloudflare', type=Path, help='clone of cloudflare/security-audit-skill')
+parser.add_argument('--cloudflare-ref', default='HEAD')
+parser.add_argument('--cloudflare-base', default='c1c8a8c1471069fb0e188eeaff69b8e8db6564a8',
+                    help='last audited security-audit-skill revision')
 args = parser.parse_args()
 local = Path(__file__).resolve().parents[2]
 sources = {
     'matt': (args.matt, args.matt_base, args.matt_ref),
     'pstack': (args.cursor, args.cursor_base, args.cursor_ref),
 }
+if args.cloudflare:
+    sources['cloudflare'] = (args.cloudflare, args.cloudflare_base, args.cloudflare_ref)
+cloudflare_names = {'security-audit'}
 metadata = {key: {'base': git(repo, 'rev-parse', base).decode().strip(),
                   'head': git(repo, 'rev-parse', head).decode().strip()}
             for key, (repo, base, head) in sources.items()}
@@ -69,7 +76,13 @@ for directory in sorted((local / 'skills').iterdir()):
     name = directory.name
     if not (directory / 'SKILL.md').exists():
         continue
-    if name in pstack_names or name.startswith('principle-'):
+    if name in cloudflare_names:
+        if not args.cloudflare:
+            rows.append({'skill': name, 'source': 'cloudflare', 'note': 'Pass --cloudflare to compare.'})
+            continue
+        source = 'cloudflare'
+        base_path = head_path = f'skills/{name}'
+    elif name in pstack_names or name.startswith('principle-'):
         source = 'pstack'
         base_path = head_path = f'pstack/skills/{name}'
     else:

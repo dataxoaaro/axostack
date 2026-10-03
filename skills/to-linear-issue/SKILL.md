@@ -24,7 +24,7 @@ Every claim that survives into the issue cites its evidence: a file path, comman
 
 ### 3. Draft the issue
 
-- **Title**: imperative, in the project's domain language (`CONTEXT.md` vocabulary when it exists).
+- **Title**: imperative, in the project's domain language (`GLOSSARY.md` vocabulary when it exists).
 - **Problem**: what is wrong or missing, with the evidence from step 2.
 - **Proposed approach**: the shape of the fix or build, and the alternatives research ruled out with one line each on why.
 - **Out of scope**: what this issue deliberately does not cover.

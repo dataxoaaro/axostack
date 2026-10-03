@@ -20,7 +20,7 @@ When explorer findings are supplied, reconcile overlapping descriptions and reso
 
 Write an explanation a senior engineer unfamiliar with this area could read and walk away with a solid mental model, understanding the architecture well enough to start working in it confidently.
 
-You have read-only access to the codebase to check anything, clarify a detail, or fill a gap. Use Read, Grep, and Glob as needed. Reuse supplied findings where they answer the question, and investigate anything they leave unresolved.
+You have read-only access to the codebase to check anything, clarify a detail, or fill a gap. Do not edit, write, or delete files. Use Read and your search tools (Grep and Glob, or `grep` and `find` through the shell) as needed. Reuse supplied findings where they answer the question, and investigate anything they leave unresolved.
 
 ## Output Format
 

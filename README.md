@@ -6,13 +6,13 @@ Agentic development stack for Claude Code: an entry-point router, a Linear-first
 
 Three layers, and one split inside the middle layer that explains most of the library.
 
-1. **axo-mode** routes. Its trigger table maps a situation to a skill, its principles index points at the 22 leaf principles, and its playbooks are step lists the agent copies into its todo list verbatim.
+1. **axo-mode** routes. Its trigger table maps a situation to a skill, its principles index points at the 23 leaf principles, and its playbooks are step lists the agent copies into its todo list verbatim.
 
 2. **Skills** do the work, on two axes that do not compete. A **playbook** is the sequence for a kind of work: feature, bug fix, refactoring, investigation, prototype, committing. A **phase verb** is the depth on one part of any of them. `plan` writes the change down, `implement` builds it, and `code-review` checks it. A playbook names the verb and stops. The verb owns what happens inside. That is why the feature playbook is six steps instead of a second description of the build loop.
 
    The rest serve those two. Alignment is `grilling`. Design is `architect` and `codebase-design`. Investigation is `how`, `why`, and `research`. The tracker pipeline is `to-linear-issue`, `triage`, `to-tickets`, and `work-linear-issue`. Prose gates are `unslop`, `no-comments`, and `technical-writing`.
 
-3. **Principles** carry the judgment. 22 `principle-*` leaf skills, each loaded only when it applies and cited with the decision it changed.
+3. **Principles** carry the judgment. 23 `principle-*` leaf skills, each loaded only when it applies and cited with the decision it changed.
 
 ## Skills
 
@@ -50,7 +50,7 @@ Slash is a deliberate list, not a leftover. A skill is slash-only when starting 
 |-------|--------|--------------|
 | grilling | auto | The interview primitive: question the user until every branch of the design tree is resolved. Backs the two skills below plus triage and wayfinder. |
 | grill-me | slash | A grilling session for any plan or design. Also the resolution path for contested designs. |
-| grill-with-docs | slash | grill-me plus docs: sharpens terminology and updates CONTEXT.md and ADRs as it goes. |
+| grill-with-docs | slash | grill-me plus docs: sharpens terminology and updates GLOSSARY.md and ADRs as it goes. |
 | architect | auto | Sketch types, signatures, and module structure through parallel design exploration before code, for a specific change. |
 | codebase-design | auto | The deep-module vocabulary: a lot of behavior behind a small interface, at a clean seam, testable through it. Used by architect and improve-codebase-architecture. |
 | improve-codebase-architecture | slash | Survey a whole codebase for deepening opportunities, report them, grill through the one you pick. |
@@ -66,6 +66,7 @@ Slash is a deliberate list, not a leftover. A skill is slash-only when starting 
 | code-review | auto | Two-axis review of the diff since a fixed point: repo standards and spec fidelity, run as parallel subagents. |
 | diagnosing-bugs | auto | Gated diagnosis loop for hard bugs: feedback loop that goes red on the bug, minimise, hypothesise, instrument, fix, regression-test. |
 | blast-radius | auto | Find what a change could break beyond the diff, and prove the one safety-critical fact by running real code. |
+| benchmark-checklist | auto | Vet a performance number before reporting or acting on it: limiter, tuning, physical limits, errors, repeatability, end-to-end share, and whether the work ran. |
 | no-comments | auto | Strip narrating and workaround comments via the comment-sicko agent, then fix what the deletions expose. |
 | create-verification-skill | slash | Generate a project-local `verify-<app>` skill that drives the real app the way a user does and captures evidence. |
 | maintain-verification-skill | slash | Periodic audit that keeps the project's verify skill and feature map honest against the source. |
@@ -95,7 +96,7 @@ Slash is a deliberate list, not a leftover. A skill is slash-only when starting 
 |-------|--------|--------------|
 | unslop | auto | Cut AI tells from any writing. Applies to every prose surface, including replies. |
 | technical-writing | auto | The layered docs standard (Diátaxis, Google style, STE, Global English) for docs, RFCs, readmes, PR descriptions, commit messages. |
-| domain-modeling | auto | Build and sharpen the project's domain model: glossary terms, CONTEXT.md, ADRs. |
+| domain-modeling | auto | Build and sharpen the project's domain model: glossary terms, GLOSSARY.md, ADRs. |
 | bro | slash | Restate the last message in plain human language, no jargon. |
 
 ### Agents
@@ -107,7 +108,7 @@ Slash is a deliberate list, not a leftover. A skill is slash-only when starting 
 
 ### Principles
 
-22 leaf skills, indexed in axo-mode, each read in full only when applied. Grouped: **core** (laziness-protocol, foundational-thinking, redesign-from-first-principles, subtract-before-you-add, minimize-reader-load, outcome-oriented-execution, experience-first, exhaust-the-design-space, build-the-lever), **architecture** (model-the-domain, boundary-discipline, type-system-discipline, make-operations-idempotent, migrate-callers-then-delete-legacy-apis, separate-before-serializing-shared-state), **verification** (prove-it-works, fix-root-causes, attack-the-premise, sequence-verifiable-units), **delegation** (guard-the-context-window, never-block-on-the-human), **meta** (encode-lessons-in-structure). Each `principle-*` folder's description states exactly when it applies.
+23 leaf skills, indexed in axo-mode, each read in full only when applied. Grouped: **core** (laziness-protocol, foundational-thinking, redesign-from-first-principles, subtract-before-you-add, minimize-reader-load, outcome-oriented-execution, experience-first, exhaust-the-design-space, build-the-lever), **architecture** (model-the-domain, boundary-discipline, type-system-discipline, make-operations-idempotent, migrate-callers-then-delete-legacy-apis, separate-before-serializing-shared-state), **verification** (prove-it-works, fix-root-causes, attack-the-premise, explain-the-number, sequence-verifiable-units), **delegation** (guard-the-context-window, never-block-on-the-human), **meta** (encode-lessons-in-structure). Each `principle-*` folder's description states exactly when it applies.
 
 Easily confused pairs: `domain-modeling` builds the project's vocabulary docs, while `principle-model-the-domain` structures code around the domain. `figure-it-out` designs a playbook for one session-sized task, while `wayfinder` maps work spanning many sessions. `research` reads external sources, while `how` and `why` read your own codebase and history. `plan` writes down a change you can already state, `wayfinder` maps one you can't yet, and `architect` designs the types inside a plan rather than replacing it.
 

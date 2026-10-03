@@ -48,18 +48,22 @@ parser.add_argument('matt', type=Path)
 parser.add_argument('cursor', type=Path)
 parser.add_argument('--matt-ref', default='HEAD')
 parser.add_argument('--cursor-ref', default='HEAD')
+parser.add_argument('--matt-base', default='d81f3a183412e71a5b1e84ca21bc1a35eea03a60',
+                    help='last audited Matt revision')
+parser.add_argument('--cursor-base', default='23e4138daa01c42d4969f7a5465f82704e64f798',
+                    help='last audited pstack revision')
 args = parser.parse_args()
 local = Path(__file__).resolve().parents[2]
 sources = {
-    'matt': (args.matt, '885e2ca', args.matt_ref),
-    'pstack': (args.cursor, 'fd6dd6f', args.cursor_ref),
+    'matt': (args.matt, args.matt_base, args.matt_ref),
+    'pstack': (args.cursor, args.cursor_base, args.cursor_ref),
 }
 metadata = {key: {'base': git(repo, 'rev-parse', base).decode().strip(),
                   'head': git(repo, 'rev-parse', head).decode().strip()}
             for key, (repo, base, head) in sources.items()}
 matt_base = skill_paths(args.matt, metadata['matt']['base'])
 matt_head = skill_paths(args.matt, metadata['matt']['head'])
-pstack_names = set('architect arena blast-radius bro create-verification-skill maintain-verification-skill recall reflect figure-it-out how no-comments show-me-your-work swarm technical-writing unslop why'.split())
+pstack_names = set('architect arena benchmark-checklist blast-radius bro create-verification-skill maintain-verification-skill recall reflect figure-it-out how no-comments show-me-your-work swarm technical-writing unslop why'.split())
 rows = []
 for directory in sorted((local / 'skills').iterdir()):
     name = directory.name

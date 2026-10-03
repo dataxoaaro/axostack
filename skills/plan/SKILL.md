@@ -44,7 +44,7 @@ Scale this to the question, the way the **how** skill scales its own exploration
 - **why** over anything that looks arbitrary and is about to be changed. A constraint you can't see is the one you'll break.
 - **research** for any external fact the approach rests on, against primary sources.
 
-Read `CONTEXT.md` and the ADRs under `docs/adr/` per the repo's domain doc rules. Write the plan in the glossary's vocabulary. Where the plan contradicts an ADR, say so in the document and say why it's worth reopening. Never override one quietly.
+Read `GLOSSARY.md` and the ADRs under `docs/adr/` per the repo's domain doc rules. Write the plan in the glossary's vocabulary. Where the plan contradicts an ADR, say so in the document and say why it's worth reopening. Never override one quietly.
 
 Then read the repo's `verify-<app>` feature map, when it has one. The features listed there that this change touches are the ones the plan has to keep working.
 

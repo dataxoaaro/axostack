@@ -25,7 +25,7 @@ Cited findings from the `research` skill against primary sources. Committed beca
 
 Writeups from `how`, `why`, and `blast-radius`, and anything else produced to answer one question inside one session. Not a durable record and not a place to look things up later.
 
-When something written here turns out to matter, promote it rather than leaving it: a decision becomes an ADR, a shape becomes a plan, a term becomes a line in `CONTEXT.md`.
+When something written here turns out to matter, promote it rather than leaving it: a decision becomes an ADR, a shape becomes a plan, a term becomes a line in `GLOSSARY.md`.
 
 ## Rules for anything written here
 

@@ -1,7 +1,7 @@
 {
   "name": "axostack",
   "description": "Agentic development stack: the axo-mode router, engineering principles, and a Linear-first workflow pipeline",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "author": {
     "name": "Dataxo"
   },

@@ -24,6 +24,7 @@ Routing table:
 - Writing or changing behavior → the **tdd** skill. Red, green, refactor. This is mandatory in Dataxo repos, not optional.
 - Debugging a defect → the **diagnosing-bugs** skill's gated loop.
 - Assessing what a change touches → the **blast-radius** skill.
+- Reporting or acting on a measured speedup, regression, or benchmark → the **benchmark-checklist** skill.
 - An idea, question, or reported problem worth tracking → `/to-linear-issue`: research it once, publish it with evidence.
 - Turning an agreed plan into dependency-ordered tickets → the **to-tickets** skill (tracker configured by `/setup-axostack`).
 - Untriaged issues in the queue → `/triage`.
@@ -70,7 +71,7 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 **Verification**
 
 - **Attack the Premise** (**principle-attack-the-premise**). Repeated fixes rely on one assumption and fail the same check. Write the assumption down and measure whether it holds before another fix.
-
+- **Explain the Number** (**principle-explain-the-number**). Before trusting, reporting, or acting on a measured speedup, regression, latency, or eval result. Name the limiter and rule out errors, skipped work, untuned sides, and noise.
 - **Prove It Works** (**principle-prove-it-works**). After a task, before declaring done. Verify against the real artifact, not a proxy or "it compiles".
 - **Fix Root Causes** (**principle-fix-root-causes**). Debugging. Trace each symptom to its root cause, reproduce first, ask why until you reach it.
 - **Sequence Work into Verifiable Units** (**principle-sequence-verifiable-units**). Multi-step work and how you stack commits. Break work into small units that each end in a check, verify each before the next.

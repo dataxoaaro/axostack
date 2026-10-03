@@ -33,3 +33,6 @@ projects, whose copyright notices are retained as the MIT license requires:
 
 - ponytail (https://github.com/DietrichGebert/ponytail)
   Copyright (c) 2026 DietrichGebert
+
+- security-audit-skill (https://github.com/cloudflare/security-audit-skill)
+  Copyright (c) 2025-2026 Cloudflare, Inc.

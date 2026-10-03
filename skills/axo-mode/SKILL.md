@@ -24,6 +24,7 @@ Routing table:
 - Writing or changing behavior → the **tdd** skill. Red, green, refactor. This is mandatory in Dataxo repos, not optional.
 - Debugging a defect → the **diagnosing-bugs** skill's gated loop.
 - Assessing what a change touches → the **blast-radius** skill.
+- A security question, a focused security review, or an explicit audit or pen-test request → the **security-audit** skill. It runs a full audit only on an explicit request.
 - Reporting or acting on a measured speedup, regression, or benchmark → the **benchmark-checklist** skill.
 - An idea, question, or reported problem worth tracking → `/to-linear-issue`: research it once, publish it with evidence.
 - Turning an agreed plan into dependency-ordered tickets → the **to-tickets** skill (tracker configured by `/setup-axostack`).

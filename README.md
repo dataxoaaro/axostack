@@ -63,7 +63,7 @@ Slash is a deliberate list, not a leftover. A skill is slash-only when starting 
 |-------|--------|--------------|
 | implement | auto | Build the work a spec or tickets describe, driving tdd at the agreed seams and closing with code-review. |
 | tdd | auto | Red-green-refactor, one vertical slice at a time. The default build loop for behavior changes. |
-| code-review | auto | Two-axis review of the diff since a fixed point: repo standards and spec fidelity, run as parallel subagents. |
+| code-review | auto | Four-axis review of the diff since a fixed point, including uncommitted work: repo standards, spec fidelity, correctness, and complexity (what the change could do without). Runs as parallel subagents and verifies each finding against the code before reporting. |
 | diagnosing-bugs | auto | Gated diagnosis loop for hard bugs: feedback loop that goes red on the bug, minimise, hypothesise, instrument, fix, regression-test. |
 | blast-radius | auto | Find what a change could break beyond the diff, and prove the one safety-critical fact by running real code. |
 | benchmark-checklist | auto | Vet a performance number before reporting or acting on it: limiter, tuning, physical limits, errors, repeatability, end-to-end share, and whether the work ran. |

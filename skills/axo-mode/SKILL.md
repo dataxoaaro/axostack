@@ -16,6 +16,7 @@ Routing table. Match the situation, then act on the notation: a skill in **bold*
 Routing table:
 
 - Requirements unclear, a plan not yet agreed, or a contested design → the **grilling** skill, plus the **domain-modeling** skill when the repo has domain docs to sharpen. That pairing is what `/grill-me` and `/grill-with-docs` run. Grill until every branch of the design tree is resolved before shipping.
+- An idea with several possible approaches and none chosen yet → `/research-idea`: premise check, distinct approaches researched and verified, a visual report, then a decision record for `/plan` or `/idea-to-pr`.
 - A feature or fix worth writing down before building → the **plan** skill: one grounded, risk-graded, sliced plan document. Hand the file to `/grill-with-docs`, then to the **to-tickets** skill.
 - Understanding a subsystem, runtime flow, or ownership → the **how** skill.
 - Why was it built this way, regression history → the **why** skill.

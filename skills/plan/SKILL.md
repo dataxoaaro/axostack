@@ -16,6 +16,7 @@ Answer one question before starting: can you state the change now?
 | Situation | Skill |
 |---|---|
 | You can state the change; the shape, risks, and slicing need working out | this one |
+| You have an idea with several possible approaches and none chosen yet | `/research-idea` |
 | You can state the questions but not the change | `/wayfinder` |
 | The change is clear, the run is long, mechanical, or unattended | `/figure-it-out` |
 | One obvious edit in one file | none, just do it |
@@ -33,6 +34,8 @@ Nothing else starts until these three hold.
 - **Done when.** State the definition of done as a falsifiable predicate. "Done well" is not checkable; "the importer accepts a 40MB CSV and the row count in `orders` matches the file" is.
 - **Root cause in hand, for a fix.** A fix plan built on a guessed cause plans the wrong fix. No confirmed cause with runtime evidence → stop and run the **diagnosing-bugs** loop first. Come back with the mechanism.
 - **A home for the file.** Read `docs/agents/artifacts.md` for where plans live. Missing → default to `docs/plans/`, write the plan there, and tell the user they can settle the convention with `/setup-axostack`.
+
+Given a `/research-idea` decision record, start from it. Its requirements frame the plan, its chosen approach is the shape to work out, its rejected approaches are the recorded alternatives, and its open questions carry over. Reopen the choice only when grounding contradicts the record's evidence, and say so.
 
 If a fork blocks the framing itself, run a short pass of the **grilling** skill on that fork alone. Only the questions that decide whether there is a plan to write. The full interview comes later, against the finished document.
 

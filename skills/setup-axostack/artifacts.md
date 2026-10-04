@@ -16,7 +16,7 @@ Every plan carries `status:` in its frontmatter: `draft`, `grilled`, `approved`,
 - **Location:** `docs/research/<slug>.md`
 - **Committed:** yes
 
-Cited findings from the `research` skill against primary sources. Committed because the point of citing a primary source is that the next person doesn't have to read it again. Each claim carries its source.
+Cited findings from the `research` skill against primary sources, and decision records from `/research-idea` (which approach was chosen, what it beat, and why). Committed because the point of citing a primary source is that the next person doesn't have to read it again. Each claim carries its source.
 
 ## Throwaway analysis
 

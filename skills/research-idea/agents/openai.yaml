@@ -1,0 +1,5 @@
+interface:
+  display_name: "Research Idea"
+  short_description: "Research the ways to build an idea"
+policy:
+  allow_implicit_invocation: false

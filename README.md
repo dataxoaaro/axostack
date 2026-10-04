@@ -10,7 +10,7 @@ Three layers, and one split inside the middle layer that explains most of the li
 
 2. **Skills** do the work, on two axes that do not compete. A **playbook** is the sequence for a kind of work: feature, bug fix, refactoring, investigation, prototype, committing. A **phase verb** is the depth on one part of any of them. `plan` writes the change down, `implement` builds it, and `code-review` checks it. A playbook names the verb and stops. The verb owns what happens inside. That is why the feature playbook is six steps instead of a second description of the build loop.
 
-   The rest serve those two. Alignment is `grilling`. Design is `architect` and `codebase-design`. Investigation is `how`, `why`, and `research`. The tracker pipeline is `to-linear-issue`, `triage`, `to-tickets`, and `work-linear-issue`. Prose gates are `unslop`, `no-comments`, and `technical-writing`.
+   The rest serve those two. Alignment is `grilling`. Design is `architect` and `codebase-design`. Investigation is `how`, `why`, `research`, and `research-idea`. The tracker pipeline is `to-linear-issue`, `triage`, `to-tickets`, and `work-linear-issue`. Prose gates are `unslop`, `no-comments`, and `technical-writing`.
 
 3. **Principles** carry the judgment. 23 `principle-*` leaf skills, each loaded only when it applies and cited with the decision it changed.
 
@@ -21,7 +21,7 @@ Invoke: **slash** means you type it (`/skill-name`) and the agent cannot start i
 Slash is a deliberate list, not a leftover. A skill is slash-only when starting it should be a person's decision: it runs for a long time unattended, it spends real money, it writes to a tracker or a remote, or its whole job is a conversation the agent must not hold with itself. Everything else is auto, because a router that names a skill the agent cannot reach is a router that dead-ends. The current members:
 
 <!-- user-only:start -->
-`bro`, `create-verification-skill`, `figure-it-out`, `grill-me`, `grill-with-docs`, `improve-codebase-architecture`, `maintain-verification-skill`, `reflect`, `setup-axostack`, `to-linear-issue`, `triage`, `wayfinder`, `work-linear-issue`
+`bro`, `create-verification-skill`, `figure-it-out`, `grill-me`, `grill-with-docs`, `improve-codebase-architecture`, `maintain-verification-skill`, `reflect`, `research-idea`, `setup-axostack`, `to-linear-issue`, `triage`, `wayfinder`, `work-linear-issue`
 <!-- user-only:end -->
 
 `scripts/check-skill-refs.py` fails when that list and the frontmatter flags disagree, so adding a skill to one without the other is caught rather than inferred later.
@@ -78,7 +78,8 @@ Slash is a deliberate list, not a leftover. A skill is slash-only when starting 
 |-------|--------|--------------|
 | how | auto | How a subsystem works: architecture walkthroughs, runtime flow, placement and layering questions. Architecture assessment belongs to the design skills. |
 | why | auto | Why it is this way: design rationale and regression history mined from source control, tracker, docs, and observability in parallel. |
-| research | auto | Investigate an external question against primary sources and land a cited Markdown file in the repo. |
+| research | auto | Investigate an external question against primary sources and land a cited Markdown file in the repo. Source tiers, freshness, and citation rules live in its `SOURCES.md`. |
+| research-idea | slash | Research the ways to build an idea: premise check, approaches with different mechanisms, parallel research and verification, an HTML report with a recommendation and its strongest counter-argument, then a grilled decision record that `/plan` or `/idea-to-pr` builds from. |
 
 ### Parallelism and long runs
 
@@ -111,7 +112,7 @@ Slash is a deliberate list, not a leftover. A skill is slash-only when starting 
 
 23 leaf skills, indexed in axo-mode, each read in full only when applied. Grouped: **core** (laziness-protocol, foundational-thinking, redesign-from-first-principles, subtract-before-you-add, minimize-reader-load, outcome-oriented-execution, experience-first, exhaust-the-design-space, build-the-lever), **architecture** (model-the-domain, boundary-discipline, type-system-discipline, make-operations-idempotent, migrate-callers-then-delete-legacy-apis, separate-before-serializing-shared-state), **verification** (prove-it-works, fix-root-causes, attack-the-premise, explain-the-number, sequence-verifiable-units), **delegation** (guard-the-context-window, never-block-on-the-human), **meta** (encode-lessons-in-structure). Each `principle-*` folder's description states exactly when it applies.
 
-Easily confused pairs: `domain-modeling` builds the project's vocabulary docs, while `principle-model-the-domain` structures code around the domain. `figure-it-out` designs a playbook for one session-sized task, while `wayfinder` maps work spanning many sessions. `research` reads external sources, while `how` and `why` read your own codebase and history. `plan` writes down a change you can already state, `wayfinder` maps one you can't yet, and `architect` designs the types inside a plan rather than replacing it.
+Easily confused pairs: `domain-modeling` builds the project's vocabulary docs, while `principle-model-the-domain` structures code around the domain. `figure-it-out` designs a playbook for one session-sized task, while `wayfinder` maps work spanning many sessions. `research` reads external sources, while `how` and `why` read your own codebase and history. `research` answers a question of fact, while `research-idea` compares the ways to build something and records which one was chosen. `plan` writes down a change you can already state, `wayfinder` maps one you can't yet, and `architect` designs the types inside a plan rather than replacing it.
 
 ## Install
 
@@ -147,6 +148,8 @@ Do not sync by hand with a single `rsync --delete` over the install directory. T
 Run `/setup-axostack` once per repo. It records the issue tracker (Linear, GitHub, GitLab, or local markdown), the triage labels, the domain doc locations, and where plans land. The tracker-facing skills read that configuration.
 
 Then pick the entry point that matches what you have.
+
+**An idea, and several ways to build it.** `/research-idea <idea>` challenges the premise, researches the approaches against primary sources, and opens an HTML report with a recommendation. You pick one, it grills you on it, and it writes a decision record to `docs/research/`. Hand that file to `/plan` or `/idea-to-pr`.
 
 **An idea or fix to carry through to a PR.** `/idea-to-pr <request>` investigates, plans, asks for the Linear workspace and assignee, and creates the issue in the appropriate project. It builds in a dedicated worktree, opens a draft PR such as `[AXO-123] Fix session expiry`, runs independent reviews, and repairs valid findings. The request authorizes issue and PR updates and pushing the task branch. Merging remains a separate action. An interrupted run resumes from its recorded issue, worktree, and PR.
 

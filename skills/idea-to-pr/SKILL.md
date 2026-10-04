@@ -20,6 +20,8 @@ A request to execute this complete workflow authorizes creating and updating its
 
 ## Investigate and plan
 
+When the request is a `/research-idea` decision record, its chosen approach and requirements are settled input. Do not reopen the choice unless the code contradicts the record's evidence.
+
 Trace the affected code, tests, and relevant history before proposing a fix. For bugs, reproduce the failure and identify its cause, using the **diagnosing-bugs** skill when needed. For changes, identify the current behavior and the requested result. Resolve only questions that change scope, design, or acceptance criteria; continue independent investigation while answers are pending.
 
 Write a plan proportional to the task. Use the **plan** skill when the change needs substantial design or multiple slices. Keep the plan local until the destination and scope are settled. Do not publish tickets from a nested planning workflow; this workflow owns issue creation. Its planning handoff returns here: the user's request for this complete workflow authorizes continuing into implementation once blocking decisions are resolved. Do not label a plan user-approved without an explicit approval.

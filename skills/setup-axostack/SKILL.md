@@ -65,7 +65,7 @@ Offer **multi-context** (a root `GLOSSARY-MAP.md` pointing to per-context `GLOSS
 
 **Section D: Agent artifacts.**
 
-> Explainer: The skills write Markdown of their own. `plan` writes plans, `research` writes cited findings, `how` / `why` / `blast-radius` write investigation notes. Without one convention each skill picks its own spot. Plans matter most, because `/grill-with-docs` and `to-tickets` read them in a later session.
+> Explainer: The skills write Markdown of their own. `plan` writes plans, `research` writes cited findings, `/research-idea` writes decision records, `how` / `why` / `blast-radius` write investigation notes. Without one convention each skill picks its own spot. Plans matter most, because `/grill-with-docs` and `to-tickets` read them in a later session.
 
 Ask one question:
 

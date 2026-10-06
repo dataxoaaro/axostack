@@ -21,7 +21,7 @@ Invoke: **slash** means you type it (`/skill-name`) and the agent cannot start i
 Slash is a deliberate list, not a leftover. A skill is slash-only when starting it should be a person's decision: it runs for a long time unattended, it spends real money, it writes to a tracker or a remote, or its whole job is a conversation the agent must not hold with itself. Everything else is auto, because a router that names a skill the agent cannot reach is a router that dead-ends. The current members:
 
 <!-- user-only:start -->
-`bro`, `create-verification-skill`, `figure-it-out`, `grill-me`, `grill-with-docs`, `implement-spec`, `improve-codebase-architecture`, `maintain-verification-skill`, `reflect`, `research-idea`, `setup-axostack`, `to-linear-issue`, `triage`, `wayfinder`, `work-linear-issue`
+`bro`, `create-verification-skill`, `figure-it-out`, `grill-me`, `grill-with-docs`, `implement-spec`, `improve-codebase-architecture`, `maintain-verification-skill`, `reflect`, `research-idea`, `retro`, `setup-axostack`, `to-linear-issue`, `triage`, `wayfinder`, `work-linear-issue`
 <!-- user-only:end -->
 
 `scripts/check-skill-refs.py` fails when that list and the frontmatter flags disagree, so adding a skill to one without the other is caught rather than inferred later.
@@ -92,6 +92,7 @@ Slash is a deliberate list, not a leftover. A skill is slash-only when starting 
 | show-me-your-work | auto | A reviewable decision trail (one row per decision: what, why, evidence, result) for long or unattended runs. |
 | recall | auto | Reconstruct working context from your own transcripts and live state when resuming ("where did I leave off"). |
 | reflect | slash | Three parallel reviewers over the session transcript, synthesized into approved edits on existing skills. The improvement loop. |
+| retro | slash | Retrospective on a session that went harder than it should have: proposes environment fixes for the repo (navigation pointers, automated checks, coding standards for the reviewer, slimmer steering files, information access), each traced to a moment in the session. Builds only what you pick. |
 
 ### Docs and prose
 
@@ -114,7 +115,7 @@ Slash is a deliberate list, not a leftover. A skill is slash-only when starting 
 
 23 leaf skills, indexed in axo-mode, each read in full only when applied. Grouped: **core** (laziness-protocol, foundational-thinking, redesign-from-first-principles, subtract-before-you-add, minimize-reader-load, outcome-oriented-execution, experience-first, exhaust-the-design-space, build-the-lever), **architecture** (model-the-domain, boundary-discipline, type-system-discipline, make-operations-idempotent, migrate-callers-then-delete-legacy-apis, separate-before-serializing-shared-state), **verification** (prove-it-works, fix-root-causes, attack-the-premise, explain-the-number, sequence-verifiable-units), **delegation** (guard-the-context-window, never-block-on-the-human), **meta** (encode-lessons-in-structure). Each `principle-*` folder's description states exactly when it applies.
 
-Easily confused pairs: `domain-modeling` builds the project's vocabulary docs, while `principle-model-the-domain` structures code around the domain. `figure-it-out` designs a playbook for one session-sized task, while `wayfinder` maps work spanning many sessions. `research` reads external sources, while `how` and `why` read your own codebase and history. `research` answers a question of fact, while `research-idea` compares the ways to build something and records which one was chosen. `plan` writes down a change you can already state, `wayfinder` maps one you can't yet, and `architect` designs the types inside a plan rather than replacing it.
+Easily confused pairs: `domain-modeling` builds the project's vocabulary docs, while `principle-model-the-domain` structures code around the domain. `figure-it-out` designs a playbook for one session-sized task, while `wayfinder` maps work spanning many sessions. `research` reads external sources, while `how` and `why` read your own codebase and history. `/reflect` turns a session into edits on these skills, while `/retro` turns it into checks, pointers, and standards in the repo you worked on. `research` answers a question of fact, while `research-idea` compares the ways to build something and records which one was chosen. `plan` writes down a change you can already state, `wayfinder` maps one you can't yet, and `architect` designs the types inside a plan rather than replacing it.
 
 ## Install
 

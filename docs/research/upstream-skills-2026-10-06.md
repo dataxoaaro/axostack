@@ -26,11 +26,12 @@ python3 docs/research/compare-upstream-skills.py <matt-clone> <cursor-plugins-cl
 | setup-axostack/issue-tracker-github.md | Matt `cffab50`, `e0efb6e` | The sub-issue operation, and external PRs listed through the REST pulls endpoint. Now matches upstream byte for byte. |
 | setup-axostack/issue-tracker-linear.md | Local | The sub-issue operation that to-tickets now names. |
 | axo-mode, technical-writing, idea-to-pr, README | Local | Route PR bodies to `pr` and parallel ticket graphs to `/implement-spec`. technical-writing's PR sentence and idea-to-pr's PR body row now point to `pr`. |
+| retro | Matt `a7d038f`, adapted, 2026-10-07 | New, slash only. `/reflect` edits this library's skills, while `retro` proposes fixes to the worked-on repo: checks, navigation pointers, `CODING_STANDARDS.md` rules for code-review's Standards axis, and slimmer steering files. `writing-for-agents` is replaced by **technical-writing** and **unslop**. Local additions from upstream's `docs/engineering/retro.md`: every candidate cites its moment in the session, nothing is built until the user picks, and a new check is verified by failing on the original mistake. Session logs are read from the active project's transcript directory only. Version 0.9.0. |
 
 ## Not applied
 
 - **implement wording** (`e48341a`, `04320ee`). Upstream changed "use /tdd" to "call the Skill tool with tdd". The local body already uses bold skill names, which axo-mode defines as Skill tool calls.
-- **ask-matt** routes post-bug reflection to `/retro`. ask-matt and retro are not in this library. `/reflect` covers the same ground.
+- **ask-matt** routes post-bug reflection to `/retro`. ask-matt is not in this library. `retro` itself was ported on 2026-10-07, see below.
 - **handoff and claude-handoff** temp-dir and quoting fixes. Not in this library.
 - **chief-of-staff**. New and experimental in upstream's `in-progress/`. It describes a long-running coordinator that improves the agents' environment as it goes. Worth another look once it graduates.
 - **Repo metadata.** `SCOPE.md`, `.out-of-scope/` records, issue forms, triage workflows, and the unslop pass over upstream's docs. None ships as a skill.

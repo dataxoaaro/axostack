@@ -43,7 +43,7 @@ Routing table:
 - No scripted way to prove app behavior → `/create-verification-skill` generates the repo's `verify-<app>` skill, which playbook verify steps then drive. Keep it honest with `/maintain-verification-skill`.
 - Any prose surface, including your reply → the **unslop** skill.
 - Docs, RFCs, readmes, PR descriptions → the **technical-writing** skill.
-- Writing a PR body → the **pr** skill.
+- Opening a PR or rewriting its body → the **pr** skill, every time.
 - Before commit → the **code-review** skill, then the **no-comments** skill.
 - Project jargon drifting, or naming inconsistent → the **domain-modeling** skill.
 

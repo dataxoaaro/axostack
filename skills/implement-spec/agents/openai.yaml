@@ -1,0 +1,5 @@
+interface:
+  display_name: "Implement Spec"
+  short_description: "Land a spec's ticket graph in parallel on one branch"
+policy:
+  allow_implicit_invocation: false

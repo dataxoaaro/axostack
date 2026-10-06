@@ -1,0 +1,805 @@
+{
+  "local_head": "ef8ab780320a4221d1d5541c162323522d5c3ea1",
+  "sources": {
+    "matt": {
+      "base": "d81f3a183412e71a5b1e84ca21bc1a35eea03a60",
+      "head": "6fd947921b935b7e1e69293a200400f0fdd5c15f"
+    },
+    "pstack": {
+      "base": "23e4138daa01c42d4969f7a5465f82704e64f798",
+      "head": "23e4138daa01c42d4969f7a5465f82704e64f798"
+    }
+  },
+  "skills": [
+    {
+      "skill": "architect",
+      "source": "pstack",
+      "base_path": "pstack/skills/architect",
+      "head_path": "pstack/skills/architect",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified",
+        "references/runner-prompt.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified",
+        "references/runner-prompt.md": "modified"
+      }
+    },
+    {
+      "skill": "arena",
+      "source": "pstack",
+      "base_path": "pstack/skills/arena",
+      "head_path": "pstack/skills/arena",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "axo-mode",
+      "source": "local",
+      "note": "Review related upstream workflows manually."
+    },
+    {
+      "skill": "benchmark-checklist",
+      "source": "pstack",
+      "base_path": "pstack/skills/benchmark-checklist",
+      "head_path": "pstack/skills/benchmark-checklist",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "blast-radius",
+      "source": "pstack",
+      "base_path": "pstack/skills/blast-radius",
+      "head_path": "pstack/skills/blast-radius",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "bro",
+      "source": "pstack",
+      "base_path": "pstack/skills/bro",
+      "head_path": "pstack/skills/bro",
+      "upstream_changes": {},
+      "local_changes_since_base": {},
+      "local_differs_from_head": {}
+    },
+    {
+      "skill": "code-review",
+      "source": "matt",
+      "base_path": "skills/engineering/code-review",
+      "head_path": "skills/engineering/code-review",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified",
+        "agents/openai.yaml": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified",
+        "agents/openai.yaml": "modified"
+      }
+    },
+    {
+      "skill": "codebase-design",
+      "source": "matt",
+      "base_path": "skills/engineering/codebase-design",
+      "head_path": "skills/engineering/codebase-design",
+      "upstream_changes": {},
+      "local_changes_since_base": {},
+      "local_differs_from_head": {}
+    },
+    {
+      "skill": "create-verification-skill",
+      "source": "pstack",
+      "base_path": "pstack/skills/create-verification-skill",
+      "head_path": "pstack/skills/create-verification-skill",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "diagnosing-bugs",
+      "source": "matt",
+      "base_path": "skills/engineering/diagnosing-bugs",
+      "head_path": "skills/engineering/diagnosing-bugs",
+      "upstream_changes": {},
+      "local_changes_since_base": {},
+      "local_differs_from_head": {}
+    },
+    {
+      "skill": "domain-modeling",
+      "source": "matt",
+      "base_path": "skills/engineering/domain-modeling",
+      "head_path": "skills/engineering/domain-modeling",
+      "upstream_changes": {},
+      "local_changes_since_base": {},
+      "local_differs_from_head": {}
+    },
+    {
+      "skill": "figure-it-out",
+      "source": "pstack",
+      "base_path": "pstack/skills/figure-it-out",
+      "head_path": "pstack/skills/figure-it-out",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "grill-me",
+      "source": "matt",
+      "base_path": "skills/productivity/grill-me",
+      "head_path": "skills/productivity/grill-me",
+      "upstream_changes": {},
+      "local_changes_since_base": {},
+      "local_differs_from_head": {}
+    },
+    {
+      "skill": "grill-with-docs",
+      "source": "matt",
+      "base_path": "skills/engineering/grill-with-docs",
+      "head_path": "skills/engineering/grill-with-docs",
+      "upstream_changes": {},
+      "local_changes_since_base": {},
+      "local_differs_from_head": {}
+    },
+    {
+      "skill": "grilling",
+      "source": "matt",
+      "base_path": "skills/productivity/grilling",
+      "head_path": "skills/productivity/grilling",
+      "upstream_changes": {},
+      "local_changes_since_base": {},
+      "local_differs_from_head": {}
+    },
+    {
+      "skill": "how",
+      "source": "pstack",
+      "base_path": "pstack/skills/how",
+      "head_path": "pstack/skills/how",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified",
+        "references/explainer-prompt.md": "modified",
+        "references/explorer-prompt.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified",
+        "references/explainer-prompt.md": "modified",
+        "references/explorer-prompt.md": "modified"
+      }
+    },
+    {
+      "skill": "idea-to-pr",
+      "source": "local",
+      "note": "Review related upstream workflows manually."
+    },
+    {
+      "skill": "implement",
+      "source": "matt",
+      "base_path": "skills/engineering/implement",
+      "head_path": "skills/engineering/implement",
+      "upstream_changes": {
+        "SKILL.md": "modified"
+      },
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "implement-spec",
+      "source": "matt",
+      "base_path": "skills/engineering/implement-spec",
+      "head_path": "skills/engineering/implement-spec",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified",
+        "agents/openai.yaml": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified",
+        "agents/openai.yaml": "modified"
+      }
+    },
+    {
+      "skill": "improve-codebase-architecture",
+      "source": "matt",
+      "base_path": "skills/engineering/improve-codebase-architecture",
+      "head_path": "skills/engineering/improve-codebase-architecture",
+      "upstream_changes": {},
+      "local_changes_since_base": {},
+      "local_differs_from_head": {}
+    },
+    {
+      "skill": "maintain-verification-skill",
+      "source": "pstack",
+      "base_path": "pstack/skills/maintain-verification-skill",
+      "head_path": "pstack/skills/maintain-verification-skill",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "no-comments",
+      "source": "pstack",
+      "base_path": "pstack/skills/no-comments",
+      "head_path": "pstack/skills/no-comments",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "plan",
+      "source": "local",
+      "note": "Review related upstream workflows manually."
+    },
+    {
+      "skill": "pr",
+      "source": "matt",
+      "base_path": "skills/engineering/pr",
+      "head_path": "skills/engineering/pr",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "principle-attack-the-premise",
+      "source": "pstack",
+      "base_path": "pstack/skills/principle-attack-the-premise",
+      "head_path": "pstack/skills/principle-attack-the-premise",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "principle-boundary-discipline",
+      "source": "pstack",
+      "base_path": "pstack/skills/principle-boundary-discipline",
+      "head_path": "pstack/skills/principle-boundary-discipline",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "principle-build-the-lever",
+      "source": "pstack",
+      "base_path": "pstack/skills/principle-build-the-lever",
+      "head_path": "pstack/skills/principle-build-the-lever",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "principle-encode-lessons-in-structure",
+      "source": "pstack",
+      "base_path": "pstack/skills/principle-encode-lessons-in-structure",
+      "head_path": "pstack/skills/principle-encode-lessons-in-structure",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "principle-exhaust-the-design-space",
+      "source": "pstack",
+      "base_path": "pstack/skills/principle-exhaust-the-design-space",
+      "head_path": "pstack/skills/principle-exhaust-the-design-space",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "principle-experience-first",
+      "source": "pstack",
+      "base_path": "pstack/skills/principle-experience-first",
+      "head_path": "pstack/skills/principle-experience-first",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "principle-explain-the-number",
+      "source": "pstack",
+      "base_path": "pstack/skills/principle-explain-the-number",
+      "head_path": "pstack/skills/principle-explain-the-number",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "principle-fix-root-causes",
+      "source": "pstack",
+      "base_path": "pstack/skills/principle-fix-root-causes",
+      "head_path": "pstack/skills/principle-fix-root-causes",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "principle-foundational-thinking",
+      "source": "pstack",
+      "base_path": "pstack/skills/principle-foundational-thinking",
+      "head_path": "pstack/skills/principle-foundational-thinking",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "principle-guard-the-context-window",
+      "source": "pstack",
+      "base_path": "pstack/skills/principle-guard-the-context-window",
+      "head_path": "pstack/skills/principle-guard-the-context-window",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "principle-laziness-protocol",
+      "source": "pstack",
+      "base_path": "pstack/skills/principle-laziness-protocol",
+      "head_path": "pstack/skills/principle-laziness-protocol",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "principle-make-operations-idempotent",
+      "source": "pstack",
+      "base_path": "pstack/skills/principle-make-operations-idempotent",
+      "head_path": "pstack/skills/principle-make-operations-idempotent",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "principle-migrate-callers-then-delete-legacy-apis",
+      "source": "pstack",
+      "base_path": "pstack/skills/principle-migrate-callers-then-delete-legacy-apis",
+      "head_path": "pstack/skills/principle-migrate-callers-then-delete-legacy-apis",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "principle-minimize-reader-load",
+      "source": "pstack",
+      "base_path": "pstack/skills/principle-minimize-reader-load",
+      "head_path": "pstack/skills/principle-minimize-reader-load",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "principle-model-the-domain",
+      "source": "pstack",
+      "base_path": "pstack/skills/principle-model-the-domain",
+      "head_path": "pstack/skills/principle-model-the-domain",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "principle-never-block-on-the-human",
+      "source": "pstack",
+      "base_path": "pstack/skills/principle-never-block-on-the-human",
+      "head_path": "pstack/skills/principle-never-block-on-the-human",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "principle-outcome-oriented-execution",
+      "source": "pstack",
+      "base_path": "pstack/skills/principle-outcome-oriented-execution",
+      "head_path": "pstack/skills/principle-outcome-oriented-execution",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "principle-prove-it-works",
+      "source": "pstack",
+      "base_path": "pstack/skills/principle-prove-it-works",
+      "head_path": "pstack/skills/principle-prove-it-works",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "principle-redesign-from-first-principles",
+      "source": "pstack",
+      "base_path": "pstack/skills/principle-redesign-from-first-principles",
+      "head_path": "pstack/skills/principle-redesign-from-first-principles",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "principle-separate-before-serializing-shared-state",
+      "source": "pstack",
+      "base_path": "pstack/skills/principle-separate-before-serializing-shared-state",
+      "head_path": "pstack/skills/principle-separate-before-serializing-shared-state",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "principle-sequence-verifiable-units",
+      "source": "pstack",
+      "base_path": "pstack/skills/principle-sequence-verifiable-units",
+      "head_path": "pstack/skills/principle-sequence-verifiable-units",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "principle-subtract-before-you-add",
+      "source": "pstack",
+      "base_path": "pstack/skills/principle-subtract-before-you-add",
+      "head_path": "pstack/skills/principle-subtract-before-you-add",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "principle-type-system-discipline",
+      "source": "pstack",
+      "base_path": "pstack/skills/principle-type-system-discipline",
+      "head_path": "pstack/skills/principle-type-system-discipline",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "prototype",
+      "source": "matt",
+      "base_path": "skills/engineering/prototype",
+      "head_path": "skills/engineering/prototype",
+      "upstream_changes": {},
+      "local_changes_since_base": {},
+      "local_differs_from_head": {}
+    },
+    {
+      "skill": "recall",
+      "source": "pstack",
+      "base_path": "pstack/skills/recall",
+      "head_path": "pstack/skills/recall",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "reflect",
+      "source": "pstack",
+      "base_path": "pstack/skills/reflect",
+      "head_path": "pstack/skills/reflect",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified",
+        "references/divergent-reviewer.md": "modified",
+        "references/judgment-reviewer.md": "modified",
+        "references/synthesizer.md": "modified",
+        "references/tooling-reviewer.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified",
+        "references/divergent-reviewer.md": "modified",
+        "references/judgment-reviewer.md": "modified",
+        "references/synthesizer.md": "modified",
+        "references/tooling-reviewer.md": "modified"
+      }
+    },
+    {
+      "skill": "research",
+      "source": "matt",
+      "base_path": "skills/engineering/research",
+      "head_path": "skills/engineering/research",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified",
+        "SOURCES.md": "added"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified",
+        "SOURCES.md": "added"
+      }
+    },
+    {
+      "skill": "research-idea",
+      "source": "local",
+      "note": "Review related upstream workflows manually."
+    },
+    {
+      "skill": "security-audit",
+      "source": "cloudflare",
+      "note": "Pass --cloudflare to compare."
+    },
+    {
+      "skill": "setup-axostack",
+      "source": "matt",
+      "base_path": "skills/engineering/setup-matt-pocock-skills",
+      "head_path": "skills/engineering/setup-matt-pocock-skills",
+      "upstream_changes": {
+        "issue-tracker-github.md": "modified"
+      },
+      "local_changes_since_base": {
+        "SKILL.md": "modified",
+        "agents/openai.yaml": "modified",
+        "artifacts.md": "added",
+        "issue-tracker-github.md": "modified",
+        "issue-tracker-linear.md": "added",
+        "triage-labels.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified",
+        "agents/openai.yaml": "modified",
+        "artifacts.md": "added",
+        "issue-tracker-linear.md": "added",
+        "triage-labels.md": "modified"
+      }
+    },
+    {
+      "skill": "show-me-your-work",
+      "source": "pstack",
+      "base_path": "pstack/skills/show-me-your-work",
+      "head_path": "pstack/skills/show-me-your-work",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "swarm",
+      "source": "pstack",
+      "base_path": "pstack/skills/swarm",
+      "head_path": "pstack/skills/swarm",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "tdd",
+      "source": "matt",
+      "base_path": "skills/engineering/tdd",
+      "head_path": "skills/engineering/tdd",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified",
+        "tests.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified",
+        "tests.md": "modified"
+      }
+    },
+    {
+      "skill": "technical-writing",
+      "source": "pstack",
+      "base_path": "pstack/skills/technical-writing",
+      "head_path": "pstack/skills/technical-writing",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "to-linear-issue",
+      "source": "local",
+      "note": "Review related upstream workflows manually."
+    },
+    {
+      "skill": "to-tickets",
+      "source": "matt",
+      "base_path": "skills/engineering/to-tickets",
+      "head_path": "skills/engineering/to-tickets",
+      "upstream_changes": {
+        "SKILL.md": "modified"
+      },
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "triage",
+      "source": "matt",
+      "base_path": "skills/engineering/triage",
+      "head_path": "skills/engineering/triage",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "unslop",
+      "source": "pstack",
+      "base_path": "pstack/skills/unslop",
+      "head_path": "pstack/skills/unslop",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "wayfinder",
+      "source": "matt",
+      "base_path": "skills/engineering/wayfinder",
+      "head_path": "skills/engineering/wayfinder",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "why",
+      "source": "pstack",
+      "base_path": "pstack/skills/why",
+      "head_path": "pstack/skills/why",
+      "upstream_changes": {},
+      "local_changes_since_base": {
+        "SKILL.md": "modified"
+      },
+      "local_differs_from_head": {
+        "SKILL.md": "modified"
+      }
+    },
+    {
+      "skill": "work-linear-issue",
+      "source": "local",
+      "note": "Review related upstream workflows manually."
+    }
+  ]
+}

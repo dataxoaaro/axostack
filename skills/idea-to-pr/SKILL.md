@@ -47,7 +47,7 @@ Create a dedicated git worktree from the agreed base. Transfer only this task's 
 | --- | --- | --- |
 | Branch | Lowercase issue key, then a short kebab-case description | `axo-123-fix-session-expiry` |
 | PR title | Uppercase issue key in brackets, then a concise imperative description | `[AXO-123] Fix session expiry during checkout` |
-| PR body | Problem, resulting behavior, verification, and the Linear issue URL | Link the actual issue returned by Linear |
+| PR body | The **pr** skill's template, ending with the Linear issue URL | Link the actual issue returned by Linear |
 
 Keep the issue prefix first, even when the repository uses conventional PR titles: `[AXO-123] fix: Preserve the checkout session`. Update the description when scope changes while retaining the key. Commit messages follow repository conventions, with the issue key in the body rather than in code.
 

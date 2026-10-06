@@ -10,6 +10,7 @@ Issues and specs for this repo live in Linear, accessed through the Linear MCP s
 - **Create an issue**: the issue-create/save tool, with team, title, and markdown description. Record the returned issue key (e.g. `ABC-123`).
 - **Read an issue**: the issue-get tool by key, plus the comment-list tool for discussion.
 - **List issues**: the issue-list tool filtered by team, state, and label.
+- **Make an issue a sub-issue of a parent**: set the parent issue on create, or update the child's parent afterwards.
 - **Comment on an issue**: the comment-create/save tool with markdown body.
 - **Apply / remove labels**: the label tools; create a missing label before applying it.
 - **Close**: set the issue's state to the team's Done state via the issue-update tool.

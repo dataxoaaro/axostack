@@ -21,7 +21,7 @@ Invoke: **slash** means you type it (`/skill-name`) and the agent cannot start i
 Slash is a deliberate list, not a leftover. A skill is slash-only when starting it should be a person's decision: it runs for a long time unattended, it spends real money, it writes to a tracker or a remote, or its whole job is a conversation the agent must not hold with itself. Everything else is auto, because a router that names a skill the agent cannot reach is a router that dead-ends. The current members:
 
 <!-- user-only:start -->
-`bro`, `create-verification-skill`, `figure-it-out`, `grill-me`, `grill-with-docs`, `improve-codebase-architecture`, `maintain-verification-skill`, `reflect`, `research-idea`, `setup-axostack`, `to-linear-issue`, `triage`, `wayfinder`, `work-linear-issue`
+`bro`, `create-verification-skill`, `figure-it-out`, `grill-me`, `grill-with-docs`, `implement-spec`, `improve-codebase-architecture`, `maintain-verification-skill`, `reflect`, `research-idea`, `setup-axostack`, `to-linear-issue`, `triage`, `wayfinder`, `work-linear-issue`
 <!-- user-only:end -->
 
 `scripts/check-skill-refs.py` fails when that list and the frontmatter flags disagree, so adding a skill to one without the other is caught rather than inferred later.
@@ -62,6 +62,7 @@ Slash is a deliberate list, not a leftover. A skill is slash-only when starting 
 | Skill | Invoke | What it does |
 |-------|--------|--------------|
 | implement | auto | Build the work a spec or tickets describe, driving tdd at the agreed seams and closing with code-review. |
+| implement-spec | slash | Land a whole spec in one run: background implementers build every unblocked ticket in its own worktree, each merges into one integration branch, then one code-review and one fix pass. |
 | tdd | auto | Red-green-refactor, one vertical slice at a time. The default build loop for behavior changes. |
 | code-review | auto | Four-axis review of the diff since a fixed point, including uncommitted work: repo standards, spec fidelity, correctness, and complexity (what the change could do without), plus security when the diff touches a trust boundary. Runs as parallel subagents and verifies each finding against the code before reporting. |
 | security-audit | auto | Cloudflare's source-first security review. Guidance mode answers security questions and backs code-review's Security axis. A full audit, with a coverage ledger, independent verifiers, and schema-checked findings, runs only on an explicit audit or pen-test request. |
@@ -98,6 +99,7 @@ Slash is a deliberate list, not a leftover. A skill is slash-only when starting 
 |-------|--------|--------------|
 | unslop | auto | Cut AI tells from any writing. Applies to every prose surface, including replies. |
 | technical-writing | auto | The layered docs standard (Diátaxis, Google style, STE, Global English) for docs, RFCs, readmes, PR descriptions, commit messages. |
+| pr | auto | The PR body template: a visual Summary, before-and-after Evidence, and a Merge Danger call naming the door (one-way or two-way) and the blast radius. |
 | domain-modeling | auto | Build and sharpen the project's domain model: glossary terms, GLOSSARY.md, ADRs. |
 | bro | slash | Restate the last message in plain human language, no jargon. |
 
@@ -157,7 +159,7 @@ Then pick the entry point that matches what you have.
 
 **An agreed direction, not a design.** `/plan <feature>` writes `docs/plans/<NNNN>-slug.md`, grounded in the codebase, with alternatives recorded, assumptions graded on evidence, work sliced into tickets, and open questions numbered. Then `/grill-with-docs docs/plans/<NNNN>-slug.md` attacks each question and folds the answers back into the file.
 
-**A plan.** `/to-tickets docs/plans/<NNNN>-slug.md` publishes the slices to your tracker in dependency order.
+**A plan.** `/to-tickets docs/plans/<NNNN>-slug.md` publishes the slices to your tracker in dependency order. To build the whole graph in one run, `/implement-spec <plan or parent issue>` runs every unblocked ticket in parallel and lands them on one integration branch.
 
 **A ticket.** `/work-linear-issue ABC-123` claims it, branches with the key prefix, builds under axo-mode's playbooks, and updates the tracker. Run it bare to take the next ready issue. Without a tracker, `/implement` builds straight from the plan.
 

@@ -32,6 +32,7 @@ Routing table:
 - Untriaged issues in the queue → `/triage`.
 - Picking up a tracked issue → `/work-linear-issue`.
 - Building from a spec or tickets → the **implement** skill.
+- A spec whose tickets form a graph with parallel branches, to land in one run → `/implement-spec`.
 - Designing a module or seam → the **codebase-design** skill: deep modules, a lot of behavior behind a small interface.
 - Surveying a codebase for deepening opportunities → `/improve-codebase-architecture`.
 - Work too large for one session, path unclear → `/wayfinder`.
@@ -42,6 +43,7 @@ Routing table:
 - No scripted way to prove app behavior → `/create-verification-skill` generates the repo's `verify-<app>` skill, which playbook verify steps then drive. Keep it honest with `/maintain-verification-skill`.
 - Any prose surface, including your reply → the **unslop** skill.
 - Docs, RFCs, readmes, PR descriptions → the **technical-writing** skill.
+- Opening a PR or rewriting its body → the **pr** skill, every time.
 - Before commit → the **code-review** skill, then the **no-comments** skill.
 - Project jargon drifting, or naming inconsistent → the **domain-modeling** skill.
 

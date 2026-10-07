@@ -40,6 +40,7 @@ Routing table:
 - Long or autonomous work the user reviews later → a decision trail via the **show-me-your-work** skill.
 - Resuming or picking work back up ("catch me up", "where did I leave off") → the **recall** skill before starting.
 - After a substantial run, or when a skill misfired → `/reflect` turns session learnings into skill edits.
+- A session that struggled because of the repo (slow to find things, a mistake a check could catch, missing information) → `/retro` proposes environment fixes.
 - No scripted way to prove app behavior → `/create-verification-skill` generates the repo's `verify-<app>` skill, which playbook verify steps then drive. Keep it honest with `/maintain-verification-skill`.
 - Any prose surface, including your reply → the **unslop** skill.
 - Docs, RFCs, readmes, PR descriptions → the **technical-writing** skill.

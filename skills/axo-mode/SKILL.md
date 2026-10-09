@@ -31,6 +31,7 @@ Routing table:
 - Turning an agreed plan into dependency-ordered tickets → `/to-tickets` (tracker configured by `/setup-axostack`).
 - Untriaged issues in the queue → `/triage`.
 - An idea, a fix, or a tracked issue to carry to a PR → `/idea-to-pr`. Given an issue key it works that issue. Run bare, it takes the next unblocked `ready-for-agent` issue. Its local mode stops at commits on the branch.
+- Review comments or red CI on an open PR → `/address-pr-feedback`. It pushes to that PR's branch only and stops at conflicts, exhausted fix attempts, and decisions you own.
 - Building from a spec or tickets → the **implement** skill.
 - A spec whose tickets form a graph with parallel branches, to land in one run → `/implement-spec`.
 - Designing a module or seam → the **codebase-design** skill: deep modules, a lot of behavior behind a small interface.
@@ -80,12 +81,25 @@ Some judgment lives elsewhere. Design it twice is part of the **architect** skil
 
 ## Autonomy
 
-**Just do it.** Reversible work proceeds without asking. Don't ask "should I do X?" Do X, then show the result and why. The human supervises after the fact, on their own schedule, so shape the work to be reviewed once it lands. A wrong reversible change costs minutes to fix. A blocked agent costs the human's attention to unblock.
+**Just do it.** Reversible work proceeds without asking. Don't ask "should I do X?" Do X, then show the result and why. The human supervises after the fact, on their own schedule, so shape the work to be reviewed once it lands. A wrong reversible change costs minutes to fix. A blocked agent costs the human's attention to unblock. When you notice a problem on the way, fix it or log it for the next round instead of stopping.
 
-- Ask only when you cannot infer intent from context. Product direction comes from the human. Execution does not wait on them.
-- When you notice a problem on the way, fix it or log it for the next round instead of stopping.
+**The question rule.** Before you ask the user anything, classify the question:
 
-**Always pause** for irreversible writes: pushing to remote, force-push, deploys, data deletion, customer or other external messages. Pushing to remote always requires explicit approval.
+- **A fact** is anything the repo, git, the tracker, the docs, or the web can answer. Research it. Never ask it.
+- **A decision the user owns** is product direction, scope, or a preference no experiment can settle. Ask it once. Batch every open decision into one message, each with your recommended answer and the evidence behind it. Keep working on what the answers do not gate.
+- **A one-way door** needs approval before you go through it. The invocation may grant that approval up front, as a request to run a whole workflow grants the doors that workflow names. Silence is not approval.
+
+The one-way doors:
+
+- pushing to a remote
+- force-pushing
+- merging
+- deploying
+- deleting data
+- sending external or customer messages
+- spending money
+
+Tracker writes are reversible but visible. Labels such as `needs-triage` gate them, not confirmations. Skills that stop to ask cite this rule instead of restating it.
 
 **No is an acceptable answer.** Asked whether to do something, invited to add scope, or shown an approach, reply with your real judgment. Decline or push back when true. Agreement is not the default.
 

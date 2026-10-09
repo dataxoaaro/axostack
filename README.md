@@ -21,7 +21,7 @@ Invoke: **slash** means you type it (`/skill-name`) and the agent cannot start i
 Slash is a deliberate list, not a leftover. A skill is slash-only when starting it should be a person's decision: it runs for a long time unattended, it spends real money, it writes to a tracker or a remote, or its whole job is a conversation the agent must not hold with itself. Everything else is auto, because a router that names a skill the agent cannot reach is a router that dead-ends. The current members:
 
 <!-- user-only:start -->
-`figure-it-out`, `idea-to-pr`, `implement-spec`, `improve-codebase-architecture`, `research-idea`, `retro`, `setup-axostack`, `to-issue`, `to-tickets`, `triage`, `verification-skill`, `wayfinder`
+`address-pr-feedback`, `figure-it-out`, `idea-to-pr`, `implement-spec`, `improve-codebase-architecture`, `research-idea`, `retro`, `setup-axostack`, `to-issue`, `to-tickets`, `triage`, `verification-skill`, `wayfinder`
 <!-- user-only:end -->
 
 `scripts/check-skill-refs.py` fails when that list and the frontmatter flags disagree, so adding a skill to one without the other is caught rather than inferred later.
@@ -62,6 +62,7 @@ Slash is a deliberate list, not a leftover. A skill is slash-only when starting 
 | implement-spec | slash | Land a whole spec in one run: background implementers build every unblocked ticket in its own worktree, each merges into one integration branch, then one code-review and one fix pass. |
 | tdd | auto | Red-green-refactor, one vertical slice at a time. The default build loop for behavior changes. |
 | code-review | auto | Four-axis review of the diff since a fixed point, including uncommitted work: repo standards, spec fidelity, correctness, and complexity (what the change could do without), plus security when the diff touches a trust boundary. Runs as parallel subagents and verifies each finding against the code before reporting. |
+| address-pr-feedback | slash | Work an open PR's review threads and failing CI until it is merge-ready or needs you: verify each claim against the code, fix red-first, push, reply with the commit SHA, and cap CI fixes at two attempts per check. Never force-pushes or merges. |
 | security-audit | auto | Cloudflare's source-first security review. Guidance mode answers security questions and backs code-review's Security axis. A full audit, with a coverage ledger, independent verifiers, and schema-checked findings, runs only on an explicit audit or pen-test request. |
 | diagnosing-bugs | auto | Gated diagnosis loop for hard bugs: feedback loop that goes red on the bug, minimise, hypothesise, instrument, fix, regression-test. |
 | blast-radius | auto | Find what a change could break beyond the diff, and prove the one safety-critical fact by running real code. |
@@ -147,7 +148,7 @@ Then pick the entry point that matches what you have.
 
 **An idea, and several ways to build it.** `/research-idea <idea>` challenges the premise, researches the approaches against primary sources, and opens an HTML report with a recommendation. You pick one, it grills you on it, and it writes a decision record to `docs/research/`. Hand that file to `/plan` or `/idea-to-pr`.
 
-**An idea or fix to carry through to a PR.** `/idea-to-pr <request>` investigates, plans, asks for the Linear workspace and assignee, and creates the issue in the appropriate project. It builds in a dedicated worktree, opens a draft PR such as `[AXO-123] Fix session expiry`, runs independent reviews, and repairs valid findings. The request authorizes issue and PR updates and pushing the task branch. Merging remains a separate action. An interrupted run resumes from its recorded issue, worktree, and PR.
+**An idea or fix to carry through to a PR.** `/idea-to-pr <request>` investigates, plans, takes the workspace and project from the tracker configuration, assigns you, and creates the issue. It asks only when the configuration leaves a real choice. It builds in a dedicated worktree, opens a draft PR titled with the issue key, such as `[<key>] Fix session expiry`, runs independent reviews, and repairs valid findings. The request authorizes issue and PR updates and pushing the task branch. Merging remains a separate action. An interrupted run resumes from its recorded issue, worktree, and PR.
 
 **An idea, not a plan.** `/to-issue <idea>` researches it against the codebase and publishes one evidenced issue. Run `/triage` to move the queue when issues pile up.
 

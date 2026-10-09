@@ -56,6 +56,17 @@ branch: <branch name, or none yet>
 
 *Replace `pending` with a link to the slice's verification record in this document or a durable artifact. Record commands or actions, observed results, and the verified commit. For uncommitted work, record the base commit and a saved patch or equivalent reproducible snapshot, including relevant untracked files. `HEAD` or "dirty worktree" alone does not identify what passed. Keep delivery status separate from verification evidence.*
 
+*Each slice gets its own acceptance criteria below the table: observable statements a reviewer can check against the diff and the repo, such as a command and its expected output, a row count, or a page state. `/to-tickets` copies them verbatim into the slice's ticket, and code-review's Spec axis marks each one pass or fail with evidence.*
+
+### Slice 1: <short title>
+
+- [ ] <observable, checkable statement, e.g. "`importer orders.csv` on a 40MB file exits 0 and `SELECT count(*) FROM orders` equals the file's row count">
+- [ ] <...>
+
+### Slice 2: <short title>
+
+- [ ] <...>
+
 ## Assumptions
 
 *Everything the plan rests on, graded on the blast-radius ladder: 1 you said so, 2 you pointed at the line, 3 you showed the bad case can't happen, 4 you ran it, 5 you reproduced it in the running app. Anything left at 1 says **unproven** in the evidence column. Do not round up.*
@@ -69,7 +80,7 @@ branch: <branch name, or none yet>
 
 *How we'll know it works.*
 
-- **Acceptance checks:** one per user-visible behavior, each something somebody runs.
+- **Acceptance checks:** the slices' acceptance criteria above are the checks, one per user-visible behavior. Here, add only how to run the ones that need setup, and the end-to-end check for the Done when predicate.
 - **Feature map:** the `verify-<app>/features/*.md` entries this change touches, and the ones it adds. One line saying it doesn't apply is the right answer for a repo with no user-facing surface.
 - **Performance baseline, when required by acceptance criteria:** metric, workload, environment, threshold, baseline revision, and measured result. Link the final comparison run under the same conditions, or state why the comparison remains unverified.
 - **Results, filled during implementation:** link each completed slice to its checks and verified revision or snapshot. Record failed or substituted checks and remaining gaps. Preserve historical results when later changes require another run; a pass applies to the recorded state, not automatically to the current branch.

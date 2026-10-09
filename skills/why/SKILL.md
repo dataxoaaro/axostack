@@ -58,7 +58,7 @@ Capture this as seed context (file paths, symbols, commits, PR numbers, linked t
 
 ### Discovery
 
-Before spawning investigators, list the available MCPs from the Cursor environment. Use the available-tools map when present. Otherwise inspect the `mcps/` directory Cursor exposes for enabled MCP servers.
+Before spawning investigators, list the MCP servers and tools available in this session. Read their names, server instructions, and tool descriptions. Do not assume a server exists because a category lists an example.
 
 Map each available MCP to one evidence category:
 
@@ -72,7 +72,7 @@ Map each available MCP to one evidence category:
 
 Source control is always available through git and `gh`. For the other six, classify using the MCP name, server instructions, tool names, and resource descriptors. If an MCP could fit more than one category, choose the one matching its primary evidence. Record ambiguous cases in the coverage map.
 
-Aim for a complete **coverage map**, not a minimal one. Document the null, don't skip the search.
+Aim for a complete **coverage map**, not a minimal one. Note each evidence category that has no connected source, so the gap shows up in Sources Consulted. Document the null, don't skip the search.
 
 Launch all matching investigators in a single message so they run concurrently. Don't ask one agent to cover multiple MCPs.
 

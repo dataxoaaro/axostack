@@ -11,13 +11,15 @@ Everything this skill names is owned somewhere else. The **tdd** skill owns the 
 
 ## Input
 
-A plan under `docs/plans/`, a ticket, or a spec in the conversation. Read all three of a plan's tables, not just the first:
+A plan under `docs/plans/`, a ticket, or a spec in the conversation. If the user passes a ticket reference, fetch it from the issue tracker and state its title before starting. If the reference is ambiguous, ask.
+
+Read all three of a plan's tables, not just the first:
 
 - **Slices** is the work list, already in dependency order.
 - **Assumptions** is what to watch. An assumption a slice depends on that is graded 1 gets proven before that slice starts, not after it breaks.
-- **Open decisions** is what is not settled. A question that gates a slice stops that slice. Say whether it gates, then either continue or report and stop. Picking an answer silently is the failure this section exists to prevent.
+- **Open decisions** is what is not settled. A question that gates a slice stops that slice. Say whether it gates, then either continue or ask per axo-mode's [question rule](../axo-mode/SKILL.md#autonomy). Picking an answer silently is the failure this section exists to prevent.
 
-No plan, no slices → name the seams before writing anything: where behavior changes and **tdd** applies, and where it doesn't because the change is config, wiring, or generated code.
+Seams named in the plan or ticket count as agreed for **tdd**. No plan, no slices, or no named seams → propose the seams before writing anything, per **tdd**: where behavior changes and tdd applies, and where it doesn't because the change is config, wiring, or generated code.
 
 ## Start
 
@@ -29,7 +31,7 @@ Per [sequence-verifiable-units](../axo-mode/principles/sequence-verifiable-units
 
 1. Confirm the slice's blockers landed. A blocked slice does not start.
    If performance is an acceptance criterion, capture the plan's baseline on the pre-change revision before implementation, with the specified workload and environment. Record an unavailable baseline as a verification gap.
-2. Behavior change → the **tdd** skill, red first. Not a behavior change → say which kind it is and skip tdd with that reason.
+2. Behavior change → the **tdd** skill, red first, at the slice's agreed seams. Not a behavior change → say which kind it is and skip tdd with that reason.
 3. Cut the narrow complete path through every layer the slice touches. A slice that lands in one layer is not a slice.
 4. Cadence: typecheck after each meaningful edit, and run the single test file you are working in on each red-green cycle. Leave the full suite for close-out; running it every cycle is slow enough that you learn to ignore it. Behavior-preserving work is the exception: when the change is supposed to alter nothing a test can see, the full suite is the proof, so it runs on every unit.
 5. Verify on the real surface per [prove-it-works](../axo-mode/principles/prove-it-works.md), driving the repo's `verify-<app>` skill when it has one. "It compiles" and "tests pass" are not a pass for behavior a user can see.

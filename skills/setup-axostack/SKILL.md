@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 Scaffold the per-repo configuration that the engineering skills assume:
 
-- **Issue tracker**: where issues live (GitHub by default; local markdown is also supported out of the box)
+- **Issue tracker**: where issues live (Linear first when it is connected, then GitHub or GitLab from the remote; local markdown is also supported out of the box)
 - **Triage labels**: the strings used for the five canonical triage roles
 - **Domain docs**: where `GLOSSARY.md` and ADRs live, and the consumer rules for reading them
 - **Agent artifacts**: where plans, research notes, and throwaway analysis land, and which of them are committed
@@ -21,7 +21,8 @@ This is a prompt-driven skill, not a deterministic script. Explore, present what
 
 Look at the current repo to understand its starting state. Read whatever exists; don't assume:
 
-- `git remote -v` and `.git/config`: is this a GitHub repo? Which one?
+- `git remote -v` and `.git/config`: is this a GitHub or GitLab repo? Which one?
+- The connected tracker's teams and existing labels: the Linear MCP server's team and label lists, or `gh label list` / `glab label list`. Proposals below come from these lists, not from open-ended questions.
 - `AGENTS.md` and `CLAUDE.md` at the repo root: does either exist? Is there already an `## Agent skills` section in either?
 - `GLOSSARY.md` and `GLOSSARY-MAP.md` at the repo root
 - `docs/adr/` and any `src/*/docs/adr/` directories
@@ -33,7 +34,7 @@ Look at the current repo to understand its starting state. Read whatever exists;
 
 ### 2. Present findings and ask
 
-Summarise what's present and what's missing. Then take the sections in order. One section, one answer, then the next.
+Summarise what's present and what's missing. Then present every section that needs an answer in one message, in order. If the user changes the tracker in Section A, re-propose Section B against the new tracker. Each question follows axo-mode's [question rule](../axo-mode/SKILL.md#autonomy): what exploration can answer is not asked.
 
 Lead each section with the recommended answer so the user can accept it in a word. Give a one-line explainer only when the choice genuinely branches; skip the section entirely when exploration already settled it (Section B when `triage` isn't installed, Section C when there's no monorepo).
 
@@ -43,7 +44,7 @@ Lead each section with the recommended answer so the user can accept it in a wor
 
 Default posture: if a Linear MCP server is connected, propose Linear. Else if a `git remote` points at GitHub, propose that. If a `git remote` points at GitLab (`gitlab.com` or a self-hosted host), propose GitLab. Otherwise (or if the user prefers), offer:
 
-- **Linear**: issues live in a Linear team (uses the Linear MCP server; ask which team this repo belongs to)
+- **Linear**: issues live in a Linear team (uses the Linear MCP server; propose the listed team whose name or key matches the repo, and show the others)
 - **GitHub**: issues live in the repo's GitHub Issues (uses the `gh` CLI)
 - **GitLab**: issues live in the repo's GitLab Issues (uses the [`glab`](https://gitlab.com/gitlab-org/cli) CLI)
 - **Local markdown**: issues live as files under `.scratch/<feature>/` in this repo (good for solo projects or repos without a remote)
@@ -53,11 +54,11 @@ Record the choice in `docs/agents/issue-tracker.md`. The GitHub and GitLab templ
 
 **Section B: Triage label vocabulary.** Skip this section entirely if the `triage` skill isn't installed (exploration told you), since an uninstalled skill needs no labels.
 
-If it is installed, ask exactly one question:
+If it is installed, propose a mapping and ask exactly one question:
 
-> Do you want to keep the default triage labels? (recommended: **yes**)
+> Use this triage label mapping? (recommended: **yes**)
 
-The defaults are the five canonical roles, each label string equal to its name: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. On **yes**, write them as-is. Only if the user says no, usually because their tracker already uses other names (e.g. `bug:triage` for `needs-triage`), collect the overrides so `triage` applies existing labels instead of creating duplicates.
+The defaults are the five canonical roles, each label string equal to its name: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. Match them against the tracker's existing labels first. Where an existing label plainly serves a role (e.g. `bug:triage` for `needs-triage`), propose it in place of the default, so `triage` applies existing labels instead of creating duplicates. On **yes**, write the mapping as proposed. On **no**, collect the overrides.
 
 **Section C: Domain docs.** Default to **single-context** (one `GLOSSARY.md` + `docs/adr/` at the repo root). This fits almost every repo; write it without asking.
 
@@ -92,7 +93,7 @@ Let them edit before writing.
 
 - If `CLAUDE.md` exists, edit it.
 - Else if `AGENTS.md` exists, edit it.
-- If neither exists, ask the user which one to create; don't pick for them.
+- If neither exists, create `CLAUDE.md`.
 
 Never create `AGENTS.md` when `CLAUDE.md` already exists (or vice versa); always edit the one that's already there.
 
@@ -121,6 +122,8 @@ The block:
 ```
 
 Include the `### Triage labels` sub-block, and write `docs/agents/triage-labels.md`, only when `triage` is installed and Section B ran. When it isn't, both are omitted.
+
+When Section B ran on GitHub or GitLab, create each configured label the tracker lacks (`gh label create` / `glab label create`).
 
 Then write the docs files using the seed templates in this skill folder as a starting point:
 

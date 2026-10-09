@@ -33,7 +33,7 @@ Use one runner each on the `"fable"`, `"opus"`, and `"sonnet"` models so the can
 
 Design it twice. Require at least two structurally distinct candidates before synthesis, even when the first looks sufficient. Building the wrong thing costs more than exploring three options. Whole-shape alternatives count, and a second flavor of the first shape does not. The rule applies wherever the right answer is not obvious: a novel UI interaction with no prior art in the codebase, an architectural choice with several viable approaches, or a product decision whose answer depends on feel rather than logic. It does not apply to mechanical work on an established pattern, a fix or refactor with a clear target state, or a change whose constraints leave one viable approach. That work skips architect.
 
-Screen every candidate against [`references/design-red-flags.md`](references/design-red-flags.md) before synthesis. Reject or revise shallow modules, information leakage, temporal decomposition, and pass-through methods.
+Screen every candidate against [`references/design-red-flags.md`](references/design-red-flags.md) before synthesis. Assume the next contributor is an agent that sees only the files it opened, copies the nearest example, and takes the shortest path that compiles. Prefer the design where a change that looks right from one file is right for the whole repo.
 
 Compare viable candidates on interface depth. Prefer the design that hides more complexity behind a smaller, simpler public surface. A rich interface can keep call chains short by concentrating capability instead of scattering it across layers.
 

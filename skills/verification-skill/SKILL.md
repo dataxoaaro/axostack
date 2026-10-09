@@ -19,7 +19,7 @@ Run bare, pick **maintain** when the repo already has a `.claude/skills/verify-*
 
 ### 1. Interview the repo, not the user
 
-Answer these from the codebase and only ask the user what you cannot observe:
+Answer these from the codebase and only ask the user what you cannot observe, per axo-mode's [question rule](../axo-mode/SKILL.md#autonomy):
 
 - **Surface:** what does a user actually touch? A web UI, a CLI/TUI, a desktop app, an API, a mobile app, a library? A repo can have several; pick the primary one and note the rest.
 - **Run:** how does the app start locally? Prefer the repo's own documented dev command (package scripts, Makefile, README quickstart). Note ports, env vars, seed data, auth.
@@ -70,7 +70,7 @@ Only edit the verification skill's own directory (its SKILL.md, features/, and a
 
 ### Pass
 
-0. **Locate the target.** Find the verification skill to maintain: the project-local skill whose body has launch/drive sections and a feature map (usually `.claude/skills/verify-*/`). Several candidates → ask which one; none → stop and offer create mode instead of inventing a target.
+0. **Locate the target.** Find the verification skill to maintain: the project-local skill whose body has launch/drive sections and a feature map (usually `.claude/skills/verify-*/`). Several candidates → match on the app: pick the one whose launch section starts the app the invocation or the current change concerns, and say which you picked; none → stop and offer create mode instead of inventing a target.
 
 1. **Index hygiene.** Read the feature map README and glob its sibling files. Fix missing, extra, duplicate, or dead entries. Lightweight; no generated inventory.
 

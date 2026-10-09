@@ -37,17 +37,21 @@ Break the work into **tracer bullet** tickets.
 
 Give each ticket its **blocking edges**: the other tickets that must complete before it can start. A ticket with no blockers can start immediately.
 
+When the source is a plan, each ticket's acceptance criteria are its plan slice's, copied verbatim. Don't rephrase, merge, or drop them. The **code-review** skill's Spec axis checks each one by its wording.
+
 **Wide refactors are the exception to vertical slicing.** A **wide refactor** is one mechanical change (rename a column, retype a shared symbol) whose **blast radius** fans across the whole codebase, so a single edit breaks thousands of call sites at once and no vertical slice can land green. Don't force it into a tracer bullet; sequence it as **expand–contract**. First expand: add the new form beside the old so nothing breaks. Then migrate the call sites over in batches sized by blast radius (per package, per directory), each batch its own ticket blocked by the expand, keeping CI green batch to batch because the old form still exists. Finally contract: delete the old form once no caller remains, in a ticket blocked by every migrate batch. When even the batches can't stay green alone, keep the sequence but let them share an integration branch that all block a final integrate-and-verify ticket; green is promised only there.
 
-### 4. Quiz the user
+### 4. Check the breakdown
 
-Present the proposed breakdown as a numbered list. For each ticket, show:
+**From an approved plan.** When the source is a plan marked `status: approved` that already has slices, the user agreed the granularity when they approved it. Skip the quiz. Check the blocking edges against the code instead of asking: run the **blast-radius** skill over each slice's planned change, and confirm that every edge stands for a real dependency (one slice changes what another calls, reads, or migrates) and that no real dependency lacks an edge. Show the breakdown with any edge you corrected and its evidence.
+
+**Otherwise, quiz the user.** Present the proposed breakdown as a numbered list. For each ticket, show:
 
 - **Title**: short descriptive name
 - **Blocked by**: which other tickets (if any) must complete first
 - **What it delivers**: the end-to-end behaviour this ticket makes work
 
-Ask the user:
+Ask the user, per axo-mode's [question rule](../axo-mode/SKILL.md#autonomy), with your recommendation on each:
 
 - Does the granularity feel right? (too coarse / too fine)
 - Are the blocking edges correct: does each ticket only depend on tickets that genuinely gate it?
@@ -57,7 +61,7 @@ Iterate until the user approves the breakdown.
 
 ### 5. Publish the tickets to the configured tracker
 
-Publish the approved tickets. **How** depends on the tracker `/setup-axostack` configured; the tickets are the same either way, only the shape of the blocking edges changes:
+Publishing lands many visible items at once, so treat it as a door: publish only after the user approves the final breakdown, which the invocation may grant up front. **How** depends on the tracker `/setup-axostack` configured; the tickets are the same either way, only the shape of the blocking edges changes:
 
 - **Local files** → write one file per ticket under `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, numbered from `01` in dependency order (blockers first). Each file's "Blocked by" lists the numbers/titles it depends on. Use the per-ticket file template below: one ticket per file, never a single combined file.
 - **A real issue tracker (GitHub, Linear, …)** → publish one issue per ticket in dependency order (blockers first) so each ticket's blocking edges can reference real identifiers. Use the platform's native blocking relationship where it has one; otherwise set each ticket's "Blocked by" to the blocking issues. If the source was an existing issue, make each ticket its sub-issue (tracker doc's operation). Apply the `ready-for-agent` triage label unless instructed otherwise; the tickets are agent-grabbable by construction.

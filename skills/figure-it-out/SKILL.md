@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 When the task matches no playbook, design one. The deliverable before any code is the workflow itself: a sequence of phases that scales rigor to the task, runs the scientific method, and leaves a decision trail a human can audit after stepping away. Bias toward more rigor. The cost of building the wrong thing dwarfs the cost of being careful.
 
-Don't reinvent a playbook you already have. A focused single-unit task that matches Bug fix, Perf, Feature, Visual parity, Eval, or Multi-phase plan routes there. But a large or cross-cutting version of one (a migration across many call sites, an ambitious multi-part change), or work the user reviews after stepping away, belongs here even though a single-unit version would be a Feature. The rigor and the audit trail are the point.
+Don't reinvent a playbook you already have. A focused single-unit task that matches Investigation, Feature, Bug fix, Refactoring, or Prototype routes there. But a large or cross-cutting version of one (a migration across many call sites, an ambitious multi-part change), or work the user reviews after stepping away, belongs here even though a single-unit version would be a Feature. The rigor and the audit trail are the point.
 
 ## Start
 
@@ -18,19 +18,19 @@ Open a todolist whose first item is to read the Principles section of the **axo-
 
 Ground first, then commit. Don't start the run until you can state:
 
-- The definition of done as a falsifiable predicate (the **principle-prove-it-works** skill). "Done well" has to be checkable.
+- The definition of done as a falsifiable predicate ([prove-it-works](../axo-mode/principles/prove-it-works.md)). "Done well" has to be checkable.
 - Scope, quantified: rough units and effort, plus the blockers grounding surfaced. Raise them before spending hours, not after fifty doomed commits.
 - The rigor level, biased high. One-way doors and high blast radius get more; reversible low-stakes steps get less. Rigor is gates and artifacts, not "try harder".
 
-Present the framing and tradeoffs before committing to a long run. Reversible work proceeds (the **principle-never-block-on-the-human** skill), but a multi-hour run earns one checkpoint.
+Present the framing and tradeoffs before committing to a long run. Reversible work proceeds (axo-mode's [Autonomy](../axo-mode/SKILL.md#autonomy) section), but a multi-hour run earns one checkpoint.
 
 ## Phase B: Design the workflow
 
-Decompose into atomic, independently-landable units. Sequence riskiest-unknown-first so option value stays high. Scaffold and verification come before features (the **principle-foundational-thinking** skill).
+Decompose into atomic, independently-landable units. Sequence riskiest-unknown-first so option value stays high. Scaffold and verification come before features ([model-the-domain](../axo-mode/principles/model-the-domain.md)).
 
 - Build the verification harness before the work, with the baseline captured from the pre-change state, so the check reads as "old value vs new value".
-- For one-way-door design decisions, run the **architect** skill (it runs **arena**) with diverse, isolated, opinionated candidates and a read-only judge on a different model family. Skip it for mechanical work whose shape is already concrete. A second arena over a settled design is over-engineering (the **principle-laziness-protocol** skill).
-- Decide what fans out. Parallelize only across genuine seams, and give each worker its own worktree or branch (the **principle-separate-before-serializing-shared-state** skill). Don't over-fan.
+- For one-way-door design decisions, run the **architect** skill (it runs **arena**) with diverse, isolated, opinionated candidates and a read-only judge on a different model family. Skip it for mechanical work whose shape is already concrete. A second arena over a settled design is over-engineering ([laziness-protocol](../axo-mode/principles/laziness-protocol.md)).
+- Decide what fans out. Parallelize only across genuine seams, and give each worker its own worktree or branch ([separate-before-serializing-shared-state](../axo-mode/principles/separate-before-serializing-shared-state.md)). Don't over-fan.
 - Write the designed phase list down. That list is what the human reviews.
 
 Then put the design into motion. Add its steps to the todolist as concrete items, after the Phase C entry and before Phase D. Run each under the Phase C loop discipline, and weave the Phase D log through them, a row as each step lands, rather than saving the whole trail for the end.
@@ -38,7 +38,7 @@ Then put the design into motion. Add its steps to the todolist as concrete items
 ## Phase C: Run the loop
 
 Each unit is an experiment: state the hypothesis, make the smallest change, measure against the predicate on the real artifact, keep it if it advanced, revert it if it didn't.
-Apply the **principle-sequence-verifiable-units** skill, verifying each unit before starting the next instead of batching checks at the end.
+Apply [sequence-verifiable-units](../axo-mode/principles/sequence-verifiable-units.md), verifying each unit before starting the next instead of batching checks at the end.
 
 - Verify by inspecting the artifact, never a self-report. When something passes too easily, suspect the observation method before the system. A blank screenshot passes a lazy gate.
 - Pair delegated work with a judge and audit the delegates' artifacts yourself before trusting them. If a worker games the gate, reset and harden the contract. If the gate itself is wrong, fix the gate in its own change rather than routing around it.
@@ -50,6 +50,6 @@ Log the run via the **show-me-your-work** skill, one canonical TSV with a row pe
 
 ## Phase E: Verify and hand back
 
-Check the whole against the Phase A predicate on the real product, not just the harness. Encode any recurring correction as a gate, a lint rule, a check, or a script, so the win can't silently regress (the **principle-encode-lessons-in-structure** skill).
+Check the whole against the Phase A predicate on the real product, not just the harness. Encode any recurring correction as a gate, a lint rule, a check, or a script, so the win can't silently regress ([encode-lessons-in-structure](../axo-mode/principles/encode-lessons-in-structure.md)).
 
 **Reply:** the playbook you designed, the rigor level and why, the decision-trail path, what's verified against the predicate, and what's still open.

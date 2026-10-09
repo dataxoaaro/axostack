@@ -1,6 +1,6 @@
 ---
 name: research
-description: Investigate a question against high-trust primary sources and capture the findings as a Markdown file in the repo. Use when the user wants a topic researched, docs or API facts gathered, or reading legwork delegated to a background agent. For comparing the ways an idea could be built, recommend `/research-idea` instead.
+description: "Research a question against primary sources in a background agent and save cited findings as Markdown in the repo. Use to research a topic or gather docs or API facts. To compare approaches, recommend `/research-idea`."
 ---
 
 Spin up a **background agent** to do the research, so you keep working while it reads. Include the contents of [SOURCES.md](SOURCES.md) in its prompt.

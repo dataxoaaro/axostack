@@ -34,7 +34,7 @@ The user picked this over the report's recommendation, which was a headless stat
 The scope, in delivery order:
 
 1. **Fix and port.** Fix the eight stale references and five contradictions listed under Evidence. Port Matt's seven updates, architect's four red flags from pstack, and ponytail's scale line into code-review's Correctness brief. Record a ponytail base SHA in `docs/research/compare-upstream-skills.py`.
-2. **Code-review speed.** One script precomputes the per-file diff, the commit list, the spec, the test results, and the callers of each changed symbol, and every axis reads that output. Bound the Correctness axis: no nested agents, a soft budget of about 25 tool calls, and a split by file cluster on large diffs. Spawn all axes in one message, Correctness first, in the foreground. Foreground calls return together, so each axis agent verifies its own findings against the code before it reports, and the parent re-checks only Correctness and Security claims. Use Sonnet for the Spec, Standards, Complexity, and Security axes. idea-to-pr repair rounds review only the fix commits.
+2. **Code-review speed.** One script precomputes the per-file diff, the commit list, and the callers of each changed symbol, the parent adds the test output once, and every axis reads that output. Bound the Correctness axis: no nested agents, a soft budget of about 25 tool calls, and a split by file cluster on large diffs. Spawn all axes in one message, Correctness first, in the foreground. Foreground calls return together, so each axis agent verifies its own findings against the code before it reports, and the parent re-checks only Correctness and Security claims. Use Sonnet for the Spec, Standards, Complexity, and Security axes. idea-to-pr repair rounds review only the fix commits.
 3. **Prune from 66 to about 35 skills.**
    - Move the 23 `principle-*` skills into `skills/axo-mode/principles/` and merge them to about 12.
    - Delete `bro`, `grill-me`, and `grill-with-docs`. grilling gains a rule to also run domain-modeling when domain docs exist.
@@ -98,7 +98,7 @@ Repo facts, verified on 2026-10-09:
 External sources, verified on 2026-10-09:
 - Matt Pocock skills `6fd9479..b0618bc`: tdd `3f59913`, grilling `95249b0`, diagnosing-bugs `f3fc563`, wayfinder `8295b8e`, implement `6d6a5b9`, code-review `3da8c01` (foreground sub-agents, all standards files), setup `5b7cade`.
 - pstack `23e4138..ccb5507`: architect red flags `a586282`, `/correct` `9511e60`.
-- ponytail v5.1.0 `01cbf81`: the scale checks.
+- ponytail v5.0.0 `01cbf81`, the rebuild, unchanged in v5.1.0 `9cc65d0`: the scale checks.
 - Cloudflare security-audit-skill has not changed since `c1c8a8c`.
 - `claude -p "/skill"` runs a slash-only plugin skill, and `--permission-prompts none` removes `AskUserQuestion`. Verified by a local run on Claude Code 2.1.295 and by https://code.claude.com/docs/en/headless. A later factory can therefore start the slash-only skills.
 

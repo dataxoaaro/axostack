@@ -40,7 +40,7 @@ Lead each section with the recommended answer so the user can accept it in a wor
 
 **Section A: Issue tracker.**
 
-> Explainer: The "issue tracker" is where issues live for this repo. Skills like `to-tickets`, `triage`, `to-issue`, and `idea-to-pr` read from and write to it. They need to know whether to call `gh issue create`, write a markdown file under `.scratch/`, or follow some other workflow you describe. Pick the place you actually track work for this repo.
+> Explainer: The "issue tracker" is where issues live for this repo. Skills like `/to-tickets`, `/triage`, `/to-issue`, and `/idea-to-pr` read from and write to it. They need to know whether to call `gh issue create`, write a markdown file under `.scratch/`, or follow some other workflow you describe. Pick the place you actually track work for this repo.
 
 Default posture: if a Linear MCP server is connected, propose Linear. Else if a `git remote` points at GitHub, propose that. If a `git remote` points at GitLab (`gitlab.com` or a self-hosted host), propose GitLab. Otherwise (or if the user prefers), offer:
 
@@ -66,7 +66,7 @@ Offer **multi-context** (a root `GLOSSARY-MAP.md` pointing to per-context `GLOSS
 
 **Section D: Agent artifacts.**
 
-> Explainer: The skills write Markdown of their own. `plan` writes plans, `research` writes cited findings, `/research-idea` writes decision records, `how` / `why` / `blast-radius` write investigation notes. Without one convention each skill picks its own spot. Plans matter most, because `/grilling` and `/to-tickets` read them in a later session.
+> Explainer: The skills write Markdown of their own. **plan** writes plans, **research** writes cited findings, `/research-idea` writes decision records, and **how**, **why**, and **blast-radius** write investigation notes. Without one convention each skill picks its own spot. Plans matter most, because **grilling** and `/to-tickets` read them in a later session.
 
 Ask one question:
 

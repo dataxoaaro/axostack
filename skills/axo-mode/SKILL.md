@@ -41,7 +41,7 @@ Routing table:
 - Long or autonomous work the user reviews later → a decision trail via the **show-me-your-work** skill.
 - Resuming or picking work back up ("catch me up", "where did I leave off") → the **recall** skill before starting.
 - After a substantial run, a skill that misfired, or a session that struggled because of the repo → `/retro`. It proposes edits to this skills library or fixes to the repo's environment.
-- No scripted way to prove app behavior → `/verification-skill create` generates the repo's `verify-<app>` skill, which playbook verify steps then drive. Keep it honest with `/verification-skill maintain`.
+- No scripted way to prove app behavior → `/verification-skill create` generates the repo's `verify-<app>` skill, which playbook verify steps then drive. `/verification-skill maintain` checks that skill's feature map against the app and opens at most one PR of proven corrections.
 - Any prose surface, including your reply → the **unslop** skill.
 - Docs, RFCs, readmes, PR descriptions → the **technical-writing** skill.
 - Opening a PR or rewriting its body → the **pr** skill, every time.
@@ -98,8 +98,9 @@ The one-way doors:
 - deleting data
 - sending external or customer messages
 - spending money
+- publishing a batch of tickets
 
-Tracker writes are reversible but visible. Labels such as `needs-triage` gate them, not confirmations. Skills that stop to ask cite this rule instead of restating it.
+Other tracker writes are reversible but visible. Labels such as `needs-triage` gate them, not confirmations. Skills that stop to ask cite this rule instead of restating it.
 
 **No is an acceptable answer.** Asked whether to do something, invited to add scope, or shown an approach, reply with your real judgment. Decline or push back when true. Agreement is not the default.
 

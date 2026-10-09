@@ -32,7 +32,7 @@ Restate the idea in one sentence. Then settle three things in one round of the *
 - **Requirements.** Split them into **hard gates** (an approach that fails one is out) and **preferences** (weighed against each other). They come from the repo and the user, never from what web research happens to find.
 - **Premise.** Is this the right problem? What happens if we do nothing? What already solves part of it? An answer here can end the skill early, and that is a good outcome.
 
-Facts are your job. Look up anything the repo or a quick search can answer before asking, and ask only what the user decides. Wait for answers before Phase C.
+Facts are your job. Look up anything the repo or a quick search can answer before asking, and ask only what the user decides. Wait for answers before Phase C, per axo-mode's [question rule](../axo-mode/SKILL.md#autonomy).
 
 ## Phase B: Ground
 

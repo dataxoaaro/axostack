@@ -16,7 +16,7 @@ Read `docs/agents/issue-tracker.md`. If it doesn't exist, tell the user to run `
 
 ### 2. Classify the input and research it
 
-- **Internal question** (how does our X work, why is Y slow, is Z safe to change) → fan out the `how` and `why` skills as parallel subagents over the affected subsystems, per axo-mode's [Subagents](../axo-mode/SKILL.md#subagents) section.
+- **Internal question** (how does our X work, why is Y slow, is Z safe to change) → fan out the **how** and **why** skills as parallel subagents over the affected subsystems, per axo-mode's [Subagents](../axo-mode/SKILL.md#subagents) section.
 - **External question** (library capabilities, API behavior, ecosystem practice) → the `research` skill against primary sources.
 - **Product or scope fork** no research can settle → a short pass of the `grilling` skill with the user. Only the forks that change the issue's scope; this is not a full grill session.
 

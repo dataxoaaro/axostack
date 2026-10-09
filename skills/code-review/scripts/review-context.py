@@ -11,11 +11,13 @@ dirty one.
 
 Writes a directory under the OS temp dir (or --out) holding:
 
-  meta.txt      fixed point, head, mode, diff base, and the diff command
-  summary.txt   counts, the large-diff flag, and changed lines per directory
+  summary.txt   mode, fixed point, head, diff base, the diff command, counts,
+                the large-diff flag, and changed lines per directory
   commits.txt   git log --oneline <fixed-point>..<head>
   files.txt     git diff --name-status of tracked changes
-  untracked.txt untracked files, read in full by the axes (working tree only)
+  untracked.txt untracked files, read in full by the axes (working tree only).
+                A binary one (a NUL byte in its first 8 KB, or over 1 MB) is
+                listed but counts 0 changed lines and is not scanned for symbols
   diff/<path>.diff  one diff per changed tracked file
   symbols.txt   names defined or edited in the hunks of code files (prose and
                 data files are skipped), with the file they came from
@@ -24,7 +26,8 @@ Writes a directory under the OS temp dir (or --out) holding:
 The parent adds tests.txt with the output of the repo's test command.
 
 Read-only: it runs git with GIT_OPTIONAL_LOCKS=0 so even `git status` leaves
-the index untouched. Stdlib only.
+the index untouched, and with core.quotePath=false so non-ASCII paths come out
+as-is. Stdlib only.
 """
 
 from __future__ import annotations
@@ -44,6 +47,8 @@ MAX_SYMBOLS = 200
 MAX_CALLERS = 100
 MIN_SYMBOL_LEN = 3
 MAX_CLUSTERS_SHOWN = 15
+BINARY_SNIFF_BYTES = 8 * 1024
+BINARY_MAX_BYTES = 1024 * 1024
 
 # Prose and data files: a definition keyword there is a word, not a symbol.
 NOT_CODE = {
@@ -113,7 +118,12 @@ def git(*args: str, check: bool = True) -> str:
     """Run git read-only and return stdout."""
     env = {**os.environ, "GIT_OPTIONAL_LOCKS": "0"}
     proc = subprocess.run(
-        ["git", *args], capture_output=True, text=True, env=env, errors="replace"
+        ["git", "-c", "core.quotePath=false", *args],
+        capture_output=True,
+        text=True,
+        env=env,
+        errors="replace",
+        check=False,
     )
     if check and proc.returncode != 0:
         sys.exit(f"git {' '.join(args)} failed: {proc.stderr.strip()}")
@@ -131,33 +141,18 @@ def resolve(ref: str) -> str:
 def pin(fixed: str, head: str | None) -> dict[str, str]:
     """Decide the diff base, the target, and the mode."""
     fixed_sha = resolve(fixed)
-    if head:
-        head_sha = resolve(head)
-        base = git("merge-base", fixed_sha, head_sha).strip()
-        return {
-            "mode": "pinned head",
-            "fixed": fixed_sha,
-            "head": head_sha,
-            "base": base,
-            "target": head_sha,
-        }
-    head_sha = resolve("HEAD")
+    head_sha = resolve(head or "HEAD")
     base = git("merge-base", fixed_sha, head_sha).strip()
-    dirty = bool(git("status", "--porcelain", "--untracked-files=all").strip())
-    if dirty:
-        return {
-            "mode": "working tree",
-            "fixed": fixed_sha,
-            "head": head_sha,
-            "base": base,
-            "target": "",
-        }
+    dirty = not head and bool(
+        git("status", "--porcelain", "--untracked-files=all").strip()
+    )
+    mode = "pinned head" if head else "working tree" if dirty else "clean HEAD"
     return {
-        "mode": "clean HEAD",
+        "mode": mode,
         "fixed": fixed_sha,
         "head": head_sha,
         "base": base,
-        "target": head_sha,
+        "target": "" if dirty else head_sha,
     }
 
 
@@ -236,12 +231,24 @@ def write_diffs(
 def numstat(ctx: dict[str, str]) -> dict[str, int]:
     """Changed lines (added plus removed) per tracked path. Binary counts as 0."""
     counts = {}
-    for line in git("diff", "--no-renames", "--numstat", *diff_args(ctx)).splitlines():
-        added, removed, path = line.split("\t", 2)
+    out = git("diff", "--no-renames", "--numstat", "-z", *diff_args(ctx))
+    for record in filter(None, out.split("\0")):
+        added, removed, path = record.split("\t", 2)
         counts[path] = (int(added) if added.isdigit() else 0) + (
             int(removed) if removed.isdigit() else 0
         )
     return counts
+
+
+def untracked_lines(path: str) -> list[str]:
+    """An untracked file's lines, or none when it is missing or binary."""
+    source = pathlib.Path(path)
+    if not source.is_file() or source.stat().st_size > BINARY_MAX_BYTES:
+        return []
+    raw = source.read_bytes()
+    if b"\0" in raw[:BINARY_SNIFF_BYTES]:
+        return []
+    return raw.decode(errors="replace").splitlines()
 
 
 def build(fixed: str, head: str | None, out: pathlib.Path) -> str:
@@ -255,14 +262,17 @@ def build(fixed: str, head: str | None, out: pathlib.Path) -> str:
     untracked = (
         []
         if ctx["target"]
-        else git("ls-files", "--others", "--exclude-standard").splitlines()
+        else list(
+            filter(
+                None,
+                git("ls-files", "-z", "--others", "--exclude-standard").split("\0"),
+            )
+        )
     )
 
     per_file = write_diffs(out, ctx, files)
     for path in untracked:
-        source = pathlib.Path(path)
-        text = source.read_text(errors="replace") if source.is_file() else ""
-        per_file[path] = text.splitlines()
+        per_file[path] = untracked_lines(path)
         counts[path] = len(per_file[path])
 
     origin: dict[str, list[str]] = defaultdict(list)
@@ -319,7 +329,6 @@ def build(fixed: str, head: str | None, out: pathlib.Path) -> str:
         f"changed lines per directory:\n{clusters}\n"
     )
 
-    (out / "meta.txt").write_text(meta)
     (out / "commits.txt").write_text(commits)
     (out / "files.txt").write_text(name_status)
     (out / "untracked.txt").write_text(

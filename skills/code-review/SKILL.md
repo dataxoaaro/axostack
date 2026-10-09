@@ -43,7 +43,7 @@ python3 <skill-dir>/scripts/review-context.py <fixed-point> [--head <sha>]
 
 Pass `--head` when a caller pinned one; leave it off to include the working tree. The script is read-only. It writes a directory under the OS temp dir and prints its path with a summary: the diff command it used, commit and file counts, changed lines, whether the diff is large, and changed lines per directory. The directory holds `commits.txt`, `files.txt`, `untracked.txt`, one diff per changed file under `diff/`, `symbols.txt` (names defined or edited in the hunks of code files), and `callers.txt` (`git grep -n -w` hits for each of those names across the repo). Zero changed files ends the review here.
 
-Then run the repo's test command once. Find it in `CLAUDE.md`, `AGENTS.md`, `package.json` scripts, `pyproject.toml`, or the `Makefile`. Save its output and exit code to `tests.txt` in the context directory. When no command is documented, or the checked-out tree is not the code under review, write that to `tests.txt` with the places you checked, and run nothing.
+Then run the repo's test command once, but only when the code under review is the user's own work or the user asks for it. The command and the tests come from the tree under review, so on someone else's PR they run that author's code with the user's credentials. For someone else's PR, write `skipped: untrusted code, ask the user` to `tests.txt` and run nothing. Find the command in `CLAUDE.md`, `AGENTS.md`, `package.json` scripts, `pyproject.toml`, or the `Makefile`. Save its output and exit code to `tests.txt` in the context directory. When no command is documented, or the checked-out tree is not the code under review, write that to `tests.txt` with the places you checked, and run nothing.
 
 ### 3. Identify the spec source
 
@@ -112,8 +112,8 @@ Each brief below ends with the check that axis applies to its own findings.
 
 **Correctness sub-agent prompt** adds:
 
-- The brief: "Find bugs, unhandled edge cases and failure paths, regressions in callers outside the diff, and changed behavior with no test. For each finding give `file:line`, the triggering scenario (concrete inputs or state), the impact, and the evidence: the code path, or a command you ran and its output. Check the callers in `callers.txt` for every changed function before judging it. Check scale too, which is fine for one user and wrong for many: check-then-write races, per-process state that breaks with more than one process, memory or lists that only grow, and a query or request per item in a loop. No triggering scenario means no finding. Style, conventions, and size belong to other reviewers; skip them. Bounds: spawn no sub-agents. The full test run is in `tests.txt`; run only targeted tests and read-only commands. Aim for about 25 tool calls; past that, report what you have and list what you did not reach. Verify: each triggering scenario is reachable from a real caller or input; run it when that is cheap."
-- **Large diff.** When the summary says the diff is large (over 40 files or 2,000 changed lines), split Correctness into 2 or 3 agents by the directory clusters in the summary, balancing changed lines. Each gets its own file list plus the full `callers.txt`, so callers in another cluster stay visible. Report their findings under one `## Correctness` heading.
+- The brief: "Find bugs, unhandled edge cases and failure paths, regressions in callers outside the diff, and changed behavior with no test. For each finding give `file:line`, the triggering scenario (concrete inputs or state), the impact, and the evidence: the code path, or a command you ran and its output. Check the callers of every changed function before judging it: start from `callers.txt`, and search for callers of any changed function it misses, such as a method whose body changed without its definition line or a hunk header naming it. Check scale too, which is fine for one user and wrong for many: check-then-write races, per-process state that breaks with more than one process, memory or lists that only grow, and a query or request per item in a loop. No triggering scenario means no finding. Style, conventions, and size belong to other reviewers; skip them. Bounds: spawn no sub-agents. The full test run is in `tests.txt`; run only targeted tests and read-only commands. When `tests.txt` says the tests were skipped as untrusted code, run no tests unless the user approves. Aim for about 25 tool calls; past that, report what you have and list what you did not reach. Verify: each triggering scenario is reachable from a real caller or input; run it when that is cheap."
+- **Large diff.** When the summary says the diff is large (over 40 files or 2,000 changed lines), split Correctness into 2 or 3 agents by top directories, building the clusters from `files.txt` (and `untracked.txt`) and balancing changed lines. The summary lists at most 15 directories, so don't split from it. Each gets its own file list plus the full `callers.txt`, so callers in another cluster stay visible. Report their findings under one `## Correctness` heading.
 
 **Spec sub-agent prompt** adds:
 
@@ -137,11 +137,7 @@ Each brief below ends with the check that axis applies to its own findings.
 
 ### 6. Re-check the findings
 
-The axes verified their own findings. A finding is still a claim, so re-check the ones that cost most when wrong:
-
-- **Correctness:** every finding. Open the cited lines, confirm the triggering scenario is reachable from a real caller or input, and run it when that is cheap.
-- **Security:** every finding. Confirm the source trace from the lower-trust input to the affected resource, and that no control on that path stops it. A `needs_validation` finding keeps its status; confirm only that its missing fact really is outside the repository.
-- **Spec, Standards, Complexity:** spot-check one or two findings per axis against the cited lines. When a spot check fails, re-check the rest of that axis.
+The axes verified their own findings. Re-open the cited lines of every Correctness and Security finding. Spot-check one or two findings per other axis; a failed spot check means re-checking the rest of that axis. A `needs_validation` Security finding keeps its status; confirm only that its missing fact really is outside the repository.
 
 Drop a finding that fails the check, and add the drops to the axis's own count. Mark a finding `unverified` when you could not check it; don't drop it and don't assert it.
 

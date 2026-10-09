@@ -20,7 +20,7 @@ The user has asked for a **retrospective**. You are suggesting improvements that
 - **This skills library.** A skill misfired, didn't trigger when it should have, or a working recipe emerged that no skill captures. The fixes are edits to existing skills in the axostack checkout. Run [Library target](#library-target).
 - **The worked-on repo.** The session struggled because of the repo: slow to find things, a mistake a check could catch, missing information. The fixes land in that repo and in the user's global steering files. Run [Repo target](#repo-target).
 
-Take the target from the invocation (`/retro library`, `/retro repo`) or from what went wrong in the session. When neither settles it, ask once, with your recommendation. A session can feed both targets, one after the other. Structural improvements to the code go to `/improve-codebase-architecture` in either case.
+Take the target from the invocation (`/retro library`, `/retro repo`) or from what went wrong in the session. When neither settles it, ask once, with your recommendation, per axo-mode's [question rule](../axo-mode/SKILL.md#autonomy). A session can feed both targets, one after the other. Structural improvements to the code go to `/improve-codebase-architecture` in either case.
 
 Apply the **technical-writing** and **unslop** skills to every skill edit, steering file, standard, or doc you propose.
 
@@ -58,7 +58,7 @@ Then sanity-check the Accepted list. Move any item that a lint rule, script, met
 
 ### Apply
 
-Before applying any Accepted edit, present the full Accepted / Rejected / Backlog output and wait for explicit approval. The user picks which subset to apply and may redirect routings. Skill changes affect every future agent; do not auto-apply.
+Before applying any Accepted edit, present the full Accepted / Rejected / Backlog output and wait for explicit approval per the [question rule](../axo-mode/SKILL.md#autonomy). The user picks which subset to apply and may redirect routings. Skill changes affect every future agent; do not auto-apply.
 
 Backlog items are checks or tooling, not skill edits. List them for the user. Build one under the repo target, or file it with `/to-issue`, only when the user asks.
 
@@ -83,7 +83,7 @@ The environment is the repo the session worked in and the user's global steering
 
 - **Navigation**: how easy was it for the agent to find the right files? Are there hidden dependencies between files? Would a **navigation pointer** make it easier? _Use when_ the session took a long time to find a piece of information.
 - **Automated checks**: are there automated checks that could catch errors the agent made? Linting, typing, tests, filesystem linters? Read the repo's own check command first (its `package.json`/build-tool `lint`/`check` scripts, its CI workflow), so a check that already exists but sits unwired or silently broken is the finding, not a reinvention. A repo with no **guardrail** (no pre-commit hook and no CI job running its lint/typecheck/test command) is itself a finding: an un-linted repo is a standing missed opportunity, not a neutral default. _Use when_ the agent made a mistake an automated check could have caught, or the repo has no guardrail at all.
-- **Coding standards**: should the **reviewer agent** be given a new rule to enforce? Should an existing rule be removed or clarified? Classify the violation first: a **mechanical** one (a fixed syntactic pattern, a banned API, an import shape, a file-location rule) gets a deterministic check, full stop: a custom rule in the repo's own linter, a new pre-commit hook, or a new CI job, whichever the repo's language and existing guardrail make cheapest. Default to building the check over writing the rule. Reserve `CODING_STANDARDS.md` for genuine **judgement calls** (cross-file consistency, "matches the surrounding style," anything no guardrail could ever substitute for). _Use when_ the reviewer agent failed to catch a mistake.
+- **Coding standards**: should the **reviewer agent** be given a new rule to enforce? Should an existing rule be removed or clarified? Reserve `CODING_STANDARDS.md` for **judgement calls**. _Use when_ the reviewer agent failed to catch a mistake.
 - **Global CLAUDE.md / AGENTS.md**: are there any steering instructions that should be moved to coding standards (or automated checks) instead? _Use when_ the CLAUDE.md or AGENTS.md file is particularly large, in the repo or the user's global scope (`~/.claude/CLAUDE.md` and `~/.claude/rules/`).
 - **Tool economy**: did the agent make expensive tool calls that could be streamlined? Is there any custom tooling (CLI's, MCP's) that is particularly token-inefficient? _Use when_ the agent made an expensive tool call.
 - **No-ops**: look for instructions in steering files that don't modify the agent's behavior. _Use when_ the steering files are large and unwieldy.
@@ -91,19 +91,13 @@ The environment is the repo the session worked in and the user's global steering
 
 Every candidate cites the moment in the session that produced it: the message, the tool call, or the failing command. Discard a candidate you cannot trace, because a category with no evidence invites generic advice. Where a check already exists but is unwired or broken, the finding is to wire or fix it, not to build a new one. Mechanical rules go into checks per [encode-lessons-in-structure](../axo-mode/principles/encode-lessons-in-structure.md).
 
-2. For a mistake the agent made, check whether it recurs. Read recent commits, reverts, review comments, agent instruction files, and comments that explain workarounds for the same mistake. A mistake class counts once it has happened twice. Assume the next contributor is an agent that sees only the files it opened, copies the nearest example, and takes the shortest path that compiles. Fix each recurring class at the highest level that works:
+2. For a mistake the agent made, check whether it recurs. Read recent commits, reverts, review comments, agent instruction files, and comments that explain workarounds for the same mistake. A mistake class counts once it has happened twice. Assume the next contributor is an agent that sees only the files it opened, copies the nearest example, and takes the shortest path that compiles. Fix each recurring class at the strongest rung that works, per [encode-lessons-in-structure](../axo-mode/principles/encode-lessons-in-structure.md). A lint or CI check's error message names the file, type, or function to use instead. If the pattern is already common, the check fails only when a change adds more.
 
-   1. **Architecture.** One owner per piece of state, one supported way per task, internals hidden so the wrong import fails, one source of truth instead of hand-synced lists. Delete the old ways and dead code an agent would copy.
-   2. **Types**, so the bad state cannot be written.
-   3. **A lint or CI check** whose error message names the file, type, or function to use instead. If the pattern is already common, fail only when a change adds more.
-   4. **Tests** of the behavior. Fix or delete any test that would still pass if every function it calls returned nothing.
-   5. **Docs or agent rules**, last, and only for judgment calls. Nothing fails when an agent skips them.
-
-3. Present the candidates to the user, in order of severity. For each: the category, the session evidence, the proposed fix, the file or check it lands in, and for a recurring class the level you picked and why a higher level didn't work.
+3. Present the candidates to the user, in order of severity. For each: the category, the session evidence, the proposed fix, the file or check it lands in, and for a recurring class the rung you picked and why a stronger one didn't work.
 
 4. Change nothing until the user picks candidates. Build each picked one under the **axo-mode** skill's playbooks. Each new check must fail on the real past mistake, from the session or the history, and pass once that mistake is gone. Run the same command locally and in CI. An exception goes on the offending line with a reason, an expiry date, and a human's approval. Close out through the Committing playbook.
 
-5. Keep a table that pairs each rule with what enforces it, in `CODING_STANDARDS.md` or wherever the repo already keeps its agent rules. When the user corrects the same mistake again and the table shows nothing enforcing its rule, that is a repeat: fix it at the highest level in the same change. Drop a rule once its mistake can't happen.
+5. Keep a table that pairs each rule with what enforces it, in `CODING_STANDARDS.md` or wherever the repo already keeps its agent rules. When the user corrects the same mistake again and the table shows nothing enforcing its rule, that is a repeat: fix it at the strongest rung in the same change. Drop a rule once its mistake can't happen.
 
 ## Reference
 

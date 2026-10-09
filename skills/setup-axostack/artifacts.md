@@ -7,7 +7,7 @@ Where the engineering skills write their own Markdown in this repo. Three bucket
 - **Location:** `docs/plans/<NNNN>-<slug>.md`, numbered from `0001` like ADRs
 - **Committed:** yes
 
-Written by the `plan` skill. Read by `/grilling` when the plan gets stress-tested, by `to-tickets` when it gets sliced, and by whoever reviews the PR that implements it. Committed because all three of those happen after the session that wrote it.
+Written by the **plan** skill. Read by **grilling** when the plan gets stress-tested, by `/to-tickets` when it gets sliced, and by whoever reviews the PR that implements it. Committed because all three of those happen after the session that wrote it.
 
 Every plan carries `status:` in its frontmatter: `draft`, `grilled`, `approved`, `superseded`. Update it in place rather than writing a second file. An abandoned plan is marked `superseded` with a pointer to what replaced it, never deleted.
 

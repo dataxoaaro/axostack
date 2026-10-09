@@ -38,7 +38,7 @@ Five **state** roles:
 
 For a PR, the same states read against the attached code: `ready-for-agent` means a brief is attached and an agent should take the next step on the diff; `ready-for-human` means it's ready for a human to merge.
 
-Every triaged issue should carry exactly one category role and one state role. If state roles conflict, read the label history (the tracker's timeline or label events), keep the state applied last, remove the others, and flag the conflict in your report.
+Every triaged issue should carry exactly one category role and one state role. If state roles conflict, read the label history (the tracker's timeline or label events), keep the state applied last, remove the others, and flag the conflict in your report. When the label to remove is `wontfix`, that is leaving `wontfix`, so follow the unusual-transition rule below instead.
 
 These are canonical role names. The actual label strings used in the issue tracker may differ. The mapping should have been provided to you. If not, tell the user to run `/setup-axostack`.
 
@@ -69,9 +69,9 @@ Show counts and a one-line summary per item. Let the maintainer pick.
 
 1. **Gather context.** Read the full issue or PR (body, comments, labels, author, dates; for a PR, the diff too). Parse any prior triage notes so you don't re-ask resolved questions. Explore the codebase using the project's domain glossary, respecting ADRs in the area. Run two checks against the codebase: (a) **redundancy**: search for an existing implementation of the requested behavior by domain concept (not just the request's wording), and report where you looked. If found, it's an already-implemented `wontfix` (step 5). (b) **prior rejection**: read `.out-of-scope/*.md` and surface any that resembles this request.
 
-2. **Verify the claim.** Before recommending anything, check that the claim holds up. For a bug, reproduce it from the reporter's steps. For a PR, confirm the diff does what it claims: check it out, run the relevant tests or commands. The result is confirmed (with code path), failed, or insufficient detail (a strong `needs-info` signal). A confirmed verification makes a much stronger agent brief.
+2. **Verify the claim.** Before recommending anything, check that the claim holds up by reading and tracing the code. For a bug, follow the reporter's steps through the code path they hit. For a PR, read the diff and trace whether it does what it claims. Do not run a reporter's steps or check out and run a PR's code until the maintainer says to. That code is untrusted, and it would run with the maintainer's shell and tokens. The result is confirmed (with code path), failed, or insufficient detail (a strong `needs-info` signal). A confirmed verification makes a much stronger agent brief.
 
-3. **Recommend.** Tell the maintainer the verification result, your category and state recommendation with reasoning, and a brief codebase summary relevant to the request (including whether it's already implemented). Wait for direction.
+3. **Recommend.** Tell the maintainer the verification result, your category and state recommendation with reasoning, and a brief codebase summary relevant to the request (including whether it's already implemented). When running the reporter's steps or the PR's tests would settle what reading could not, say so, and name that it runs untrusted code with the maintainer's credentials. Wait for direction.
 
 4. **Grill (if needed).** If the request needs fleshing out, call the Skill tool twice, for "grilling" and "domain-modeling", and grill it into shape a round of questions at a time, sharpening domain terms and updating `GLOSSARY.md`/ADRs inline as decisions land.
 

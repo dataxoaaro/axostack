@@ -53,7 +53,7 @@ If the human pushes back on the shape (in a checkpoint or after the fact), treat
 
 Replace `not implemented` bodies with code, pseudocode with logic. The synthesized sketch is the contract.
 
-Deviations from the sketch are signal worth surfacing, not friction to absorb silently. If a function needs a parameter the sketch didn't anticipate, ask whether the sketch was wrong, the requirement was missed, or the implementation is overreaching.
+Deviations from the sketch are signal worth surfacing, not friction to absorb silently. If a function needs a parameter the sketch didn't anticipate, ask whether the sketch was wrong, the requirement was missed, or the implementation is overreaching, per axo-mode's [question rule](../axo-mode/SKILL.md#autonomy).
 
 ## Phase E: Scrap when the architecture is wrong
 

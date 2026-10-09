@@ -56,14 +56,20 @@ branch: <branch name, or none yet>
 
 *Replace `pending` with a link to the slice's verification record in this document or a durable artifact. Record commands or actions, observed results, and the verified commit. For uncommitted work, record the base commit and a saved patch or equivalent reproducible snapshot, including relevant untracked files. `HEAD` or "dirty worktree" alone does not identify what passed. Keep delivery status separate from verification evidence.*
 
+*Each slice names its seams below the table: the public interfaces its tests go through. tdd treats them as agreed, and `/to-tickets` copies them into the ticket.*
+
 *Each slice gets its own acceptance criteria below the table: observable statements a reviewer can check against the diff and the repo, such as a command and its expected output, a row count, or a page state. `/to-tickets` copies them verbatim into the slice's ticket, and code-review's Spec axis marks each one pass or fail with evidence.*
 
 ### Slice 1: <short title>
+
+Seams: <the public interfaces this slice's tests go through, e.g. "`importer` CLI, `OrdersRepo.count()`">
 
 - [ ] <observable, checkable statement, e.g. "`importer orders.csv` on a 40MB file exits 0 and `SELECT count(*) FROM orders` equals the file's row count">
 - [ ] <...>
 
 ### Slice 2: <short title>
+
+Seams: <...>
 
 - [ ] <...>
 

@@ -1,6 +1,6 @@
 # Upstream skill update, October 9, 2026
 
-This record covers upstream changes since the [October 6 audit](upstream-skills-2026-10-06.md), applied while the library was pruned from 66 to 36 skills. It is the first audit that includes ponytail, whose base was not recorded before. Cloudflare's security-audit-skill is unchanged.
+This record covers upstream changes since the [October 6 audit](upstream-skills-2026-10-06.md), applied while the library was pruned from 66 to 36 skills. Adding address-pr-feedback brought it to 37. It is the first audit that includes ponytail, whose base was not recorded before. Cloudflare's security-audit-skill is unchanged.
 
 | Source | Previous audited head | Audited head | Commits |
 |---|---|---|---:|
@@ -48,6 +48,6 @@ The base options now default to the audited heads above. All three `--*-ref` opt
 
 ## Verification
 
-- `python3 scripts/check-skill-refs.py`: 36 skills checked, no problems.
+- `python3 scripts/check-skill-refs.py`: 37 skills checked, no problems.
 - `git diff --check` passed.
 - Every SHA in this record was resolved with `git log -1` in the local upstream clones.

@@ -5,7 +5,7 @@ description: "Build what a plan, spec, or tickets describe, one verified slice a
 
 # Implement
 
-The build phase. The shape was decided before you got here, so your job is to land it one verifiable slice at a time and to notice when the plan turns out to be wrong. Skip it when there is no agreed shape yet, where `/plan` or the **grilling** skill comes first, and for a single obvious edit.
+The build phase. The shape was decided before you got here, so your job is to land it one verifiable slice at a time and to notice when the plan turns out to be wrong. Skip it when there is no agreed shape yet, where the **plan** or **grilling** skill comes first, and for a single obvious edit.
 
 Everything this skill names is owned somewhere else. The **tdd** skill owns the red-green loop, the **code-review** skill owns the review, and axo-mode's Committing playbook owns branches, gates, and commit messages. Route into them, don't restate them.
 
@@ -19,7 +19,7 @@ Read all three of a plan's tables, not just the first:
 - **Assumptions** is what to watch. An assumption a slice depends on that is graded 1 gets proven before that slice starts, not after it breaks.
 - **Open decisions** is what is not settled. A question that gates a slice stops that slice. Say whether it gates, then either continue or ask per axo-mode's [question rule](../axo-mode/SKILL.md#autonomy). Picking an answer silently is the failure this section exists to prevent.
 
-Seams named in the plan or ticket count as agreed for **tdd**. No plan, no slices, or no named seams → propose the seams before writing anything, per **tdd**: where behavior changes and tdd applies, and where it doesn't because the change is config, wiring, or generated code.
+Seams named in the plan or ticket count as agreed for **tdd**. If there is no plan, no slices, or no named seams, propose the seams before writing anything, per **tdd**: where behavior changes and tdd applies, and where it doesn't because the change is config, wiring, or generated code.
 
 ## Start
 

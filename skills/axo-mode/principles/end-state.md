@@ -26,7 +26,7 @@ This applies when no external user depends on backward compatibility and the pro
 
 ## Keep every committed unit green
 
-Breakage is allowed only inside one uncommitted unit. A renamed type whose callers have not moved yet is fine while you work on that unit. Migrate the callers, run the checks, and commit only once the unit is green. Never commit a red state with a plan to fix it later.
+Breakage is allowed only inside one uncommitted unit. A renamed type whose callers have not moved yet is fine while you work on that unit. Migrate the callers, run the checks, and commit only once the unit is green. Never commit a red state with a plan to fix it later. The one exception is a failing test committed to prove a bug, with the fix as the very next commit, per [sequence-verifiable-units](sequence-verifiable-units.md).
 
 When the change is too wide for one green unit, use expand, migrate, contract. Add the new form beside the old so nothing breaks. Migrate callers in batches, each its own green commit. Then delete the old form. The old form's lifetime ends at the contract step.
 

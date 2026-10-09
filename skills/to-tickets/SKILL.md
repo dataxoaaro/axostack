@@ -37,13 +37,13 @@ Break the work into **tracer bullet** tickets.
 
 Give each ticket its **blocking edges**: the other tickets that must complete before it can start. A ticket with no blockers can start immediately.
 
-When the source is a plan, each ticket's acceptance criteria are its plan slice's, copied verbatim. Don't rephrase, merge, or drop them. The **code-review** skill's Spec axis checks each one by its wording.
+When the source is a plan, each ticket's acceptance criteria and seams are its plan slice's, copied verbatim. Don't rephrase, merge, or drop them. The **code-review** skill's Spec axis checks each criterion by its wording, and the **implement** skill drives **tdd** at the seams.
 
 **Wide refactors are the exception to vertical slicing.** A **wide refactor** is one mechanical change (rename a column, retype a shared symbol) whose **blast radius** fans across the whole codebase, so a single edit breaks thousands of call sites at once and no vertical slice can land green. Don't force it into a tracer bullet; sequence it as **expand–contract**. First expand: add the new form beside the old so nothing breaks. Then migrate the call sites over in batches sized by blast radius (per package, per directory), each batch its own ticket blocked by the expand, keeping CI green batch to batch because the old form still exists. Finally contract: delete the old form once no caller remains, in a ticket blocked by every migrate batch. When even the batches can't stay green alone, keep the sequence but let them share an integration branch that all block a final integrate-and-verify ticket; green is promised only there.
 
 ### 4. Check the breakdown
 
-**From an approved plan.** When the source is a plan marked `status: approved` that already has slices, the user agreed the granularity when they approved it. Skip the quiz. Check the blocking edges against the code instead of asking: run the **blast-radius** skill over each slice's planned change, and confirm that every edge stands for a real dependency (one slice changes what another calls, reads, or migrates) and that no real dependency lacks an edge. Show the breakdown with any edge you corrected and its evidence.
+**From an approved plan.** When the source is a plan marked `status: approved` that already has slices, the user agreed the granularity when they approved it. Skip the quiz. Check the blocking edges against the code instead of asking. Confirm that every edge stands for a real dependency (one slice changes what another calls, reads, or migrates) and that no real dependency lacks an edge. Settle each edge by reading the code, and run the **blast-radius** skill only for an edge reading cannot settle. Show the breakdown with any edge you corrected and its evidence, then ask for approval to publish (step 5), unless the invocation granted it up front.
 
 **Otherwise, quiz the user.** Present the proposed breakdown as a numbered list. For each ticket, show:
 
@@ -80,6 +80,8 @@ Do NOT close or modify any parent issue.
 
 **Status:** ready-for-agent
 
+**Seams:** the public interfaces this ticket's tests go through, copied from the plan slice when there is one.
+
 - [ ] Acceptance criterion 1
 - [ ] Acceptance criterion 2
 
@@ -99,6 +101,10 @@ The end-to-end behaviour this ticket makes work, from the user's perspective, no
 
 - [ ] Criterion 1
 - [ ] Criterion 2
+
+## Seams
+
+The public interfaces this ticket's tests go through, copied from the plan slice when there is one.
 
 ## Blocked by
 

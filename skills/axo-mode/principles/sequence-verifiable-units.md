@@ -15,4 +15,4 @@ Order work as a sequence of small units, each ending in a state you can check, a
 - Verify before advancing. Red to green per unit, never deferred to a final batch.
 - Order the units so the sequence builds confidence on its own, for you while executing and for a reviewer reading the stack.
 
-The sequencing complement to [prove-it-works](prove-it-works.md), which keeps each check real, and [build-the-lever](build-the-lever.md), which makes the per-unit check cheap. [End-state](end-state.md) names the target the units converge on, and this principle keeps each committed step on the way there green.
+This principle sequences the checks. [Prove-it-works](prove-it-works.md) keeps each check real, and [build-the-lever](build-the-lever.md) makes the per-unit check cheap. [End-state](end-state.md) names the target the units converge on. This principle keeps each committed step on the way there green, except the failing test that proves a bug, whose fix is the very next commit.

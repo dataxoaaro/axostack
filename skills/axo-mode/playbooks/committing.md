@@ -6,7 +6,7 @@
 2. Run the repo's format, lint, and test gates. In Python repos: `ruff format .`, `ruff check . --fix`, `uv run pytest`. A failing gate blocks the commit; fix it, don't skip it.
 3. Check the diff for tracker keys in code comments or identifiers: `git diff <base>...HEAD | grep -n "^+.*[A-Z]\{2,\}-[0-9]"`. Keys belong in the branch name and commit message, never in code.
 4. Conventional commit message: `<type>: <description>` with types feat, fix, refactor, docs, test, chore, perf, ci. The tracker key goes in the message body. No AI attribution lines.
-5. Sequence commits per **principle-sequence-verifiable-units**: each commit builds and passes tests on its own. For a bug fix, the failing test commits before the fix.
+5. Sequence commits per [sequence-verifiable-units](../principles/sequence-verifiable-units.md): each commit builds and passes tests on its own. For a bug fix, the failing test commits before the fix.
 6. Never push to remote without explicit approval. Commit locally, report, and ask before pushing.
 7. Every PR body is written with the **pr** skill, including a rewrite after a large change under review.
 8. Once a push is approved and done, read the remote instead of predicting it: `gh pr checks` and `gh run list --branch <branch>` for CI, `gh pr view --json state,mergedAt,url` for merge state. After pulling a merge, run `git log <base>..<merge>` to catch commits made outside this session, and check whether any landed in files you rewrote.

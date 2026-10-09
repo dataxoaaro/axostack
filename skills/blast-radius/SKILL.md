@@ -1,11 +1,11 @@
 ---
 name: blast-radius
-description: "Find what a change could break somewhere else before it ships, beyond the diff, and prove the one fact it's safe because of by running real code instead of writing it up. Use for 'blast radius of X', 'what could this break', reviewing a small diff you don't trust, or any sweep that rewrites one pattern across many files, including flag, config, metadata, and visibility changes that alter behavior without altering logic. Skip only when the change is one edit in one file with no callers."
+description: "Find what a change could break beyond the diff, and prove the one fact it's safe because of by running real code. Use for 'blast radius of X', 'what could this break', an untrusted diff, or a sweep across many files."
 ---
 
 # Blast radius
 
-Find what a change breaks somewhere else, before it ships. Use for "blast radius of X", "what could this break", or reviewing a small diff you don't trust yet.
+Find what a change breaks somewhere else, before it ships. Use for "blast radius of X", "what could this break", or reviewing a small diff you don't trust yet. Also use it for any sweep that rewrites one pattern across many files, including flag, config, metadata, and visibility changes that alter behavior without altering logic. Skip it only when the change is one edit in one file with no callers.
 
 Companion to `how` and `why`. `how` tells you what the code does. `why` tells you why it's shaped that way. Blast radius tells you what it breaks somewhere else.
 

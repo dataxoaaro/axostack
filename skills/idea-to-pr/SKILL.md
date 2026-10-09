@@ -1,11 +1,22 @@
 ---
 name: idea-to-pr
-description: "Take a requested idea or fix through investigation, an implementation plan, a Linear issue, an isolated worktree, a PR, and independent reviews with repairs. Use for /idea-to-pr or when the user asks for this complete workflow. Skip discussion-only requests and requests that stop at planning, ticket creation, or review."
+description: "Take an idea, a fix, or an existing Linear issue through investigation, a plan, the issue, an isolated worktree, a PR, and independent reviews with repairs. Run bare to take the next ready issue. A local mode stops at commits on the branch. Use for /idea-to-pr, 'work on issue <key>', or 'pick up the next ready issue'."
+disable-model-invocation: true
 ---
 
 # Idea to PR
 
-Deliver a verified PR with review findings addressed. Own the sequence below; use the build and review skills where named. The separate ticket-creation and ticket-execution entry points retain their standalone workflows.
+Deliver a verified PR with review findings addressed. Own the sequence below; use the build and review skills where named. `/to-issue` and `/to-tickets` remain separate entry points that stop at the tracker.
+
+## Pick the input and the mode
+
+- **A request** (`/idea-to-pr <idea or fix>`, or a `/research-idea` decision record) → a new issue, created below.
+- **An issue key** (`/idea-to-pr <issue-key>`) → that existing issue, per step 3 below.
+- **Nothing** (`/idea-to-pr` run bare) → read `docs/agents/issue-tracker.md`. If it doesn't exist, tell the user to run `/setup-axostack` and stop. Otherwise query the frontier: open issues labeled `ready-for-agent` with no open blockers and no assignee. Take the first in the tracker's priority order, assign it to the authenticated user, and name it in your first progress update. An empty frontier ends the run with that report.
+
+An issue with open blockers does not start. Report the blockers and stop.
+
+**Local mode** runs when the user asks for it (`/idea-to-pr --local <issue-key>`, "don't push", "local only"). It follows the same flow through implementation and the **implement** skill's local review, then commits on the task branch and stops. It never pushes, opens a PR, or publishes a PR review summary. Its authorization covers the issue updates and local commits only. Close out by commenting on the issue with what changed, how it was verified, the branch name, and any leftovers, then move the issue to In Review. Return the issue link, branch, commit list, gate results, and worktree path. Pushing later is a separate request.
 
 ## Establish the task and destination
 
@@ -22,7 +33,7 @@ A request to execute this complete workflow authorizes creating and updating its
 
 When the request is a `/research-idea` decision record, its chosen approach and requirements are settled input. Do not reopen the choice unless the code contradicts the record's evidence.
 
-Trace the affected code, tests, and relevant history before proposing a fix. For bugs, reproduce the failure and identify its cause, using the **diagnosing-bugs** skill when needed. For changes, identify the current behavior and the requested result. Resolve only questions that change scope, design, or acceptance criteria; continue independent investigation while answers are pending.
+Trace the affected code, tests, and relevant history before proposing a fix. For bugs, reproduce the failure and identify its cause, using the **diagnosing-bugs** skill when needed. For changes, identify the current behavior and the requested result. Resolve only questions that change scope, design, or acceptance criteria; continue independent investigation while answers are pending. For an existing issue, append the decisions resolved this way to it as a comment, so the tracker stays the source of truth.
 
 Write a plan proportional to the task. Use the **plan** skill when the change needs substantial design or multiple slices. Keep the plan local until the destination and scope are settled. Do not publish tickets from a nested planning workflow; this workflow owns issue creation. Its planning handoff returns here: the user's request for this complete workflow authorizes continuing into implementation once blocking decisions are resolved. Do not label a plan user-approved without an explicit approval.
 
@@ -75,13 +86,13 @@ Fix valid findings in the task worktree, run affected checks, commit, and push. 
 
 Check that local verification, required CI checks, and reviews apply to the latest PR head. Changes after review invalidate the affected review results. Report unavailable or failing checks explicitly. Mark the PR ready only when verification and required checks pass and no blocking findings remain.
 
-Publish a concise review summary on the PR with the reviewed SHA, reviewer responsibilities and models, findings, and dispositions. Update Linear with verification and the PR link. Move it to the team's In Review state when ready. Do not mark it Done before merge.
+Publish a concise review summary on the PR with the reviewed SHA, reviewer responsibilities and models, findings, and dispositions. Update Linear with verification and the PR link. File each leftover as its own new issue rather than a vague note. Move it to the team's In Review state when ready. Do not mark it Done before merge.
 
 Return the Linear link, PR link, worktree path, verification results, and unresolved concerns. Retain the worktree for follow-up unless cleanup was requested.
 
 ## Resume without duplicates
 
-Apply **principle-make-operations-idempotent**. Keep a task record under the repository's git common directory, outside tracked source files, in `idea-to-pr/<task-id>.json`. Choose a unique local task ID before the first external write.
+Apply [make-operations-idempotent](../axo-mode/principles/make-operations-idempotent.md). Keep a task record under the repository's git common directory, outside tracked source files, in `idea-to-pr/<task-id>.json`. Choose a unique local task ID before the first external write.
 
 Record the repository, selected Linear connection and workspace, team, project, assignee, issue ID and key, worktree, branch, base SHA, PR URL, phase, reviewed head, verification results, and review findings with their dispositions. Record intended creates before sending them and returned identifiers immediately afterward. Never store credentials.
 

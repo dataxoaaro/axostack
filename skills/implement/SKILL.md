@@ -1,11 +1,11 @@
 ---
 name: implement
-description: "Build the work a plan, spec, or ticket set describes: read the slices, drive tdd at the agreed seams, verify each slice before starting the next, and close out through review and the Committing playbook. Use for /implement, 'build this', or the build phase of any playbook. Skip when there is no agreed shape yet, where `/plan` or `/grill-me` comes first, and for a single obvious edit."
+description: "Build what a plan, spec, or tickets describe, one verified slice at a time, through tdd and review. Use for /implement, 'build this', or a playbook's build phase. Skip with no agreed shape (`/plan` or grilling first)."
 ---
 
 # Implement
 
-The build phase. The shape was decided before you got here, so your job is to land it one verifiable slice at a time and to notice when the plan turns out to be wrong.
+The build phase. The shape was decided before you got here, so your job is to land it one verifiable slice at a time and to notice when the plan turns out to be wrong. Skip it when there is no agreed shape yet, where `/plan` or the **grilling** skill comes first, and for a single obvious edit.
 
 Everything this skill names is owned somewhere else. The **tdd** skill owns the red-green loop, the **code-review** skill owns the review, and axo-mode's Committing playbook owns branches, gates, and commit messages. Route into them, don't restate them.
 
@@ -25,14 +25,14 @@ Copy the slices into the todo list, one entry each, in dependency order. A slice
 
 ## The loop, one slice at a time
 
-Per **principle-sequence-verifiable-units**. Finish a slice before opening the next one.
+Per [sequence-verifiable-units](../axo-mode/principles/sequence-verifiable-units.md). Finish a slice before opening the next one.
 
 1. Confirm the slice's blockers landed. A blocked slice does not start.
    If performance is an acceptance criterion, capture the plan's baseline on the pre-change revision before implementation, with the specified workload and environment. Record an unavailable baseline as a verification gap.
 2. Behavior change → the **tdd** skill, red first. Not a behavior change → say which kind it is and skip tdd with that reason.
 3. Cut the narrow complete path through every layer the slice touches. A slice that lands in one layer is not a slice.
 4. Cadence: typecheck after each meaningful edit, and run the single test file you are working in on each red-green cycle. Leave the full suite for close-out; running it every cycle is slow enough that you learn to ignore it. Behavior-preserving work is the exception: when the change is supposed to alter nothing a test can see, the full suite is the proof, so it runs on every unit.
-5. Verify on the real surface per **principle-prove-it-works**, driving the repo's `verify-<app>` skill when it has one. "It compiles" and "tests pass" are not a pass for behavior a user can see.
+5. Verify on the real surface per [prove-it-works](../axo-mode/principles/prove-it-works.md), driving the repo's `verify-<app>` skill when it has one. "It compiles" and "tests pass" are not a pass for behavior a user can see.
    When the slice delivers a check, verifying it means making it fail. Write a throwaway subject carrying one deliberate defect per class the check claims to catch, plus the near misses that must stay silent, and confirm each class reports and the exit code flips back once the subject is gone. A check that has only ever returned green is a check you hope works.
    Save the checks, observed results, and tested state in a verification record and link it from the slice's Evidence column. For a clean checkout, record the commit; for uncommitted work, record the base commit and a saved patch or equivalent reproducible snapshot, including relevant untracked files. Compare performance with the recorded baseline under the same conditions when required.
 6. Commit the slice before starting the next, through the Committing playbook. Then set that slice's Status in the plan to `landed <sha>`, so the next session reads where the work stopped instead of inferring it.
@@ -49,7 +49,7 @@ Tells:
 - Two slices are really one, or one is really three.
 - The acceptance check cannot be written as the plan states it.
 
-Then stop building and re-enter the plan through the **plan** skill, carrying what the build found as evidence. Revise the affected sections, resume from the revised slices. Bolting the discovery onto the current slice hides it from everyone who reads the plan next, per **principle-fix-root-causes**.
+Then stop building and re-enter the plan through the **plan** skill, carrying what the build found as evidence. Revise the affected sections, resume from the revised slices. Bolting the discovery onto the current slice hides it from everyone who reads the plan next, per [fix-root-causes](../axo-mode/principles/fix-root-causes.md).
 
 ## Resuming
 

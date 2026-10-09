@@ -1,6 +1,6 @@
 ---
 name: plan
-description: "Work a feature or fix into one written plan: grounded in the codebase, shaped, risk-graded, and sliced into tickets. Use for /plan, 'plan this', 'write up a plan', or before building anything whose shape isn't settled yet. Skip when the change is one obvious edit, when the path itself is fogged (`/wayfinder`), or when the shape is already settled and only the run is long (`/figure-it-out`)."
+description: "Work a feature or fix into one written plan: grounded, shaped, risk-graded, and sliced into tickets. Use for /plan, 'plan this', or before building anything whose shape isn't settled. Skip for one obvious edit."
 ---
 
 # Plan
@@ -41,7 +41,7 @@ If a fork blocks the framing itself, run a short pass of the **grilling** skill 
 
 ## Phase B: Ground
 
-Scale this to the question, the way the **how** skill scales its own exploration. A change touching one module is a single pass. A change spanning subsystems fans out as parallel subagents, keeping only their findings in the main thread, per **principle-guard-the-context-window**. Say which one you did.
+Scale this to the question, the way the **how** skill scales its own exploration. A change touching one module is a single pass. A change spanning subsystems fans out as parallel subagents, keeping only their findings in the main thread, per axo-mode's [Subagents](../axo-mode/SKILL.md#subagents) section. Say which one you did.
 
 - **how** over each subsystem the change touches. Structure, runtime flow, ownership.
 - **why** over anything that looks arbitrary and is about to be changed. A constraint you can't see is the one you'll break.
@@ -54,10 +54,10 @@ Then read the repo's `verify-<app>` feature map, when it has one. The features l
 ## Phase C: Shape
 
 - Crosses a function boundary → the **architect** skill. Its synthesized type sketch and rationale become the plan's Interface sketch section, not a separate artifact.
-- Name the data shape and its organizing structure before any logic, per **principle-model-the-domain**.
+- Name the data shape and its organizing structure before any logic, per [model-the-domain](../axo-mode/principles/model-the-domain.md).
 - A fork whose answer is observable (behavior, timing, layout, output, perf) is not the user's to answer. Build the probe with the **prototype** skill and let the result decide. Reserve questions for genuine product calls no experiment can settle.
-- Record at least one alternative shape you rejected, with the line on why it lost. Where the constraints forced the answer, say that instead of inventing a strawman. This is **principle-exhaust-the-design-space** at plan scale.
-- Say what gets deleted, per **principle-subtract-before-you-add**. "Nothing" is a valid answer once you have looked for dead weight and not found any.
+- Record at least one alternative shape you rejected, with the line on why it lost. Where the constraints forced the answer, say that instead of inventing a strawman. This is the **architect** skill's design-it-twice rule at plan scale.
+- Say what gets deleted, per [laziness-protocol](../axo-mode/principles/laziness-protocol.md). "Nothing" is a valid answer once you have looked for dead weight and not found any.
 
 ## Phase D: Risk and verification
 
@@ -67,8 +67,8 @@ Then read the repo's `verify-<app>` feature map, when it has one. The features l
 - A script only earns grade 4 once you have seen it give the opposite answer. Until then you have run something, not proved something. When your own scan reports an absence, suspect the scan first: check what it excludes, whether the thing is written under a second name, and whether it matches case. A scan that finds nothing and a repo that contains nothing look identical from here.
 - Write the acceptance checks as things somebody runs, one per behavior the user can see. A check that lands in CI runs on whatever bare interpreter the image ships, so it takes no dependency the repo does not already install, resolves its targets from its own file rather than the working directory, and is proved by running it from an unrelated directory before you believe the green.
 - When performance is an acceptance criterion, specify the metric, workload, environment, and threshold. Measure and record the baseline revision before implementation so the final comparison uses the same conditions. If the baseline cannot be measured, record that gap rather than claim an improvement.
-- Name the `verify-<app>` feature files this change touches and the ones it needs to add. User-facing change and no verification skill in the repo → say so and recommend `/create-verification-skill` as the first slice. No user-facing surface at all, as in a library or a config repo → say that in one line and move on rather than manufacturing a verification story.
-- Slice the work into vertical tracer bullets, each demoable on its own and each sized for one fresh context window, with the blocking edges between them. Write them in the shape the **to-tickets** skill consumes so publishing is mechanical rather than a second breakdown from memory. A wide mechanical refactor is the exception. Sequence it expand, migrate, contract, as to-tickets describes. Every slice starts at `todo`; the **implement** skill moves it as work lands.
+- Name the `verify-<app>` feature files this change touches and the ones it needs to add. User-facing change and no verification skill in the repo → say so and recommend `/verification-skill create` as the first slice. No user-facing surface at all, as in a library or a config repo → say that in one line and move on rather than manufacturing a verification story.
+- Slice the work into vertical tracer bullets, each demoable on its own and each sized for one fresh context window, with the blocking edges between them. Write them in the shape `/to-tickets` consumes so publishing is mechanical rather than a second breakdown from memory. A wide mechanical refactor is the exception. Sequence it expand, migrate, contract, as to-tickets describes. Every slice starts at `todo`; the **implement** skill moves it as work lands.
 - Give each slice an Evidence column, initially `pending`. On completion it links to a verification record with the checks, results, and exact revision or worktree snapshot tested. A landing commit alone records delivery, not verification.
 
 ## Phase E: Write and hand off
@@ -81,10 +81,10 @@ Then stop and hand off. Do not start building.
 
 ```
 /plan <feature>            →  docs/plans/<NNNN>-slug.md    status: draft
-/grill-with-docs <path>    →  answers folded back in       status: grilled
+/grilling <path>           →  answers folded back in       status: grilled
 (user approves)                                            status: approved
 /to-tickets <path>         →  tickets in dependency order
-/work-linear-issue <key>   →  built
+/idea-to-pr <key>          →  built
 ```
 
 You set `draft`, `grilled`, and the slice statuses. You never set `approved`. That one moves on an explicit statement from the user and on nothing else, because it is the gate that catches a plan whose reasoning is wrong, and a plan cannot pass its own gate. Building against an ungrilled plan is allowed when the user asks for it. Marking it approved to get there is not.

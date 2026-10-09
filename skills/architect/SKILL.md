@@ -1,6 +1,6 @@
 ---
 name: architect
-description: "Sketch types, signatures, and module structure before code, then stay in the loop while implementation fills in. Use for /architect, 'architect this', 'design this', or non-trivial work where jumping to code would lock in the wrong shape."
+description: "Sketch types, signatures, and module structure before code, comparing at least two designs, then stay in the loop as code fills in. Use for /architect, 'architect this', or when code-first would lock in the wrong shape."
 ---
 
 # Architect
@@ -31,7 +31,7 @@ Run the **arena** skill with the design-sketch task and the Phase A grounding ar
 
 Use one runner each on the `"fable"`, `"opus"`, and `"sonnet"` models so the candidates diverge.
 
-Design it twice. Require at least two structurally distinct candidates before synthesis, even when the first looks sufficient. This is the **principle-exhaust-the-design-space** skill made concrete. Whole-shape alternatives, not point fixes inside one shape.
+Design it twice. Require at least two structurally distinct candidates before synthesis, even when the first looks sufficient. Building the wrong thing costs more than exploring three options. Whole-shape alternatives count, and a second flavor of the first shape does not. The rule applies wherever the right answer is not obvious: a novel UI interaction with no prior art in the codebase, an architectural choice with several viable approaches, or a product decision whose answer depends on feel rather than logic. It does not apply to mechanical work on an established pattern, a fix or refactor with a clear target state, or a change whose constraints leave one viable approach. That work skips architect.
 
 Screen every candidate against [`references/design-red-flags.md`](references/design-red-flags.md) before synthesis. Reject or revise shallow modules, information leakage, temporal decomposition, and pass-through methods.
 
@@ -45,7 +45,7 @@ Default: proceed directly to implementation with the synthesized design. No huma
 
 Opt in to a checkpoint when the invoker explicitly asks: "/architect with checkpoint," "stop and show me before implementing," or similar. Then surface the synthesized design and pause for sign-off.
 
-The synthesis can ship as its own commit either way, as the "scaffold first" mode of the **principle-foundational-thinking** skill. Planned and scoped breakage during fill-in is fine, per the **principle-outcome-oriented-execution** skill. For pressure on the design before implementing, run the **grilling** skill on the synthesized sketch so every open branch of the design is resolved with the user.
+The synthesis can ship as its own commit either way, as the "scaffold first" mode of [model-the-domain](../axo-mode/principles/model-the-domain.md). During fill-in the sketch is the end state, and each committed unit stays green on the way there, per [end-state](../axo-mode/principles/end-state.md). For pressure on the design before implementing, run the **grilling** skill on the synthesized sketch so every open branch of the design is resolved with the user.
 
 If the human pushes back on the shape (in a checkpoint or after the fact), treat that as Phase A evidence. Re-ground and re-run Phase B before writing more code.
 
@@ -57,7 +57,7 @@ Deviations from the sketch are signal worth surfacing, not friction to absorb si
 
 ## Phase E: Scrap when the architecture is wrong
 
-If implementation keeps producing friction the sketch can't absorb, throw the sketch out. Don't bolt fixes onto a wrong design, per the **principle-redesign-from-first-principles** and **principle-fix-root-causes** skills.
+If implementation keeps producing friction the sketch can't absorb, throw the sketch out. Don't bolt fixes onto a wrong design, per [end-state](../axo-mode/principles/end-state.md) and [fix-root-causes](../axo-mode/principles/fix-root-causes.md).
 
 The signal is a *pattern*, not single instances. Tells:
 
@@ -73,8 +73,8 @@ Use judgment. A few edge cases don't condemn an architecture. Some problems are 
 When you scrap:
 
 1. Re-run the **how** skill over what's been built.
-2. Redesign as if the new constraints had been day-one assumptions, per redesign-from-first-principles.
-3. Subtract before adding, per the **principle-subtract-before-you-add** skill. The new sketch should be smaller than the old one before it grows.
+2. Redesign as if the new constraints had been day-one assumptions, per [end-state](../axo-mode/principles/end-state.md).
+3. Subtract before adding, per [laziness-protocol](../axo-mode/principles/laziness-protocol.md). The new sketch should be smaller than the old one before it grows.
 4. Return to Phase B and re-run arena.
 
 ## Outputs

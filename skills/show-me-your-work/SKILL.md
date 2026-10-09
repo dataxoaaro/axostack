@@ -1,6 +1,6 @@
 ---
 name: show-me-your-work
-description: "Keep a reviewable decision trail for long-running or unattended work: a TSV log with one row per decision (what, why, evidence, result). Local by default; commit it when a reviewer needs the trail to trust the result. Use for /show-me-your-work, autonomous or multi-phase runs, or work a human reviews after stepping away."
+description: "Keep a reviewable decision trail (a TSV row per decision: what, why, evidence, result) for long or unattended work. Use for /show-me-your-work, multi-phase runs, or work a human reviews after stepping away."
 ---
 
 # Show me your work
@@ -50,7 +50,7 @@ Commit it only when the work is ambitious enough that a reviewer needs the trail
 
 - One row is one decision, checkpoint, or `start` marker. If it doesn't fit on one line, the decision isn't crisp yet.
 - Append-only. A wrong call gets a new row that supersedes it. Never edit or delete history.
-- Prefer evidence produced by committed scripts over hand-made one-offs, so a reviewer can re-run it (the **principle-encode-lessons-in-structure** skill).
+- Prefer evidence produced by committed scripts over hand-made one-offs, so a reviewer can re-run it ([encode-lessons-in-structure](../axo-mode/principles/encode-lessons-in-structure.md)).
 
 ## Audit the log against the transcript
 

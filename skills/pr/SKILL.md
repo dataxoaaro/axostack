@@ -1,6 +1,6 @@
 ---
 name: pr
-description: "Write a PR body a reviewer can scan: a visual Summary of the change, before-and-after Evidence, and a Merge Danger call naming the door (one-way or two-way) and the blast radius. Use whenever you write or rewrite a PR body, including inside idea-to-pr and implement-spec."
+description: "Write a PR body a reviewer can scan: a visual Summary, before-and-after Evidence, and a Merge Danger call naming the door and the blast radius. Use whenever you write or rewrite a PR body, including inside other skills."
 metadata:
   credits:
     skill: show-me

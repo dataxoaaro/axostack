@@ -6,13 +6,13 @@ Agentic development stack for Claude Code: an entry-point router, a Linear-first
 
 Three layers, and one split inside the middle layer that explains most of the library.
 
-1. **axo-mode** routes. Its trigger table maps a situation to a skill, its principles index points at the 23 leaf principles, and its playbooks are step lists the agent copies into its todo list verbatim.
+1. **axo-mode** routes. Its trigger table maps a situation to a skill, its principles index points at the 13 principle files in `skills/axo-mode/principles/`, and its playbooks are step lists the agent copies into its todo list verbatim.
 
 2. **Skills** do the work, on two axes that do not compete. A **playbook** is the sequence for a kind of work: feature, bug fix, refactoring, investigation, prototype, committing. A **phase verb** is the depth on one part of any of them. `plan` writes the change down, `implement` builds it, and `code-review` checks it. A playbook names the verb and stops. The verb owns what happens inside. That is why the feature playbook is six steps instead of a second description of the build loop.
 
-   The rest serve those two. Alignment is `grilling`. Design is `architect` and `codebase-design`. Investigation is `how`, `why`, `research`, and `research-idea`. The tracker pipeline is `to-linear-issue`, `triage`, `to-tickets`, and `work-linear-issue`. Prose gates are `unslop`, `no-comments`, and `technical-writing`.
+   The rest serve those two. Alignment is `grilling`. Design is `architect` and `codebase-design`. Investigation is `how`, `why`, `research`, and `research-idea`. The tracker pipeline is `to-issue`, `triage`, `to-tickets`, and `idea-to-pr`. Prose gates are `unslop`, `no-comments`, and `technical-writing`.
 
-3. **Principles** carry the judgment. 23 `principle-*` leaf skills, each loaded only when it applies and cited with the decision it changed.
+3. **Principles** carry the judgment. 13 reference files under axo-mode, not skills, each read only when it applies and cited with the decision it changed.
 
 ## Skills
 
@@ -21,7 +21,7 @@ Invoke: **slash** means you type it (`/skill-name`) and the agent cannot start i
 Slash is a deliberate list, not a leftover. A skill is slash-only when starting it should be a person's decision: it runs for a long time unattended, it spends real money, it writes to a tracker or a remote, or its whole job is a conversation the agent must not hold with itself. Everything else is auto, because a router that names a skill the agent cannot reach is a router that dead-ends. The current members:
 
 <!-- user-only:start -->
-`bro`, `create-verification-skill`, `figure-it-out`, `grill-me`, `grill-with-docs`, `implement-spec`, `improve-codebase-architecture`, `maintain-verification-skill`, `reflect`, `research-idea`, `retro`, `setup-axostack`, `to-linear-issue`, `triage`, `wayfinder`, `work-linear-issue`
+`figure-it-out`, `idea-to-pr`, `implement-spec`, `improve-codebase-architecture`, `research-idea`, `retro`, `setup-axostack`, `to-issue`, `to-tickets`, `triage`, `verification-skill`, `wayfinder`
 <!-- user-only:end -->
 
 `scripts/check-skill-refs.py` fails when that list and the frontmatter flags disagree, so adding a skill to one without the other is caught rather than inferred later.
@@ -37,10 +37,9 @@ Slash is a deliberate list, not a leftover. A skill is slash-only when starting 
 
 | Skill | Invoke | What it does |
 |-------|--------|--------------|
-| idea-to-pr | auto | Take an idea or fix through a plan, a Linear issue, a dedicated worktree, a PR, and independent reviews with repairs. Asks for the workspace and assignee, and prefixes the PR title with the issue key. |
-| to-linear-issue | slash | Research a question, idea, or problem and publish it as one evidenced Linear issue with approach and acceptance criteria. |
-| work-linear-issue | slash | Claim a ready issue by key (or take the next unblocked `ready-for-agent` one), branch with the key prefix, build under axo-mode's playbooks, close out with commits and a tracker update. |
-| to-tickets | auto | Break an agreed plan into tracer-bullet tickets with blocking edges, published in dependency order. |
+| idea-to-pr | slash | Take an idea, a fix, or an existing issue through a plan, a Linear issue, a dedicated worktree, a PR, and independent reviews with repairs. Run bare, it takes the next unblocked `ready-for-agent` issue. Local mode stops at commits on the branch. Prefixes the branch and PR title with the issue key. |
+| to-issue | slash | Research a question, idea, or problem and publish it as one evidenced issue with approach and acceptance criteria. |
+| to-tickets | slash | Break an agreed plan into tracer-bullet tickets with blocking edges, published in dependency order. |
 | triage | slash | Move incoming issues through triage roles: categorise, verify, grill if needed, write agent-ready briefs. |
 | wayfinder | slash | Plan work too large for one session as a shared map of decision tickets, resolved one at a time until the path is clear. |
 
@@ -48,10 +47,8 @@ Slash is a deliberate list, not a leftover. A skill is slash-only when starting 
 
 | Skill | Invoke | What it does |
 |-------|--------|--------------|
-| grilling | auto | The interview primitive: question the user until every branch of the design tree is resolved. Backs the two skills below plus triage and wayfinder. |
-| grill-me | slash | A grilling session for any plan or design. Also the resolution path for contested designs. |
-| grill-with-docs | slash | grill-me plus docs: sharpens terminology and updates GLOSSARY.md and ADRs as it goes. |
-| architect | auto | Sketch types, signatures, and module structure through parallel design exploration before code, for a specific change. |
+| grilling | auto | Question the user until every branch of the design tree is resolved, one round of numbered questions at a time. Also runs domain-modeling when the repo has GLOSSARY.md or ADRs. Backs triage, wayfinder, and plan review. |
+| architect | auto | Sketch types, signatures, and module structure through parallel design exploration before code, for a specific change. Requires at least two structurally distinct designs. |
 | codebase-design | auto | The deep-module vocabulary: a lot of behavior behind a small interface, at a clean seam, testable through it. Used by architect and improve-codebase-architecture. |
 | improve-codebase-architecture | slash | Survey a whole codebase for deepening opportunities, report them, grill through the one you pick. |
 | plan | auto | Work a feature or fix into one plan document: grounded, risk-graded, sliced into tickets, with every unsettled question numbered for the next grilling session. |
@@ -68,10 +65,9 @@ Slash is a deliberate list, not a leftover. A skill is slash-only when starting 
 | security-audit | auto | Cloudflare's source-first security review. Guidance mode answers security questions and backs code-review's Security axis. A full audit, with a coverage ledger, independent verifiers, and schema-checked findings, runs only on an explicit audit or pen-test request. |
 | diagnosing-bugs | auto | Gated diagnosis loop for hard bugs: feedback loop that goes red on the bug, minimise, hypothesise, instrument, fix, regression-test. |
 | blast-radius | auto | Find what a change could break beyond the diff, and prove the one safety-critical fact by running real code. |
-| benchmark-checklist | auto | Vet a performance number before reporting or acting on it: limiter, tuning, physical limits, errors, repeatability, end-to-end share, and whether the work ran. |
+| benchmark-checklist | auto | Vet a measured number before reporting or acting on it: limiter, tuning, physical limits, errors, repeatability, end-to-end share, and whether the work ran. Covers eval results too. |
 | no-comments | auto | Strip narrating and workaround comments via the comment-sicko agent, then fix what the deletions expose. |
-| create-verification-skill | slash | Generate a project-local `verify-<app>` skill that drives the real app the way a user does and captures evidence. |
-| maintain-verification-skill | slash | Periodic audit that keeps the project's verify skill and feature map honest against the source. |
+| verification-skill | slash | `create` generates a project-local `verify-<app>` skill that drives the real app the way a user does and captures evidence. `maintain` audits it and its feature map against the source. |
 
 ### Investigate
 
@@ -86,13 +82,11 @@ Slash is a deliberate list, not a leftover. A skill is slash-only when starting 
 
 | Skill | Invoke | What it does |
 |-------|--------|--------------|
-| swarm | auto | Fan out N parallel workers over a partition of the work, drain them, return one report. |
-| arena | auto | N parallel candidates at the same task, pick a base, graft the strongest parts of the losers into it. |
+| arena | auto | Race mode: N parallel candidates at the same task, pick a base, graft the strongest parts of the losers into it. Partition mode: one worker per slice of the work, drained into one report. |
 | figure-it-out | slash | Design a bespoke, auditable playbook when no bundled one fits a large or multi-part task. |
 | show-me-your-work | auto | A reviewable decision trail (one row per decision: what, why, evidence, result) for long or unattended runs. |
 | recall | auto | Reconstruct working context from your own transcripts and live state when resuming ("where did I leave off"). |
-| reflect | slash | Three parallel reviewers over the session transcript, synthesized into approved edits on existing skills. The improvement loop. |
-| retro | slash | Retrospective on a session that went harder than it should have: proposes environment fixes for the repo (navigation pointers, automated checks, coding standards for the reviewer, slimmer steering files, information access), each traced to a moment in the session. Builds only what you pick. |
+| retro | slash | Retrospective on a session that went harder than it should have. The library target runs three transcript reviewers and applies approved edits to these skills. The repo target proposes environment fixes (navigation pointers, automated checks, coding standards, slimmer steering files, information access), fixes recurring mistakes at the highest level that works, and keeps a rule-to-enforcement table. Every finding is traced to a moment in the session. Builds only what you pick. |
 
 ### Docs and prose
 
@@ -102,7 +96,6 @@ Slash is a deliberate list, not a leftover. A skill is slash-only when starting 
 | technical-writing | auto | The layered docs standard (Diátaxis, Google style, STE, Global English) for docs, RFCs, readmes, PR descriptions, commit messages. |
 | pr | auto | The PR body template: a visual Summary, before-and-after Evidence, and a Merge Danger call naming the door (one-way or two-way) and the blast radius. |
 | domain-modeling | auto | Build and sharpen the project's domain model: glossary terms, GLOSSARY.md, ADRs. |
-| bro | slash | Restate the last message in plain human language, no jargon. |
 
 ### Agents
 
@@ -113,9 +106,9 @@ Slash is a deliberate list, not a leftover. A skill is slash-only when starting 
 
 ### Principles
 
-23 leaf skills, indexed in axo-mode, each read in full only when applied. Grouped: **core** (laziness-protocol, foundational-thinking, redesign-from-first-principles, subtract-before-you-add, minimize-reader-load, outcome-oriented-execution, experience-first, exhaust-the-design-space, build-the-lever), **architecture** (model-the-domain, boundary-discipline, type-system-discipline, make-operations-idempotent, migrate-callers-then-delete-legacy-apis, separate-before-serializing-shared-state), **verification** (prove-it-works, fix-root-causes, attack-the-premise, explain-the-number, sequence-verifiable-units), **delegation** (guard-the-context-window, never-block-on-the-human), **meta** (encode-lessons-in-structure). Each `principle-*` folder's description states exactly when it applies.
+13 reference files in `skills/axo-mode/principles/`, indexed in axo-mode, each read in full only when applied. They are not skills, so they add nothing to the always-loaded skill list. Grouped: **core** ([laziness-protocol](skills/axo-mode/principles/laziness-protocol.md), [end-state](skills/axo-mode/principles/end-state.md), [experience-first](skills/axo-mode/principles/experience-first.md), [build-the-lever](skills/axo-mode/principles/build-the-lever.md)), **architecture** ([model-the-domain](skills/axo-mode/principles/model-the-domain.md), [type-system-discipline](skills/axo-mode/principles/type-system-discipline.md), [make-operations-idempotent](skills/axo-mode/principles/make-operations-idempotent.md), [separate-before-serializing-shared-state](skills/axo-mode/principles/separate-before-serializing-shared-state.md)), **verification** ([attack-the-premise](skills/axo-mode/principles/attack-the-premise.md), [prove-it-works](skills/axo-mode/principles/prove-it-works.md), [fix-root-causes](skills/axo-mode/principles/fix-root-causes.md), [sequence-verifiable-units](skills/axo-mode/principles/sequence-verifiable-units.md)), **meta** ([encode-lessons-in-structure](skills/axo-mode/principles/encode-lessons-in-structure.md)). Each file's first paragraph states when it applies. Designing it twice is part of `architect`, explaining a measured number is part of `benchmark-checklist`, and guarding the context window and never blocking on the human are axo-mode's Subagents and Autonomy sections.
 
-Easily confused pairs: `domain-modeling` builds the project's vocabulary docs, while `principle-model-the-domain` structures code around the domain. `figure-it-out` designs a playbook for one session-sized task, while `wayfinder` maps work spanning many sessions. `research` reads external sources, while `how` and `why` read your own codebase and history. `/reflect` turns a session into edits on these skills, while `/retro` turns it into checks, pointers, and standards in the repo you worked on. `research` answers a question of fact, while `research-idea` compares the ways to build something and records which one was chosen. `plan` writes down a change you can already state, `wayfinder` maps one you can't yet, and `architect` designs the types inside a plan rather than replacing it.
+Easily confused pairs: `domain-modeling` builds the project's vocabulary docs, while the model-the-domain principle structures code around the domain. `figure-it-out` designs a playbook for one session-sized task, while `wayfinder` maps work spanning many sessions. `research` reads external sources, while `how` and `why` read your own codebase and history. `/retro` aimed at the library turns a session into edits on these skills, while aimed at the repo it turns the session into checks, pointers, and standards in the repo you worked on. `arena`'s race mode runs N attempts at one task, while its partition mode gives each worker its own slice. `research` answers a question of fact, while `research-idea` compares the ways to build something and records which one was chosen. `plan` writes down a change you can already state, `wayfinder` maps one you can't yet, and `architect` designs the types inside a plan rather than replacing it.
 
 ## Install
 
@@ -156,17 +149,17 @@ Then pick the entry point that matches what you have.
 
 **An idea or fix to carry through to a PR.** `/idea-to-pr <request>` investigates, plans, asks for the Linear workspace and assignee, and creates the issue in the appropriate project. It builds in a dedicated worktree, opens a draft PR such as `[AXO-123] Fix session expiry`, runs independent reviews, and repairs valid findings. The request authorizes issue and PR updates and pushing the task branch. Merging remains a separate action. An interrupted run resumes from its recorded issue, worktree, and PR.
 
-**An idea, not a plan.** `/to-linear-issue <idea>` researches it against the codebase and publishes one evidenced issue. Run `/triage` to move the queue when issues pile up.
+**An idea, not a plan.** `/to-issue <idea>` researches it against the codebase and publishes one evidenced issue. Run `/triage` to move the queue when issues pile up.
 
-**An agreed direction, not a design.** `/plan <feature>` writes `docs/plans/<NNNN>-slug.md`, grounded in the codebase, with alternatives recorded, assumptions graded on evidence, work sliced into tickets, and open questions numbered. Then `/grill-with-docs docs/plans/<NNNN>-slug.md` attacks each question and folds the answers back into the file.
+**An agreed direction, not a design.** `/plan <feature>` writes `docs/plans/<NNNN>-slug.md`, grounded in the codebase, with alternatives recorded, assumptions graded on evidence, work sliced into tickets, and open questions numbered. Then `/grilling docs/plans/<NNNN>-slug.md` attacks each question and folds the answers back into the file.
 
 **A plan.** `/to-tickets docs/plans/<NNNN>-slug.md` publishes the slices to your tracker in dependency order. To build the whole graph in one run, `/implement-spec <plan or parent issue>` runs every unblocked ticket in parallel and lands them on one integration branch.
 
-**A ticket.** `/work-linear-issue ABC-123` claims it, branches with the key prefix, builds under axo-mode's playbooks, and updates the tracker. Run it bare to take the next ready issue. Without a tracker, `/implement` builds straight from the plan.
+**A ticket.** `/idea-to-pr ABC-123` claims it, branches with the key prefix, builds in a worktree, and carries it to a reviewed PR. Run it bare to take the next ready issue, or in local mode (`/idea-to-pr --local ABC-123`) to stop at commits on the branch. Without a tracker, `/implement` builds straight from the plan.
 
 Both paths meet at `/to-tickets`. What differs is where you start. An unshaped idea goes to the tracker first, and an agreed direction goes to a plan first.
 
-Either invoke `/axo-mode` explicitly or let the agent reach for it on a multi-step task. Skills also work standalone. Reach for `/grill-me` to stress-test a design, `/tdd` for one feature slice, `/diagnosing-bugs` on a hard bug, `/code-review` before a commit, and `/bro` when a reply needs restating in plain language.
+Either invoke `/axo-mode` explicitly or let the agent reach for it on a multi-step task. Skills also work standalone. Reach for `/grilling` to stress-test a design, `/tdd` for one feature slice, `/diagnosing-bugs` on a hard bug, and `/code-review` before a commit.
 
 ## A worked example
 
@@ -198,7 +191,7 @@ Every assumption carries a grade from `blast-radius`: 1 means you said so, 4 mea
 
 A slice's status points at the commit that landed it, so `implement` reconciles the table against `git log` when it resumes rather than inferring where the work stopped.
 
-The open questions use `grilling`'s format, so `/grill-with-docs <plan>` starts from the plan's own frontier instead of re-deriving the design. Q1 came back against the plan's recommendation. `implement` re-entered the plan to record that, then built the slices against the revised version.
+The open questions use `grilling`'s format, so `/grilling <plan>` starts from the plan's own frontier instead of re-deriving the design. Q1 came back against the plan's recommendation. `implement` re-entered the plan to record that, then built the slices against the revised version.
 
 ## Checks
 
@@ -206,7 +199,7 @@ The open questions use `grilling`'s format, so `/grill-with-docs <plan>` starts 
 python3 scripts/check-skill-refs.py
 ```
 
-Fails when a skill body names a skill that does not exist, cites a principle without its `principle-` prefix, tells the agent to invoke a skill whose frontmatter marks it user-run, or carries frontmatter that would stop it registering. Stdlib only, no install step. Run it after editing any skill.
+Fails when a skill body names a skill that does not exist, links a principle file that does not exist, leaves a principle file out of axo-mode's index, tells the agent to invoke a skill whose frontmatter marks it user-run, or carries frontmatter that would stop it registering. Stdlib only, no install step. Run it after editing any skill.
 
 `.github/workflows/checks.yml` runs the same command on every push to `main` and every pull request, plus the security-audit skill's validator tests (`node --test skills/security-audit/*.test.cjs`).
 

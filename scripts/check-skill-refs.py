@@ -3,12 +3,15 @@
 
     python3 scripts/check-skill-refs.py
 
-Four failure classes, one line each on stdout, non-zero exit if any fire:
+Failure classes, one line each on stdout, non-zero exit if any fire:
 
-  dangling    a bold reference to a skill that does not exist
-  bare-stem   a principle cited without its `principle-` prefix, so it names
-              nothing; the skill is `principle-prove-it-works`, not
-              `prove-it-works`
+  dangling    a bold reference to a skill that does not exist, or a relative
+              link whose target does not exist
+  principle   principles are reference files in skills/axo-mode/principles/,
+              not skills. Fires on a link into that folder that does not
+              resolve, on a principle file that axo-mode's Principles index
+              does not link, and on a `principle-<name>` skill name, which
+              no longer exists
   user-only   a skill body telling the agent to invoke a skill whose
               frontmatter sets `disable-model-invocation: true`. The Skill
               tool refuses those, and refuses replicating them by other
@@ -32,12 +35,17 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SKILLS = ROOT / "skills"
 README = ROOT / "README.md"
+AGENTS = ROOT / "agents"
+PRINCIPLES = SKILLS / "axo-mode" / "principles"
+INDEX = SKILLS / "axo-mode" / "SKILL.md"
 
 USER_ONLY = re.compile(r"<!-- user-only:start -->(.*?)<!-- user-only:end -->", re.S)
 BOLD = re.compile(r"\*\*([a-z][a-z0-9-]+)\*\*")
 SLASH = re.compile(r"`/([a-z][a-z0-9-]+)`")
 LINK = re.compile(r"\]\((?!https?:)([^)#]+)")
 FENCE = re.compile(r"^\s*```")
+OLD_PRINCIPLE = re.compile(r"\bprinciple-[a-z][a-z0-9-]+")
+INDEX_LINK = re.compile(r"\]\(principles/([a-z0-9-]+\.md)\)")
 
 
 def load():
@@ -95,35 +103,61 @@ def unfenced(text):
             yield n, line
 
 
+def principle_refs(path, n, line):
+    """Links into the principles folder must resolve, and old skill names must not appear."""
+    out = []
+    for name in OLD_PRINCIPLE.findall(line):
+        out.append((path, n, "principle",
+                    f"{name} is not a skill; link the file in skills/axo-mode/principles/ instead"))
+    for target in LINK.findall(line):
+        resolved = (path.parent / target.strip()).resolve()
+        if PRINCIPLES.resolve() in resolved.parents and not resolved.is_file():
+            out.append((path, n, "principle", f"link target {target.strip()!r} is not a principle file"))
+    return out
+
+
+def principle_index():
+    """Every principle file must be linked from axo-mode's Principles index."""
+    text = INDEX.read_text()
+    section = re.search(r"^## Principles\n(.*?)(?=^## )", text, re.S | re.M)
+    if not section:
+        return [(INDEX, 1, "principle", "no ## Principles section to index the principle files")]
+    listed = set(INDEX_LINK.findall(section.group(1)))
+    return [(path, 1, "principle", f"{path.name} is not linked from axo-mode's Principles index")
+            for path in sorted(PRINCIPLES.glob("*.md")) if path.name not in listed]
+
+
 def main():
     skills, problems = load()
     problems.extend(convention(skills))
-    stems = {n[len("principle-"):]: n for n in skills if n.startswith("principle-")}
+    problems.extend(principle_index())
 
     for path in sorted(SKILLS.rglob("*.md")):
         owner = path.relative_to(SKILLS).parts[0]
         text = path.read_text()
 
         for n, line in unfenced(text):
+            problems.extend(principle_refs(path, n, line))
+
             for ref in BOLD.findall(line):
                 if ref in skills:
                     if skills[ref] and ref != owner:
                         problems.append((path, n, "user-only", f"**{ref}** is user-run; recommend `/{ref}` instead"))
-                elif ref in stems:
-                    problems.append((path, n, "bare-stem", f"**{ref}** names nothing; use **{stems[ref]}**"))
                 elif f"**{ref}** skill" in line:
                     problems.append((path, n, "dangling", f"**{ref}** is not a skill in this library"))
-
-            for ref in SLASH.findall(line):
-                if ref not in skills and ref in stems:
-                    problems.append((path, n, "bare-stem", f"`/{ref}` names nothing; use **{stems[ref]}**"))
 
             for target in LINK.findall(line):
                 target = target.strip()
                 if "/" not in target and "." not in target:
                     continue  # a bare word like (link) or (url) is a template placeholder
+                if PRINCIPLES.resolve() in (path.parent / target).resolve().parents:
+                    continue  # principle_refs reports these
                 if not (path.parent / target).exists():
                     problems.append((path, n, "dangling", f"link target {target!r} does not exist"))
+
+    for path in [README, *sorted(AGENTS.glob("*.md"))]:
+        for n, line in unfenced(path.read_text()):
+            problems.extend(principle_refs(path, n, line))
 
     for path, n, kind, msg in problems:
         rel = path.relative_to(SKILLS.parent)

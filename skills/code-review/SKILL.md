@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: "Review the changes since a fixed point (commit, branch, tag, or merge-base) along four axes: Standards (does the code follow this repo's documented coding standards?), Spec (does it match what the originating issue/spec asked for?), Correctness (does it work, including edge cases and callers outside the diff?), and Complexity (what could the change do without?), plus Security when the diff touches a trust boundary. Runs the axes in parallel sub-agents, verifies every finding against the code, and reports them side by side. Use when the user wants to review a branch, a PR, work-in-progress changes, or asks to \"review since X\"."
+description: "Review the diff since a fixed point on four axes (Standards, Spec, Correctness, Complexity), plus Security at trust boundaries, and verify each finding against the code. Use for a branch, PR, WIP, or 'review since X'."
 ---
 
 Four-axis review of the diff between a fixed point and the code under review, plus a fifth when the change touches a trust boundary:

@@ -1,11 +1,17 @@
 ---
 name: benchmark-checklist
-description: "Vet a perf measurement (limiter, tuning, limits, errors, repeatability, relevance, and whether the work happened) before you report or act on it. Use when you run a benchmark or report a speedup or regression you measured."
+description: "Vet a measured number (speedup, regression, latency, eval result) before you report or act on it: name the limiter, rule out errors, skipped work, untuned sides, and noise. Use when you benchmark or report a number."
 ---
 
 # Benchmark checklist
 
-Use this when you produce a performance number: a PR's before and after, a regression claim, a benchmark harness, or a library or config choice. **principle-explain-the-number** says why. Answer each question below with evidence from a run, not from a guess about the code.
+Use this when you produce a performance number: a PR's before and after, a regression claim, a benchmark harness, or a library or config choice. Answer each question below with evidence from a run, not from a guess about the code.
+
+A measured number is a claim about a system. A run that went wrong still prints a plausible number. Failed requests, a cache that skipped the work, code that never ran, a side left on default settings, and run-to-run noise all produce results that look fine. If you cannot say why the number is not twice as good, you do not know what you measured. So before you trust, report, or act on a number, find what limits it and rule out that it measured something else. Keep the run count, the spread, and the limiter with the number, so a reader can check the claim.
+
+For an eval result, ask the same of the trials: did every run do the task, does the gap hold across trials and models, and does the scenario matter.
+
+You skipped this when the evidence behind a number has no run count, no spread, or no named limiter, or when the time saved is larger than the time the changed piece took. It differs from [prove-it-works](../axo-mode/principles/prove-it-works.md), which checks that an output is real. This checks that a measured number means what you say it means.
 
 For a quick ballpark the user asked for, one run is enough. Still check questions 4 and 7, and say that it is one run. Skip the rest unless that run looks wrong. A choice between options is never a ballpark.
 

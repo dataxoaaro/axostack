@@ -36,7 +36,7 @@ Facts are your job. Look up anything the repo or a quick search can answer befor
 
 ## Phase B: Ground
 
-Run in parallel with Phase A's questions, as subagents per **principle-guard-the-context-window**.
+Run in parallel with Phase A's questions, as subagents per axo-mode's [Subagents](../axo-mode/SKILL.md#subagents) section.
 
 - When the idea touches this repo, run the **how** skill over the area it touches. Read `GLOSSARY.md` and the ADRs under `docs/adr/` for that area. An approach that contradicts an ADR is allowed only with a reason to reopen it.
 - Walk the reuse ladder and record what exists at each rung: a helper already in the repo, the standard library, a platform feature, an installed dependency (read the lockfile), a maintained library or managed service. The cheapest rung that meets the hard gates is a candidate whether or not anyone proposes it.
@@ -54,7 +54,7 @@ Size the run to the idea before spawning anything:
 Spawn the generators in one message, each with the prompt in [references/generator-prompt.md](references/generator-prompt.md) and one lens:
 
 - **Minimal.** The smallest change that meets the hard gates with what the repo and its installed dependencies already provide.
-- **Ideal.** As if the requirement had been there from day one, per **principle-redesign-from-first-principles**. Name the migration cost but don't let it veto the design.
+- **Ideal.** As if the requirement had been there from day one, per [end-state](../axo-mode/principles/end-state.md). Name the migration cost but don't let it veto the design.
 - **Adopt.** A library, managed service, or platform feature does most of the work, and repo code becomes glue.
 - **Lateral.** Remove the need, invert the problem, or drop one preference and see what opens.
 
@@ -63,7 +63,7 @@ Use `subagent_type: "general-purpose"` and `model: "opus"`. The prompt keeps the
 Then converge:
 
 1. Add **Keep what we have** as the baseline. It is exempt from screening and gets no researcher or card. Its comparison row comes from Phase B. It stays even when nobody would pick it, because every other approach has to beat it.
-2. Collapse variants. Two candidates with the same mechanism are one candidate, per **principle-exhaust-the-design-space**: a second flavor of the first shape does not count.
+2. Collapse variants. Two candidates with the same mechanism are one candidate, per the **architect** skill's design-it-twice rule: a second flavor of the first shape does not count.
 3. Drop any candidate without a basis: a `direct:` repo fact, an `external:` named prior art, or a `reasoned:` written argument.
 4. Screen the rest against the hard gates. Keep 3 to 5 finalists and one line on why each cut lost.
 

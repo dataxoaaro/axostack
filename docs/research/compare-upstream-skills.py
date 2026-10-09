@@ -48,14 +48,18 @@ parser.add_argument('matt', type=Path)
 parser.add_argument('cursor', type=Path)
 parser.add_argument('--matt-ref', default='HEAD')
 parser.add_argument('--cursor-ref', default='HEAD')
-parser.add_argument('--matt-base', default='6fd947921b935b7e1e69293a200400f0fdd5c15f',
+parser.add_argument('--matt-base', default='b0618bc436ad893b3c5e84e55fba86586d34a404',
                     help='last audited Matt revision')
-parser.add_argument('--cursor-base', default='23e4138daa01c42d4969f7a5465f82704e64f798',
+parser.add_argument('--cursor-base', default='ccb5507cec1546dc88135c1139c811e6c59115ba',
                     help='last audited pstack revision')
 parser.add_argument('--cloudflare', type=Path, help='clone of cloudflare/security-audit-skill')
 parser.add_argument('--cloudflare-ref', default='HEAD')
 parser.add_argument('--cloudflare-base', default='c1c8a8c1471069fb0e188eeaff69b8e8db6564a8',
                     help='last audited security-audit-skill revision')
+parser.add_argument('--pony', type=Path, help='clone of DietrichGebert/ponytail')
+parser.add_argument('--pony-ref', default='HEAD')
+parser.add_argument('--pony-base', default='c982cd411abb53323c4baa1baa3c2f020b8d0b08',
+                    help='last audited ponytail revision')
 args = parser.parse_args()
 local = Path(__file__).resolve().parents[2]
 sources = {
@@ -64,13 +68,50 @@ sources = {
 }
 if args.cloudflare:
     sources['cloudflare'] = (args.cloudflare, args.cloudflare_base, args.cloudflare_ref)
+if args.pony:
+    sources['pony'] = (args.pony, args.pony_base, args.pony_ref)
 cloudflare_names = {'security-audit'}
 metadata = {key: {'base': git(repo, 'rev-parse', base).decode().strip(),
                   'head': git(repo, 'rev-parse', head).decode().strip()}
             for key, (repo, base, head) in sources.items()}
 matt_base = skill_paths(args.matt, metadata['matt']['base'])
 matt_head = skill_paths(args.matt, metadata['matt']['head'])
-pstack_names = set('architect arena benchmark-checklist blast-radius bro create-verification-skill maintain-verification-skill recall reflect figure-it-out how no-comments show-me-your-work swarm technical-writing unslop why'.split())
+pstack_names = set('architect arena benchmark-checklist blast-radius recall figure-it-out how no-comments show-me-your-work technical-writing unslop why'.split())
+# Upstream skills folded into a local skill. The local file no longer matches them
+# file for file, so only their upstream changes are reported, for porting by hand.
+merged = {
+    'arena': [('pstack', 'pstack/skills/swarm')],
+    'architect': [('pstack', 'pstack/skills/principle-exhaust-the-design-space')],
+    'axo-mode': [('pstack', 'pstack/skills/principle-guard-the-context-window'),
+                 ('pstack', 'pstack/skills/principle-never-block-on-the-human')],
+    'benchmark-checklist': [('pstack', 'pstack/skills/principle-explain-the-number')],
+    'code-review': [('pony', 'skills/ponytail-review')],
+    'grilling': [('matt', 'grill-with-docs')],
+    'retro': [('pstack', 'pstack/skills/reflect'), ('pstack', 'pstack/skills/correct')],
+    'verification-skill': [('pstack', 'pstack/skills/create-verification-skill'),
+                           ('pstack', 'pstack/skills/maintain-verification-skill')],
+}
+# Principle files under axo-mode/principles/ and the pstack principle skills each one merges.
+principle_sources = {
+    'laziness-protocol': ['laziness-protocol', 'subtract-before-you-add', 'minimize-reader-load'],
+    'model-the-domain': ['model-the-domain', 'foundational-thinking'],
+    'type-system-discipline': ['type-system-discipline', 'boundary-discipline'],
+    'end-state': ['outcome-oriented-execution', 'redesign-from-first-principles',
+                  'migrate-callers-then-delete-legacy-apis'],
+}
+
+
+def upstream_changes(source, path):
+    if source not in sources:
+        return {'source': source, 'path': path, 'note': f'Pass --{source} to compare.'}
+    if source == 'matt':
+        path = matt_base.get(path, path)
+    repo = sources[source][0]
+    return {'source': source, 'path': path,
+            'upstream_changes': changes(tree(repo, metadata[source]['base'], path),
+                                        tree(repo, metadata[source]['head'], path))}
+
+
 rows = []
 for directory in sorted((local / 'skills').iterdir()):
     name = directory.name
@@ -82,7 +123,7 @@ for directory in sorted((local / 'skills').iterdir()):
             continue
         source = 'cloudflare'
         base_path = head_path = f'skills/{name}'
-    elif name in pstack_names or name.startswith('principle-'):
+    elif name in pstack_names:
         source = 'pstack'
         base_path = head_path = f'pstack/skills/{name}'
     else:
@@ -100,5 +141,14 @@ for directory in sorted((local / 'skills').iterdir()):
     rows.append({'skill': name, 'source': source, 'base_path': base_path, 'head_path': head_path,
                  'upstream_changes': changes(base, head), 'local_changes_since_base': changes(base, installed),
                  'local_differs_from_head': changes(head, installed)})
+for row in rows:
+    if row['skill'] in merged:
+        row['merged_upstreams'] = [upstream_changes(source, path) for source, path in merged[row['skill']]]
+for path in sorted((local / 'skills' / 'axo-mode' / 'principles').glob('*.md')):
+    upstream = principle_sources.get(path.stem, [path.stem])
+    rows.append({'skill': f'axo-mode/principles/{path.name}', 'source': 'pstack',
+                 'note': 'Restructured locally; port upstream changes by hand.',
+                 'merged_upstreams': [upstream_changes('pstack', f'pstack/skills/principle-{name}')
+                                      for name in upstream]})
 print(json.dumps({'local_head': git(local, 'rev-parse', 'HEAD').decode().strip(),
                   'sources': metadata, 'skills': rows}, indent=2))
